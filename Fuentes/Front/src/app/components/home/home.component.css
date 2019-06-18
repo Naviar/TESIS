@@ -1,0 +1,26 @@
+.carousel-item {
+    height: 150vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+ 
+  div {
+    text-align: center;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+ }
+ p {
+   text-align: justify;
+ }
+ h3 {
+   font-weight: bold;
+ }
+
+ ul{
+   text-align: justify;
+   font-size: 20px;
+ }

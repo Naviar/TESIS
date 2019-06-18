@@ -1,0 +1,171 @@
+<app-nav-bar></app-nav-bar>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 id="titulo">Horarios establecidos</h1>
+            <hr id="hr">
+        </div>
+    </div>
+</div>
+<div class="centered">
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#addhorario">Agregar
+        Horario</button>&nbsp;
+</div>
+
+<div class="modal fade" id="addhorario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-success">
+            <div class="modal-header">
+                <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+                    <Strong>Definir Horario</Strong>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <form [formGroup]="horarioForm" novalidate>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Dia</Strong>
+                                </label>
+                                <select id="select" class="form-control" name="dia" formControlName="dia">
+                                    <option value="" disabled>Seleccione el dia...</option>
+                                    <option *ngFor="let day of Dias">
+                                        {{day}}
+                                    </option>
+                                </select>
+                                <div *ngIf="horarioForm.get('dia').errors" class="alert alert-danger">
+                                    <div *ngIf="horarioForm.get('dia').errors['required']">
+                                        Dia requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Tipo reunion</Strong>
+                                </label>
+                                <select id="select" class="form-control" name="tipo_reunion" formControlName="tipo_reunion" #tipo_reunion>
+                                    <option value="" disabled>Seleccione el tipo de reunion...</option>
+                                    <option *ngFor="let tipoReunion of tiposReunionTemp"
+                                        value={{tipoReunion.ID_TIPO_REUNION}}>
+                                        {{tipoReunion.NOMBRE_TIPO_REUNION}}
+                                    </option>
+                                </select>
+                                <div *ngIf="horarioForm.get('tipo_reunion').errors" class="alert alert-danger">
+                                    <div *ngIf="horarioForm.get('tipo_reunion').errors['required']">
+                                        Tipo reunion requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form [formGroup]="horarioForm2" novalidate>
+                        <div class="form-label-group" *ngIf="tipo_reunion.value==2">
+                            <label><Strong><label id="lbl">*</label>Tipo asesoria</Strong>
+                            </label>
+                            <select id="select" class="form-control" name="tipo_asesoria" formControlName="tipo_asesoria">
+                                <option value="" disabled>Seleccione el Tipo Asesoria...</option>
+                                <option *ngFor="let tipoAsesoria of tiposAsesoria"
+                                    value={{tipoAsesoria.ID_TIPO_ASESORIA}}>
+                                    {{tipoAsesoria.NOMBRE_TIPO_ASESORIA}}
+                                </option>
+                            </select>
+                            <div *ngIf="horarioForm2.get('tipo_asesoria').errors" class="alert alert-danger">
+                                <div *ngIf="horarioForm2.get('tipo_asesoria').errors['required']">
+                                    Tipo asesoria requerido
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Lugar Reunion</Strong>
+                                </label>
+                                <input maxlength="45" type="text" class="form-control" name="lugar" placeholder="Lugar de reunión" formControlName="lugar" value={{horarioSelect.LUGAR}} id='input'>
+                                <div *ngIf="horarioForm.get('lugar').errors" class="alert alert-danger">
+                                    <div *ngIf="horarioForm.get('lugar').errors['required']">
+                                        Lugar requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Hora inicio</Strong>
+                                </label>
+                                <input class="form-control" id="input" (click)="saveTimeInicio();" type="time" name="hora_inicio" formControlName="hora_inicio" value={{horarioSelect.HORA_INICIO}} />
+                                <div *ngIf="horarioForm.get('hora_inicio').errors" class="alert alert-danger">
+                                    <div *ngIf="horarioForm.get('hora_inicio').errors['required']">
+                                        Hora de inicio requerida
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label> Hora final</Strong>
+                                </label>
+                                <input class="form-control" id="input" (click)="saveTimeFinal();" type="time" name="hora_fin" formControlName="hora_fin" value="{{horarioSelect.HORA_FIN}}" />
+                                <div *ngIf="horarioForm.get('hora_fin').errors" class="alert alert-danger">
+                                    <div *ngIf="horarioForm.get('hora_fin').errors['required']">
+                                        Hora de fin requerida
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </form>
+                <button *ngIf="tipo_reunion.value!=2" class=" btn btn-outline-primary" [disabled]="!horarioForm.valid" (click)="sendHorario(horarioForm, horarioForm2)">Agregar</button>
+                <button *ngIf="tipo_reunion.value==2" class=" btn btn-outline-primary" [disabled]="!horarioForm.valid || !horarioForm2.valid" (click)="sendHorario(horarioForm, horarioForm2)">Agregar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div *ngIf="this.tiposReunion.length >= 1" class="col-12">
+    <div class="card-group">
+        <div class="container">
+            <div class="row">
+                <div *ngFor="let horario of horarios" class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="card border-dark">
+                        <div class="card-header border-dark">
+                            <h4 id="tituloCard">
+                                {{this.nombreReunion(horario.TIPO_REUNION_ID_TIPO_REUNION)}} </h4>
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Dia:</strong> {{ horario.DIA }}</h5>
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Lugar:</strong> {{ horario.LUGAR }}</h5>
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Hora inicio:</strong> {{ horario.HORA_INICIO }}</h5>
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Hora fin:</strong> {{ horario.HORA_FIN }}</h5>
+                        </div>
+                        <div *ngIf="horario.TIPO_REUNION_ID_TIPO_REUNION === 2" class="card-body text-dark">
+                            <h5 class="card-title"><strong>Tipo asesoria:</strong> {{this.nombreAsesoria(horario.TIPO_ASESORIA_ID_TIPO_ASESORIA)}}
+                            </h5>
+                        </div>
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteHorario(horario.ID_HORARIO)">
+                            <i class="material-icons">delete</i>Borrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

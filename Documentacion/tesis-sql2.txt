@@ -1,0 +1,377 @@
+DROP TABLE Rol;
+DROP TABLE Usuario;
+DROP TABLE Facultad;
+DROP TABLE Formato_evaluacion;
+DROP TABLE Etapa;
+DROP TABLE Tipo_asesoria;
+DROP TABLE Sector;
+DROP TABLE Formato_diagnostico;
+DROP TABLE Jornada;
+DROP TABLE Estudiante;
+DROP TABLE Tipo_reunion;
+DROP TABLE Horario;
+DROP TABLE Asesor;
+DROP TABLE Horario_has_asesor;
+DROP TABLE Formato_asesoria;
+DROP TABLE Compromiso;
+DROP TABLE Estudiante_has_formato_asesoria;
+DROP TABLE Disponibilidad;
+
+
+-- -----------------------------------------------------
+-- Table Rol
+-- -----------------------------------------------------
+CREATE TABLE Rol (
+  Id_rol INT NOT NULL,
+  Nombre_rol VARCHAR(45) NOT NULL,
+  PRIMARY KEY (Id_rol)
+);
+
+
+-- -----------------------------------------------------
+-- Table Usuario
+-- -----------------------------------------------------
+CREATE TABLE Usuario (
+  Id_usuario INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Nombre VARCHAR(45) NOT NULL,
+  Apellido VARCHAR(45) NOT NULL,
+  Correo VARCHAR(45) NOT NULL UNIQUE,
+  Celular VARCHAR(45) NOT NULL UNIQUE,
+  Password VARCHAR(100) NOT NULL,
+  Activo BOOLEAN NOT NULL,
+  Rol_id_rol INT NOT NULL,
+  PRIMARY KEY (Id_usuario),
+  CONSTRAINT fk_usuario_rol1
+    FOREIGN KEY (Rol_id_rol)
+    REFERENCES Rol (Id_rol)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Facultad
+-- -----------------------------------------------------
+CREATE TABLE Facultad (
+  Id_facultad INT NOT NULL,
+  Nombre_facultad VARCHAR(45) NOT NULL,
+  PRIMARY KEY (Id_facultad))
+;
+
+
+-- -----------------------------------------------------
+-- Table Formato_evaluacion
+-- -----------------------------------------------------
+CREATE TABLE Formato_evaluacion (
+  Id_formato_evaluacion INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Eval_general_q1 INT NOT NULL,
+  Eval_general_q2 INT NOT NULL,
+  Eval_general_q3 INT NOT NULL,
+  Eval_general_q4 INT NOT NULL,
+  Pers_responsable_q1 INT NOT NULL,
+  Pers_responsable_q2 INT NOT NULL,
+  Pers_responsable_q3 INT NOT NULL,
+  Pers_responsable_q4 INT NOT NULL,
+  Pers_responsable_q5 INT NOT NULL,
+  Pers_responsable_q6 INT NOT NULL,
+  Insta_equipos_q1 INT NOT NULL,
+  Insta_equipos_q2 INT NULL,
+  Insta_equipos_q3 INT NULL,
+  Yesno_q1 BOOLEAN NOT NULL,
+  Yesno_q2 BOOLEAN NOT NULL,
+  Yesno_q3 BOOLEAN NOT NULL,
+  Yesno_q4 BOOLEAN NOT NULL,
+  Yesno_q5 BOOLEAN NOT NULL,
+  Observaciones VARCHAR(200) NULL,
+  PRIMARY KEY (Id_formato_evaluacion))
+;
+
+
+-- -----------------------------------------------------
+-- Table Etapa
+-- -----------------------------------------------------
+CREATE TABLE Etapa (
+  Id_etapa INT NOT NULL,
+  Nombre_etapa VARCHAR(45) NOT NULL,
+  PRIMARY KEY (Id_etapa))
+;
+
+
+-- -----------------------------------------------------
+-- Table Tipo_asesoria
+-- -----------------------------------------------------
+CREATE TABLE Tipo_asesoria (
+  Id_tipo_asesoria INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Nombre_tipo_asesoria VARCHAR(90) NOT NULL,
+  Activo BOOLEAN,
+  PRIMARY KEY (Id_tipo_asesoria))
+;
+
+-- -----------------------------------------------------
+-- Table Sector
+-- -----------------------------------------------------
+CREATE TABLE Sector (
+  Id_sector INT NOT NULL,
+  Nombre_sector VARCHAR(45) NOT NULL,
+  PRIMARY KEY (Id_sector))
+;
+
+
+-- -----------------------------------------------------
+-- Table Formato_diagnostico
+-- -----------------------------------------------------
+CREATE TABLE Formato_diagnostico (
+  Id_formato_diagnostico INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Ambito_social VARCHAR(100) NOT NULL,
+  Descripcion_proyecto VARCHAR(200) NOT NULL,
+  Socios_clave VARCHAR(100) NULL,
+  Actividades_clave VARCHAR(100) NULL,
+  Recursos_clave VARCHAR(100) NULL,
+  Propuesta_valor VARCHAR(200) NULL,
+  Relacion_clientes VARCHAR(100) NULL,
+  Canales VARCHAR(100) NULL,
+  Segmentos_clientes VARCHAR(100) NULL,
+  Estructura_costos VARCHAR(100) NULL,
+  Fuente_ingresos VARCHAR(100) NULL,
+  Formato_evaluacion_id_formato_evaluacion INT NULL,
+  Etapa_id_etapa INT NOT NULL,
+  Sector_Id_sector INT NOT NULL,
+  Tipo_asesoria_id_tipo_asesoria INT NOT NULL,
+  Estudiante_id_estudiante INT NOT NULL,
+  Facultad_Id_facultad INT NOT NULL,
+  Semestre INT NOT NULL,
+  Fecha VARCHAR(45) NOT NULL,	
+  PRIMARY KEY (Id_formato_diagnostico),
+  CONSTRAINT fk_formato_diagnostico_formato_evaluacion1
+    FOREIGN KEY (Formato_evaluacion_id_formato_evaluacion)
+    REFERENCES Formato_evaluacion (Id_formato_evaluacion)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_formato_diagnostico_etapa1
+    FOREIGN KEY (Etapa_id_etapa)
+    REFERENCES Etapa (Id_etapa)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_formato_diagnostico_tipo_asesoria1
+    FOREIGN KEY (Tipo_asesoria_id_tipo_asesoria)
+    REFERENCES Tipo_asesoria (Id_tipo_asesoria)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Formato_diagnostico_Sector1
+    FOREIGN KEY (Sector_Id_sector)
+    REFERENCES Sector (Id_sector)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Formato_diagnostico_Facultad1
+    FOREIGN KEY (Facultad_Id_facultad)
+    REFERENCES Facultad (Id_facultad)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+-- -----------------------------------------------------
+-- Table Jornada
+-- -----------------------------------------------------
+CREATE TABLE Jornada (
+  Id_jornada INT NOT NULL,
+  Nombre_jornada VARCHAR(45) NOT NULL,
+  PRIMARY KEY (Id_jornada))
+;
+
+-- -----------------------------------------------------
+-- Table Estudiante
+-- -----------------------------------------------------
+CREATE TABLE Estudiante (
+  Id_estudiante INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Codigo INT NOT NULL UNIQUE,
+  Semestre INT NOT NULL,
+  Usuario_id_usuario INT NOT NULL UNIQUE,
+  Facultad_id_facultad INT NOT NULL,
+  Formato_diagnostico_id_diagnostico INT NULL,
+  Jornada_Id_jornada INT NOT NULL,
+  Etapa INT NOT NULL,
+  PRIMARY KEY (Id_estudiante),
+  CONSTRAINT fk_estudiante_usuario
+    FOREIGN KEY (Usuario_id_usuario)
+    REFERENCES Usuario (Id_usuario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_estudiante_facultad1
+    FOREIGN KEY (Facultad_id_facultad)
+    REFERENCES Facultad (Id_facultad)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Estudiante_Jornada1
+    FOREIGN KEY (Jornada_Id_jornada)
+    REFERENCES Jornada (Id_jornada)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_estudiante_formato_diagnostico1
+    FOREIGN KEY (Formato_diagnostico_id_diagnostico)
+    REFERENCES Formato_diagnostico (Id_formato_diagnostico)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Tipo_reunion
+-- -----------------------------------------------------
+CREATE TABLE Tipo_reunion (
+  Id_tipo_reunion INT NOT NULL,
+  Nombre_tipo_reunion VARCHAR(45) NOT NULL,
+  PRIMARY KEY (Id_tipo_reunion))
+;
+
+
+-- -----------------------------------------------------
+-- Table Horario
+-- -----------------------------------------------------
+CREATE TABLE Horario (
+  Id_horario INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Dia VARCHAR(45) NOT NULL,
+  Hora_inicio VARCHAR(45) NOT NULL,
+  Hora_fin VARCHAR(45) NOT NULL,
+  Lugar VARCHAR (100) NOT NULL,
+  Usuario_id_usuario INT NOT NULL,
+  Tipo_asesoria_id_tipo_asesoria INT NULL,
+  Tipo_reunion_id_tipo_reunion INT NOT NULL,
+  PRIMARY KEY (Id_horario),
+  CONSTRAINT fk_horario_usuario1
+    FOREIGN KEY (Usuario_id_usuario)
+    REFERENCES Usuario (Id_usuario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_horario_tipo_asesoria1
+    FOREIGN KEY (Tipo_asesoria_id_tipo_asesoria)
+    REFERENCES Tipo_asesoria (Id_tipo_asesoria)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Horario_Tipo_reunion1
+    FOREIGN KEY (Tipo_reunion_Id_tipo_reunion)
+    REFERENCES Tipo_reunion (Id_tipo_reunion)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Asesor
+-- -----------------------------------------------------
+CREATE TABLE Asesor (
+  Id_asesor INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Usuario_id_usuario INT NOT NULL UNIQUE,
+  Facultad_id_facultad INT NOT NULL,
+  PRIMARY KEY (Id_asesor),
+  CONSTRAINT fk_asesor_usuario1
+    FOREIGN KEY (Usuario_id_usuario)
+    REFERENCES Usuario (Id_usuario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_asesor_facultad1
+    FOREIGN KEY (Facultad_id_facultad)
+    REFERENCES Facultad (Id_facultad)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Horario_has_asesor
+-- -----------------------------------------------------
+CREATE TABLE Horario_has_asesor (
+  Horario_id_horario INT NOT NULL,
+  Asesor_id_asesor INT NOT NULL,
+  CONSTRAINT fk_horario_has_asesor_horario1
+    FOREIGN KEY (Horario_id_horario)
+    REFERENCES Horario (Id_horario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_horario_has_asesor_asesor1
+    FOREIGN KEY (Asesor_id_asesor)
+    REFERENCES Asesor (Id_asesor)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Formato_asesoria
+-- -----------------------------------------------------
+CREATE TABLE Formato_asesoria (
+  Id_formato_asesoria INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Requerimiento VARCHAR(45) NOT NULL,
+  Descripcion VARCHAR(45) NOT NULL,
+  Resultado VARCHAR(45) NOT NULL,
+  Formato_evaluacion_id_formato_evaluacion INT NULL,
+  Tipo_asesoria_id_tipo_asesoria INT NULL,
+  Tipo_asesoria_actual INT NOT NULL,
+  PRIMARY KEY (Id_formato_asesoria),
+  CONSTRAINT fk_formato_asesoria_formato_evaluacion1
+    FOREIGN KEY (Formato_evaluacion_id_formato_evaluacion)
+    REFERENCES Formato_evaluacion (Id_formato_evaluacion)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_formato_asesoria_tipo_asesoria1
+    FOREIGN KEY (Tipo_asesoria_id_tipo_asesoria)
+    REFERENCES Tipo_asesoria (Id_tipo_asesoria)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Compromiso
+-- -----------------------------------------------------
+CREATE TABLE Compromiso (
+  Id_compromiso INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Actividad VARCHAR(45) NOT NULL,
+  Fecha DATE NOT NULL,
+  Observacion VARCHAR(45) NULL,
+  Id_usuario INT NOT NULL,
+  Formato_asesoria_id_formato_asesoria INT NOT NULL,
+  PRIMARY KEY (Id_compromiso),
+  CONSTRAINT fk_compromiso_formato_asesoria1
+    FOREIGN KEY (Formato_asesoria_id_formato_asesoria)
+    REFERENCES Formato_asesoria (Id_formato_asesoria)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Estudiante_has_formato_asesoria
+-- -----------------------------------------------------
+CREATE TABLE Estudiante_has_formato_asesoria (
+  Estudiante_id_estudiante INT NOT NULL,
+  Formato_asesoria_id_formato_asesoria INT NOT NULL,
+  CONSTRAINT fk_estudiante_has_formato_asesoria_estudiante1
+    FOREIGN KEY (Estudiante_id_estudiante)
+    REFERENCES Estudiante (Id_estudiante)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_estudiante_has_formato_asesoria_formato_asesoria1
+    FOREIGN KEY (Formato_asesoria_id_formato_asesoria)
+    REFERENCES Formato_asesoria (Id_formato_asesoria)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Disponibilidad
+-- -----------------------------------------------------
+CREATE TABLE Disponibilidad (
+  Id_disponibilidad INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Fecha VARCHAR(45) NOT NULL,
+  Id_estudiante INT NULL,
+  Horario_Id_horario INT NOT NULL,
+  PRIMARY KEY (Id_disponibilidad),
+  CONSTRAINT fk_Disponibilidad_Horario1
+    FOREIGN KEY (Horario_Id_horario)
+    REFERENCES Horario (Id_horario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+

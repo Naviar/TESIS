@@ -1,0 +1,17 @@
+SELECT e.*, u.nombre, u.apellido FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.formato_diagnostico_id_diagnostico IS NULL;
+
+select * from formato_diagnostico order by id_formato_diagnostico desc limit 0,1;
+select * from usuario order by id_usuario desc limit 0,1;
+SELECT * FROM formato_diagnostico WHERE id_formato_diagnostico = MAX(id_formato_diagnostico);
+select * from facultad;
+SELECT COUNT(*) AS duplicate from usuario where correo='thomasherrer@usantotomas.edu.co' or celular=32021353913;
+UPDATE estudiante SET formato_diagnostico_id_diagnostico=11 WHERE id_estudiante=3;
+
+select id_usuario from usuario order by id_usuario desc limit 0,1
+
+SELECT * FROM horario WHERE id_horario=2 AND NOT EXISTS (SELECT id_disponibilidad FROM disponibilidad WHERE disponibilidad.horario_id_horario = horario.id_horario AND disponibilidad.fecha = '2019-06-04');
+
+
+UPDATE usuario SET activo=true WHERE id_usuario=3
+
+SELECT h.*, t.nombre_tipo_asesoria FROM horario AS h INNER JOIN tipo_asesoria AS t ON h.tipo_asesoria_id_tipo_asesoria = t.id_tipo_asesoria WHERE h.id_horario='${id}' AND t.activo = '${true}' AND NOT EXISTS (SELECT id_disponibilidad FROM disponibilidad WHERE disponibilidad.horario_id_horario = h.id_horario AND disponibilidad.fecha = '${fecha}');

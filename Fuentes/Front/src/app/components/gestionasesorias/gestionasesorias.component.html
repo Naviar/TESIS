@@ -1,0 +1,90 @@
+<app-nav-bar></app-nav-bar>
+<br>
+
+<body>
+
+    <div class="container-separador">
+        <div class="row justify-content-center">
+            <div class="card" style="width: 700px">
+                <div class="card-body">
+
+                    <h2 class="row justify-content-center">Gestionar Asesorias</h2>
+                    <hr>
+                    <p>"Gestione las asesorias que estaran habilitadas , o agregue una nueva."
+                    </p>
+                    <div style="text-align: center">
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                            data-target="#addasesoria">Agregar
+                            Asesoria</button>
+                    </div>
+                    <div class="modal fade" id="addasesoria" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content border-success">
+                                <div class="modal-header">
+                                    <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+                                        <Strong>Definir Asesoria</Strong>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form [formGroup]="asesoriaForm" novalidate>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-label-group">
+                                                    <label><Strong><label id="lbl">*</label>Nombre de asesoria</Strong>
+                                                    </label>
+                                                    <input maxlength="45" type="text" class="form-control"
+                                                        name="nombre_asesoria" placeholder="Nombre de la asesoria"
+                                                        formControlName="nombre_asesoria" id='input'>
+                                                    <div *ngIf="asesoriaForm.get('nombre_asesoria').errors"
+                                                        class="alert alert-danger">
+                                                        <div
+                                                            *ngIf="asesoriaForm.get('nombre_asesoria').errors['required']">
+                                                            Nombre para la asesoria requerido
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="row">
+                                        <div class="col">
+                                            <br>
+                                            <button class=" btn btn-outline-primary" [disabled]="!asesoriaForm.valid"
+                                                (click)="this.sendNuevaAsesoria(asesoriaForm)">Agregar</button>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-label-group">
+
+                        <div *ngFor="let asesoria of Asesorias" class="row">
+                            <div class="col">
+                                <label for="ejemplo">{{asesoria.NOMBRE_TIPO_ASESORIA}} esta {{asesoria.ACTIVO}}</label>
+
+                            </div>
+                            <div class="col">
+                                <label class="switch">
+                                    <input #check type="checkbox" [checked]='asesoria.ACTIVO'
+                                        (change)='this.changeStatus(asesoria.ID_TIPO_ASESORIA, check.checked)'>
+                                    <span class="slider round">&nbsp; SI NO</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

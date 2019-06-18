@@ -1,0 +1,95 @@
+
+--Para tabla Rol
+INSERT INTO Rol VALUES (1,'Lider');
+INSERT INTO Rol VALUES (2,'Asesor');
+INSERT INTO Rol VALUES (3,'Estudiante');
+INSERT INTO Rol VALUES (4,'Docente');
+INSERT INTO Rol VALUES (5,'Decano');
+SELECT * FROM Rol;
+
+--Para tabla Tipo_asesoria
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Estructura y diseño de mi modelo de negocio', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Estructura de proyectos de emprendimiento social', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Contabilidad y finanzas para proyectos empresariales y sociales', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Financiando mi iniciativa', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Mercadeo, ventas y marketing digital', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Imagen Corporativa', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Aspectos legales de formalización empresarial y ESAL', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Aplicaciones móviles y emprendimiento en Tics', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Sostenibilidad Ambiental', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Negocios Internacionales', 'true');
+INSERT INTO Tipo_asesoria (Nombre_tipo_asesoria, Activo) VALUES ('Negociación intercultural y 2da lengua', 'true');
+SELECT * FROM Tipo_asesoria;
+
+--Para tabla Facultad
+INSERT INTO Facultad VALUES (1,'Administración de Empresas');
+INSERT INTO Facultad VALUES (2,'Comunicación Social');
+INSERT INTO Facultad VALUES (3,'Contaduría Pública');
+INSERT INTO Facultad VALUES (4,'Cultura Física, Deporte y Recreación');
+INSERT INTO Facultad VALUES (5,'Derecho');
+INSERT INTO Facultad VALUES (6,'Diseño Gráfico');
+INSERT INTO Facultad VALUES (7,'Economía');
+INSERT INTO Facultad VALUES (8,'Estadística');
+INSERT INTO Facultad VALUES (9,'Gobierno y Relaciones Internacionales');
+INSERT INTO Facultad VALUES (10,'Ingeniería Ambiental');
+INSERT INTO Facultad VALUES (11,'Ingeniería Civil');
+INSERT INTO Facultad VALUES (12,'Ingeniería de Telecomunicaciones');
+INSERT INTO Facultad VALUES (13,'Ingeniería Electrónica');
+INSERT INTO Facultad VALUES (14,'Ingeniería Industrial');
+INSERT INTO Facultad VALUES (15,'Ingeniería Mecánica');
+INSERT INTO Facultad VALUES (16,'Licenciatura en Filosofía y Letras');
+INSERT INTO Facultad VALUES (17,'Mercadeo');
+INSERT INTO Facultad VALUES (18,'Negocios Internacionales');
+INSERT INTO Facultad VALUES (19,'Psicología');
+INSERT INTO Facultad VALUES (20,'Sociología');
+INSERT INTO Facultad VALUES (21,'Teología');
+SELECT * FROM Facultad;
+
+--Para tabla Etapa
+INSERT INTO Etapa VALUES (1,'Ideación');
+INSERT INTO Etapa VALUES (2,'Plan');
+INSERT INTO Etapa VALUES (3,'Prototipo');
+INSERT INTO Etapa VALUES (4,'Puesta en marcha');
+INSERT INTO Etapa VALUES (5,'Operación');
+INSERT INTO Etapa VALUES (6,'Innovación');
+INSERT INTO Etapa VALUES (7,'Expansión');
+SELECT * FROM Etapa;
+
+--Para tabla Sector
+INSERT INTO Sector VALUES (1,'Empresarial');
+INSERT INTO Sector VALUES (2,'Social');
+SELECT * FROM Etapa;
+
+--Para tabla Tipo_reunion
+INSERT INTO Tipo_reunion VALUES (1,'Diagnostico');
+INSERT INTO Tipo_reunion VALUES (2,'Asesoria');
+SELECT * FROM Tipo_reunion;
+
+--Para tabla Jornada
+INSERT INTO Jornada VALUES (1,'Diurna');
+INSERT INTO Jornada VALUES (2,'Nocturna');
+SELECT * FROM Jornada;
+
+--Para tabla Usuario 
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('Lider','Liderra','lider@usantotomas.edu.co','3111111111','$2a$08$QD7oP90fF4U2tg5GfPJ8semQcuOFsJl0dMCa4zSdUF0l4grrDyYxC','1',1);
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('Asesor','Asesorra','asesor@usantotomas.edu.co','3222222222','$2a$08$R4ZR/7V4OWJPNZLzS7ElgOrodLRU8zl4WE.VFD3epi0MZlnEv6Z9C','1',2);
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('Estudiante','Estudianterra','estudiante@usantotomas.edu.co','3333333333','$2a$08$/u57dkyDMFIq8bU9M3zP5ek6P/QSr92uVw30FAwA9YTpS2OAs9swC','1',3);
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('Thomas','Herrera','thomasherrera@usantotomas.edu.co','3202135913','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
+SELECT * FROM Usuario;
+
+--Para tabla Asesor
+INSERT INTO Asesor (Usuario_id_usuario, Facultad_id_facultad) VALUES (2,13);
+SELECT * FROM Asesor;
+
+--Para tabla Estudiante
+INSERT INTO Estudiante (Codigo, Semestre, Usuario_id_usuario, Facultad_id_facultad, Jornada_id_jornada, Etapa) VALUES (123456,7,3,2,1,0);
+INSERT INTO Estudiante (Codigo, Semestre, Usuario_id_usuario, Facultad_id_facultad, Jornada_id_jornada, Etapa) VALUES (2174257,10,4,13,1,0);
+SELECT * FROM Estudiante;
+
+--Para tabla Horario
+INSERT INTO Horario (Dia, Hora_inicio, Hora_fin, Lugar, Usuario_id_usuario, Tipo_reunion_id_tipo_reunion) VALUES ('Lunes','06:00','08:00','Cafeteria',1,1);
+INSERT INTO Horario (Dia, Hora_inicio, Hora_fin, Lugar, Usuario_id_usuario, Tipo_reunion_id_tipo_reunion) VALUES ('Martes','08:00','10:00','Cafeteria',1,1);
+INSERT INTO Horario (Dia, Hora_inicio, Hora_fin, Lugar, Usuario_id_usuario, Tipo_asesoria_id_tipo_asesoria, Tipo_reunion_id_tipo_reunion) VALUES ('Miercoles','14:00','16:00','ETM 6',2,4,2);
+INSERT INTO Horario (Dia, Hora_inicio, Hora_fin, Lugar, Usuario_id_usuario, Tipo_asesoria_id_tipo_asesoria, Tipo_reunion_id_tipo_reunion) VALUES ('Jueves','16:00','18:00','ETM 6',2,4,2);
+SELECT * FROM Horario;
+

@@ -1,0 +1,133 @@
+<app-nav-bar></app-nav-bar>
+<br>
+
+<body>
+
+  <div class="container-separador">
+    <div class="row justify-content-center">
+      <div class="card" style="width: 700px">
+        <div class="card-body">
+          <h2 class="row justify-content-center">Autenticar usuarios</h2>
+          <hr>
+          <p>"Active o desactive los usuarios, para que puedan hacer uso de la plataforma"
+          </p>
+          <hr>
+          <div class="text-center">
+            <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+              style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+
+          <div class="form-label-group">
+            <div *ngFor="let usuario of usuarios" class="row">
+              <div class="col">
+                <label class="name" for="ejemplo">{{usuario.NOMBRE}} {{usuario.APELLIDO}}</label>
+              </div>
+              <div class="col">
+                <label class="switch">
+                  <input #check type="checkbox" [checked]='usuario.ACTIVO'
+                    (change)='this.changeStatus(usuario.ID_USUARIO, check.checked)'>
+                  <span class="slider round">&nbsp; SI NO</span>
+                </label>
+              </div>
+              <div class="col">
+                <a data-toggle="modal" data-target="#addhorario" href="" (click)="detalles(usuario.ID_USUARIO)"><i
+                    class="fa fa-eye"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addhorario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content border-success">
+        <div class="modal-header">
+          <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+            <Strong>Detalles de usuario</Strong>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form #usuarioForm="ngForm">
+            <div class="row">
+              <div class="col">
+                <div class="form-label-group">
+                  <label><Strong>Nombre</Strong></label>
+                  <input class="form-control" id="input" type="text" name="nombre" #name="ngModel"
+                    [(ngModel)]="usuarioSelect.NOMBRE" disabled>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-label-group">
+                  <label><Strong>Apellido</Strong></label>
+                  <input class="form-control" id="input" type="text" name="apellido" #name="ngModel"
+                    [(ngModel)]="usuarioSelect.APELLIDO" disabled>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col">
+                <div class="form-label-group">
+                  <label><Strong>Correo</Strong></label>
+                  <input class="form-control" id="input" type="text" name="correo" #name="ngModel"
+                    [(ngModel)]="usuarioSelect.CORREO" disabled>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-label-group">
+                  <label><Strong>Celular</Strong></label>
+                  <input class="form-control" id="input" type="text" name="celular" #name="ngModel"
+                    [(ngModel)]="usuarioSelect.CELULAR" disabled>
+                </div>
+              </div>
+            </div>
+          </form>
+          <br>
+          <form #asesorForm="ngForm" *ngIf="rol == 1">
+            <div class="form-label-group">
+              <label><Strong>Facultad</Strong></label>
+              <input class="form-control" id="input" type="text" name="facultad" #name="ngModel" [(ngModel)]="facultad"
+                disabled>
+            </div>
+          </form>
+          <form #estudianteForm="ngForm" *ngIf="rol == 2">
+            <div class="row">
+              <div class="col">
+                <div class="form-label-group">
+                  <label><Strong>Facultad</Strong></label>
+                  <input class="form-control" id="input" type="text" name="facultad" #name="ngModel"
+                    [(ngModel)]="facultad" disabled>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-label-group">
+                  <label><Strong>Codigo</Strong></label>
+                  <input class="form-control" id="input" type="text" name="codigo" #name="ngModel"
+                    [(ngModel)]="usuarioSelect.CODIGO" disabled>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-label-group">
+                  <label><Strong>Semeste</Strong></label>
+                  <input class="form-control" id="input" type="text" name="semestre" #name="ngModel"
+                    [(ngModel)]="usuarioSelect.SEMESTRE" disabled>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>

@@ -1,0 +1,8 @@
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+
+#time-picker-wrapper{
+    z-index: 7000 !important;
+    background-color: #00468f;
+  }
+ 
