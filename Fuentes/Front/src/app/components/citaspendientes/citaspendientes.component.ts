@@ -35,8 +35,10 @@ export class CitaspendientesComponent implements OnInit {
   tipoReunion: string;
   vez: number = 0;
   fecha: string;
+  fecha2: string;
   horario_id: number;
   usuario_id: number;
+  estudiante_id: number;
   rol: number;
   titulo: string;
 
@@ -85,7 +87,7 @@ export class CitaspendientesComponent implements OnInit {
         })
     }
     else if (this.rol == 3) {       //ESTUDIANTE  
-      this.citasPendientesService.getCitasEstudiante(this.usuario_id)
+      this.citasPendientesService.getCitasEstudiante(this.estudiante_id)
         .subscribe(res => {
           this.disponibilidades = res as Disponibilidad2[];
           this.calendario();
@@ -126,6 +128,7 @@ export class CitaspendientesComponent implements OnInit {
         this.horarioSelect = this.agendarCitaService.horarioSelect[0];
         this.tipoReunion = this.tiposReunion.find(reunion => reunion.ID_TIPO_REUNION == this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION).NOMBRE_TIPO_REUNION;
         this.fecha = info.event.start;
+        this.fecha2 = this.datePipe.transform(this.fecha, 'yyyy-MM-dd');
         this.horario_id = info.event.id;
         if(this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION==1){            
           this.titulo = "Diagnostico";
@@ -165,6 +168,7 @@ export class CitaspendientesComponent implements OnInit {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
     this.usuario_id = parseInt(tokenPayload.id_usuario);
+    this.estudiante_id = parseInt(tokenPayload.id_estudiante);    
     this.rol = parseInt(tokenPayload.rol_usuario);
   }
   yaCargo() {

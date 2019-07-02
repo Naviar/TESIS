@@ -39,6 +39,7 @@ export class CitadiagnosticoComponent implements OnInit {
   tipoReunion: string;
   vez: number = 0;
   fecha: string;
+  fecha2: string;
   horario_id: number;
   estudiante_id: number;
 
@@ -127,7 +128,7 @@ export class CitadiagnosticoComponent implements OnInit {
     cargando = true;
     console.log("evento clickeado", info.event);
     if (info.event.backgroundColor == "RED") {
-      M.toast({
+      M.toast({ 
         html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
             <h4 class="alert-heading">CITA OCUPADA</h4>
             <p>La cita que selecciono ya esta ocupada, por favor seleccione otra</p>
@@ -142,6 +143,7 @@ export class CitadiagnosticoComponent implements OnInit {
           this.horarioSelect = this.agendarCitaService.horarioSelect[0];
           this.tipoReunion = this.tiposReunion.find(reunion => reunion.ID_TIPO_REUNION == this.horarioSelect.TIPO_REUNION_ID_TIPO_REUNION).NOMBRE_TIPO_REUNION;
           this.fecha = info.event.start;
+          this.fecha2 = this.datePipe.transform(this.fecha, 'yyyy-MM-dd');
           this.horario_id = info.event.id;
           cargando = false;
           this.openModal(true);

@@ -28,8 +28,8 @@ export class RegisterComponent implements OnInit {
   }
   buildForm() {
     this.registerForm = this.fb.group({
-      nombre_usuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z A-Z]*$/)])],
-      apellido_usuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z A-Z]*$/)])],
+      nombre_usuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z A-Z ñ Ñ]*$/)])],
+      apellido_usuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z A-Z ñ Ñ]*$/)])],
       celular: ['', Validators.compose([Validators.required, Validators.min(3000000000), Validators.max(3999999999), Validators.pattern(/^[0-9]*$/)])],
       correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas).(edu).(co)$/)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],

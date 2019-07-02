@@ -32,7 +32,7 @@ diagnosticoCtrl.crearDiagnostico = (req, res) => {
 
     SELECT '${etapa_proyecto}','${sector_proyecto}','${ambito_social}','${descripcion_proyecto}',
     '${socios_clave}','${actividades_clave}','${recursos_clave}','${propuesta_valor}','${relacion_clientes}','${canales}','${segmentos_clientes}',
-    '${estructura_costos}','${fuente_ingresos}','${tipo_asesoria}','${estudiante}', estudiante.semestre, estudiante.facultad_id_facultad, CURRENT DATE  
+    '${estructura_costos}','${fuente_ingresos}','${tipo_asesoria}','${estudiante}', estudiante.semestre, estudiante.facultad_id_facultad, CURRENT_TIMESTAMP
     FROM estudiante 
     WHERE id_estudiante= '${estudiante}'`;
         

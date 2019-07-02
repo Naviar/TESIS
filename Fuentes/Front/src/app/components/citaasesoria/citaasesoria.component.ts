@@ -39,6 +39,7 @@ export class CitaasesoriaComponent implements OnInit {
   tipoReunion: string;
   vez: number = 0;
   fecha: string;
+  fecha2: string;
   horario_id: number;
   estudiante_id: number;
   titulo: string;
@@ -145,6 +146,7 @@ export class CitaasesoriaComponent implements OnInit {
           this.horarioSelect = this.agendarCitaService.horarioSelect[0];
           this.tipoReunion = this.tiposReunion.find(reunion => reunion.ID_TIPO_REUNION == this.horarioSelect.TIPO_REUNION_ID_TIPO_REUNION).NOMBRE_TIPO_REUNION;
           this.fecha = info.event.start;
+          this.fecha2 = this.datePipe.transform(this.fecha, 'yyyy-MM-dd');
           this.horario_id = info.event.id;
           cargando = false;
           this.openModal(true);
