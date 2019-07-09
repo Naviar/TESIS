@@ -18,9 +18,22 @@
               <span class="sr-only">Loading...</span>
             </div>
           </div>
-
+          <h5>Filtrar:</h5>
+          <div class="row">
+          <div class="col">
+            <select id="select" class="form-control" #mySelect>
+              <option value=1>Nombre</option>
+              <option value=2>Apellido</option>
+            </select>
+          </div>
+          <div class="col">
+          <input id="inputt" class="form-control" placeholder="Buscar..." #myInput (keyup)="this.buscar(myInput.value, mySelect.value)"
+            style="border-radius: 0rem;" title="Ingrese el campo para filtrar" aria-describedby="basic-addon2">
+          </div>
+          </div>
+          <br>
           <div class="form-label-group">
-            <div *ngFor="let usuario of usuarios" class="row">
+            <div *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 5, currentPage: p }" class="row">
               <div class="col">
                 <label class="name" for="ejemplo">{{usuario.NOMBRE}} {{usuario.APELLIDO}}</label>
               </div>
@@ -36,7 +49,8 @@
                     class="fa fa-eye"></i></a>
               </div>
             </div>
-          </div>
+          </div>                  
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>                
         </div>
       </div>
     </div>

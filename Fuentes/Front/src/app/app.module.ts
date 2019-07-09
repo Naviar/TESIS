@@ -6,6 +6,7 @@ import { HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms'
 import {ReactiveFormsModule} from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
@@ -55,7 +56,8 @@ import { AutenticarusuariosComponent } from './components/autenticarusuarios/aut
     HttpClientModule,
     ToastrModule.forRoot(),
     AmazingTimePickerModule,
-    FullCalendarModule 
+    FullCalendarModule ,
+    NgxPaginationModule
 
   ],
   providers: [DatePipe],
