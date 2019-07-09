@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
         }
         else {
           localStorage.setItem('usuario', data['token']);
-          this.router.navigate(['home'])
+          this.router.navigate(['home']);
           this.tokenPayload = decode(data['token']);
         }
 

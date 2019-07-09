@@ -60,7 +60,7 @@ export class CitadiagnosticoComponent implements OnInit {
   disponibilidades: Disponibilidad2[] = [];
 
 
-  constructor(private agendarCitaService: AgendarCitaService, private etapaService: EtapaService, private datePipe: DatePipe, private _horarioService: HorariosService) {
+  constructor(private agendarCitaService: AgendarCitaService, private etapaService: EtapaService, private datePipe: DatePipe, private _horarioService: HorariosService, private router: Router) {
     this.fechaActual = new Date();
   }
 
@@ -248,6 +248,7 @@ export class CitadiagnosticoComponent implements OnInit {
           this.etapaService.putEtapa(this.estudiante_id, this.etapa)
           .subscribe(res =>{
             console.log(res);
+            this.router.navigate(['/pending/dates']);
           });
         cargando = false;
         this.openModal(false);

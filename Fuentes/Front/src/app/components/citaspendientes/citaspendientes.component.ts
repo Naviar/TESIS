@@ -70,7 +70,7 @@ export class CitaspendientesComponent implements OnInit {
     this.getTipoReunion();
   }
 
-  getCitasPendientes() {
+  getCitasPendientes() { 
     cargando=true;
     if (this.rol == 1) {            //LIDER      
       this.citasPendientesService.getCitasLider(this.usuario_id)

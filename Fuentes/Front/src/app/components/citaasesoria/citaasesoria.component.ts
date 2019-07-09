@@ -62,7 +62,7 @@ export class CitaasesoriaComponent implements OnInit {
   disponibilidades: Disponibilidad2[] = [];
 
 
-  constructor(private agendarCitaService: AgendarCitaService, private etapaService: EtapaService, private datePipe: DatePipe, private _horarioService: HorariosService) {
+  constructor(private agendarCitaService: AgendarCitaService, private etapaService: EtapaService, private datePipe: DatePipe, private _horarioService: HorariosService, private router: Router) {
     this.fechaActual = new Date();
   }
 
@@ -250,7 +250,8 @@ export class CitaasesoriaComponent implements OnInit {
           this.etapa=4;
           this.etapaService.putEtapa(this.estudiante_id, this.etapa)
           .subscribe(res =>{
-            console.log(res);
+            console.log(res);            
+            this.router.navigate(['/pending/dates']);
           });
         cargando = false;
         this.openModal(false);
@@ -260,7 +261,7 @@ export class CitaasesoriaComponent implements OnInit {
   getValidRol() {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
-    this.estudiante_id = parseInt(tokenPayload.id_usuario);
+    this.estudiante_id = parseInt(tokenPayload.id_estudiante);
 
   }
   yaCargo() {
