@@ -19,15 +19,25 @@ let Cargando = false;
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  recovery: FormGroup;
+  changePassword: FormGroup;
   condition: number = 0;
   tokenPayload;
   constructor(private loginService: LoginService, private toastr: ToastrService, private router: Router, private fb: FormBuilder) {
     this.buildForm();
   }
 
-  buildForm() { 
+  buildForm() {
     this.loginForm = this.fb.group({
       correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas).(edu).(co)$/)])],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+    });
+    this.recovery = this.fb.group({
+      correoRecovery: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas).(edu).(co)$/)])]
+    });
+    this.changePassword = this.fb.group({
+      correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas).(edu).(co)$/)])],
+      key: ['', Validators.compose([Validators.required])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
     });
   }
@@ -45,9 +55,9 @@ export class LoginComponent implements OnInit {
     Cargando = false;
     console.log(form.value);
     this.loginService.authentication(form.value)
-      .subscribe((data) => {        
-        if (data['fail'] == 1) {          
-          Cargando=true;
+      .subscribe((data) => {
+        if (data['fail'] == 1) {
+          Cargando = true;
           M.toast({
             html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
                 <h4 class="alert-heading">FALLO AUTENTICACIÓN</h4>
@@ -56,7 +66,7 @@ export class LoginComponent implements OnInit {
             </div>`});
         }
         else if (data['fail'] == 2) {
-          Cargando=true;
+          Cargando = true;
           M.toast({
             html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
                  <h4 class="alert-heading">FALLO AUTENTICACIÓN</h4>
@@ -65,7 +75,7 @@ export class LoginComponent implements OnInit {
              </div>`});
         }
         else if (data['fail'] == 3) {
-          Cargando=true;
+          Cargando = true;
           M.toast({
             html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
                  <h4 class="alert-heading">USUARIO INACTIVO</h4>
@@ -81,7 +91,67 @@ export class LoginComponent implements OnInit {
 
       });
   }
+  recoveryCode() {
+    var correo = this.recovery.controls['correoRecovery'].value;
 
+    this.loginService.recoveryCode(correo)
+      .subscribe(
+        res => {
+          console.log('respondio esto:', res);
+          if (res['exito'] === true) {
+            M.toast({
+              html: `<div class="alert alert-info" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                         <h4 class="alert-heading">SOLICITUD DE CAMBIO DE CONTRASEÑA EXITOSO</h4>
+                         <p>se ha enviado un codigo al correo ${correo} con el codigo para permitir el cambio de contraseña</p>
+                         <hr>
+                     </div>`});
+          }
+        },
+        err => { console.log('error en el post recoveryPassword', err); }
+      )
+  }
+  recoveryPassword(form: NgForm) {
+
+    const recovery: Object = {
+      correo: form.value.correo,
+      key: form.value.key,
+      password: form.value.password
+    }
+
+    this.loginService.recoveryPassword(recovery)
+      .subscribe(
+        res => {
+          console.log('respondio esto', res);
+          if (res['error']) {
+            M.toast({
+              html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                                       <h4 class="alert-heading">ERROR EN EL SISTEMA</h4>
+                                       <p>HA OCURRIDO UN ERROR.</p>
+                                       <hr>
+                                   </div>`});
+          }
+          else if (res['exito'] === false) {
+
+            M.toast({
+              html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                                       <h4 class="alert-heading">ERROR EN LA SOLICITUD DE CAMBIO DE CONTRASEÑA</h4>
+                                       <p>${res['mensaje']}</p>
+                                       <hr>
+                                   </div>`});
+
+          }
+          else if (res['exito'] === true) {
+            M.toast({
+              html: `<div class="alert alert-info" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                                       <h4 class="alert-heading">CAMBIO DE CONTRASEÑA EXITOSO</h4>
+                                       <p>${res['mensaje']}</p>
+                                       <hr>
+                                   </div>`});
+          }
+        },
+        err => { console.log('error intentando recoveryPassword()', err); }
+      )
+  }
 
   yaCargo() {
     if (Cargando == false) {

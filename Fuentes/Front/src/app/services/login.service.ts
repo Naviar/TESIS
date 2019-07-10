@@ -66,4 +66,10 @@ export class LoginService {
     console.log("HASTA AQUI VASOS", usuario);
     return this.http.post(this.URL_API + '/estudianteDuplicado', usuario);
   }
+  recoveryPassword(recovery:any){    
+    return this.http.post(this.URL_API+'/recoveryPassword',recovery);
+  }
+  recoveryCode(correo:string){
+    return this.http.post(this.URL_API+'/recoveryCode',{correo});
+  }
 }

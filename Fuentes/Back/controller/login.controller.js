@@ -1,5 +1,7 @@
 const loginCtrl = {}
 
+const nodemailer = require('nodemailer');
+var keygen = require("keygenerator");
 var express = require('express');
 var ibmdb = require("ibm_db")
 let connStr = require("../database")
@@ -7,7 +9,14 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../models/config');
-
+//autenticacion para enviar correo
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'consultorio.usta.DRSU@gmail.com',
+        pass: 'consultoriousta123'
+    }
+});
 
 // Metodo encargado de listar todos los usuarios
 loginCtrl.obtenerUsuarios = (req, res) => {
@@ -326,6 +335,116 @@ loginCtrl.estudianteDuplicado = (req, res) => {
         });
     });
 }
+loginCtrl.recoveryPassword = (req, res) => {
+    recovery = req.body;
 
+    console.log('llego esta info del recovery', recovery);
+
+    query = `select password,recovery FROM usuario WHERE correo = '${recovery.correo}'`;
+
+    ibmdb.open(connStr, (err, conn) => {
+        conn.query(query, function(err, data) {
+            if (err) { res.json({ error: err }) } else {
+                if (data.length === 0) {
+                    console.log('no esta registrado ese correo', data);
+
+                    res.json({
+                        exito: false,
+                        mensaje: `el correo o codigo de cambio de contraseña son incorrectos`
+                    })
+                } else if (data[0].RECOVERY === recovery.key) {
+
+                    console.log('se encontro este usuario', data);
+                    var hashedPassword = bcrypt.hashSync(recovery.password, 8);
+                    query2 = `UPDATE usuario SET password='${hashedPassword}' WHERE correo = '${recovery.correo}'`;
+
+                    conn.query(query2, function(err, data) {
+                        if (err) { res.json({ error: err }) } else {
+                            res.json({
+                                exito: true,
+                                mensaje: `se actualizo correctamente la contraseña para el usuario ${recovery.correo}`
+                            })
+                        }
+                    });
+
+                } else {
+                    res.json({
+                        exito: false,
+                        mensaje: `el correo o codigo de cambio de contraseña son incorrectos`
+                    })
+                }
+            }
+            conn.close(() => {
+                console.log("Se ha cerrado la base de datos")
+
+            });
+        });
+    });
+
+
+}
+
+loginCtrl.recoveryCode = (req, res) => {
+
+    var correo = req.body.correo;
+
+    var key = keygen.password();
+
+    var nombre = '';
+
+    query = `SELECT * FROM usuario WHERE correo = '${correo}'`;
+    query2 = `UPDATE usuario SET recovery = '${key}' WHERE correo='${correo}'`;
+
+    ibmdb.open(connStr, (err, conn) => {
+        conn.query(query, function(err, data) {
+            if (err) { res.json({ error: err }) } else {
+                if (data.length === 0) {
+                    console.log('no esta registrado ese correo', data);
+
+                    res.json({
+                        exito: true
+                    })
+                } else {
+                    console.log('se encontro este usuario', data[0].NOMBRE);
+                    nombre = data[0].NOMBRE;
+                    conn.query(query2, function(err, data) {
+                        if (err) {
+                            res.json({ error: err });
+                        } else {
+
+                            const mailOptions = {
+                                from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
+                                to: `${correo}`, // lista de los destinatarios del 
+                                subject: 'CODIGO PARA RECUPERAR CONTRASEÑA PLATAFORMA DRSU', // Línea del asunto 
+                                html: `<h1>solicitud cambio de contraseña</h1>
+                                    <p>Hola ${nombre} tu codigo para poder cambiar la contraseña es <b>${key}</b></p>
+                                    <p>si no solicitaste este codigo , hacer caso omiso a este mensaje.</p>` // cuerpo de texto sin formato 
+                            };
+
+                            transporter.sendMail(mailOptions, function(err, info) {
+                                if (err) {
+                                    console.log(err)
+
+                                    res.json({ exito: false });
+                                } else {
+                                    console.log(info);
+                                    res.json({ exito: true });
+                                    conn.close(() => {
+                                        console.log("Se ha cerrado la base de datos")
+
+                                    });
+                                }
+
+                            });
+                        }
+                    });
+
+
+                }
+            }
+        });
+    });
+
+}
 
 module.exports = loginCtrl
