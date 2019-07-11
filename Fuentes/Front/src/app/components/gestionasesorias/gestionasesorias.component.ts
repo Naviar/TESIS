@@ -71,17 +71,27 @@ export class GestionasesoriasComponent implements OnInit {
                   M.toast({
                     html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
                         <h4 class="alert-heading">FALLO CAMBIANDO STATUS ASESORIA</h4>
-                        <p>Ocurrio un error en la base de datos , no se pudo actualizar el estado de la asesoria.</p>
+                        <p>${res['mensaje']}</p>
                         <hr>
                     </div>`});
                 }
-                else{
+                else if (res['exito'] === true){
                   M.toast({
                     html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
                         <h4 class="alert-heading">SE CAMBIO EL ESTADO DE LA ASESORIA</h4>
-                        <p>La asesoria ha cambiado su estado.</p>
+                        <p>${res['mensaje']}</p>
                         <hr>
                     </div>`});
+                }
+                else if (res['exito']=== false){
+                  M.toast({
+                    html: `<div class="alert alert-warning" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                        <h4 class="alert-heading">PROBLEMA AL CAMBIAR EL ESTADO DE LA ASESORIA</h4>
+                        <p>${res['mensaje']}</p>
+                        <hr>
+                    </div>`});
+
+                    this.getAsesorias();
                 }
               },
       (err) =>{console.log('error changestatus',err);},

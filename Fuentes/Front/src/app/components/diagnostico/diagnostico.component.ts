@@ -27,7 +27,7 @@ export class DiagnosticoComponent implements OnInit {
   diagnosticoForm: FormGroup;
   negocioForm: FormGroup;
   etapa:number;
-  constructor(private diagnosticoService: DiagnosticoService, private etapaService: EtapaService, private loginService: LoginService, private router: Router, private fb: FormBuilder) {
+  constructor(public diagnosticoService: DiagnosticoService, public etapaService: EtapaService, public loginService: LoginService, private router: Router, private fb: FormBuilder) {
     this.buildForm();
   }
 
