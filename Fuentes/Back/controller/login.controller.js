@@ -369,7 +369,7 @@ loginCtrl.recoveryPassword = (req, res) => {
                         if (err) { res.json({ error: err }) } else {
                             res.json({
                                 exito: true,
-                                mensaje: `se actualizo correctamente la contraseña para el usuario ${recovery.correo}`
+                                mensaje: `Se actualizo correctamente la contraseña para el usuario ${recovery.correo}`
                             })
                         }
                     });
@@ -377,7 +377,7 @@ loginCtrl.recoveryPassword = (req, res) => {
                 } else {
                     res.json({
                         exito: false,
-                        mensaje: `el correo o codigo de cambio de contraseña son incorrectos`
+                        mensaje: `El correo o codigo de cambio de contraseña son incorrectos`
                     })
                 }
             }
@@ -423,9 +423,9 @@ loginCtrl.recoveryCode = (req, res) => {
                                 from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
                                 to: `${correo}`, // lista de los destinatarios del 
                                 subject: 'CODIGO PARA RECUPERAR CONTRASEÑA PLATAFORMA DRSU', // Línea del asunto 
-                                html: `<h1>solicitud cambio de contraseña</h1>
+                                html: `<h1>Solicitud cambio de contraseña</h1>
                                     <p>Hola ${nombre} tu codigo para poder cambiar la contraseña es <b>${key}</b></p>
-                                    <p>si no solicitaste este codigo , hacer caso omiso a este mensaje.</p>` // cuerpo de texto sin formato 
+                                    <p>Si no solicitaste este codigo , haz caso omiso a este mensaje.</p>` // cuerpo de texto sin formato 
                             };
 
                             transporter.sendMail(mailOptions, function (err, info) {

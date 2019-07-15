@@ -6,6 +6,7 @@ import decode from 'jwt-decode';
 import { EtapaService } from '../../services/etapa.service';
 
 declare var M: any;
+let cargando = true;
 
 @Component({
   selector: 'app-evaluacion',
@@ -51,10 +52,12 @@ export class EvaluacionComponent implements OnInit {
       yesno_q5: [false, Validators.compose([])],
       observaciones: ['', Validators.compose([])]
     });
+    cargando=false;
 
   }
 
   guardarEvaluacion(form?: NgForm) {
+    cargando = true;
     console.log("formulariooo", form.value);
     this.evaluacionService.postEvaluacion(form.value)
 
@@ -66,6 +69,7 @@ export class EvaluacionComponent implements OnInit {
                   <p>El formato evaluacion ha sido creado satisfactoriamente</p>
                   <hr>
               </div>`});
+        cargando=false;
         this.resetForm();
         this.buildForm();
         if (this.etapa_estudiante === 2) {
@@ -133,10 +137,12 @@ export class EvaluacionComponent implements OnInit {
         (err) => { console.log('error intentando hacer el get etapa:', err); }
       )
   }
-
-
-
-
-
+  yaCargo() {
+    if (cargando == false) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
 }

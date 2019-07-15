@@ -11,6 +11,7 @@ import { Usuario } from 'src/app/classes/usuario';
 
 declare var M: any;
 let Cargando = false;
+let Cargando2 = false;
 
 @Component({
   selector: 'app-login',
@@ -91,6 +92,7 @@ export class LoginComponent implements OnInit {
       });
   }
   recoveryCode() {
+    Cargando2=true;
     var correo = this.recovery.controls['correoRecovery'].value;
 
     this.loginService.recoveryCode(correo)
@@ -100,16 +102,17 @@ export class LoginComponent implements OnInit {
             M.toast({
               html: `<div class="alert alert-info" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
                          <h4 class="alert-heading">SOLICITUD DE CAMBIO DE CONTRASEÑA EXITOSO</h4>
-                         <p>se ha enviado un codigo al correo ${correo} con el codigo para permitir el cambio de contraseña</p>
+                         <p>Se ha enviado un codigo al correo ${correo} para permitir el cambio de contraseña</p>
                          <hr>
                      </div>`});
+                     Cargando2=false;
           }
         },
         err => { console.log('error en el post recoveryPassword', err); }
       )
   }
   recoveryPassword(form: NgForm) {
-
+    Cargando2=true;
     const recovery: Object = {
       correo: form.value.correo,
       key: form.value.key,
@@ -124,9 +127,10 @@ export class LoginComponent implements OnInit {
             M.toast({
               html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
                                        <h4 class="alert-heading">ERROR EN EL SISTEMA</h4>
-                                       <p>HA OCURRIDO UN ERROR.</p>
+                                       <p>Ha ocurrido un error.</p>
                                        <hr>
                                    </div>`});
+                                   Cargando2=false;
           }
           else if (res['exito'] === false) {
 
@@ -136,6 +140,7 @@ export class LoginComponent implements OnInit {
                                        <p>${res['mensaje']}</p>
                                        <hr>
                                    </div>`});
+                                   Cargando2=false;
 
           }
           else if (res['exito'] === true) {
@@ -145,6 +150,7 @@ export class LoginComponent implements OnInit {
                                        <p>${res['mensaje']}</p>
                                        <hr>
                                    </div>`});
+                                   Cargando2=false;
           }
         },
         err => { console.log('error intentando recoveryPassword()', err); }
@@ -153,6 +159,13 @@ export class LoginComponent implements OnInit {
 
   yaCargo() {
     if (Cargando == false) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  yaCargo2() {
+    if (Cargando2 == false) {
       return false;
     } else {
       return true;
