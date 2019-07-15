@@ -8,7 +8,7 @@ asesoriaCtrl.getEstudiantes = (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-        conn.query("SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.etapa = '4'", (err, data) => {
+        conn.query("SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.etapa = '4' AND u.fecha >= CURRENT_DATE - 1 YEAR;", (err, data) => {
 
             if (err) {
                 res.json({ error: err })

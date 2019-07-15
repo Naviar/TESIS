@@ -2,6 +2,7 @@ const agendarCitaCtrl = {}
 
 var express = require('express');
 var ibmdb = require("ibm_db")
+
 let connStr = require("../database")
 var router = express.Router();
 var jwt = require('jsonwebtoken');

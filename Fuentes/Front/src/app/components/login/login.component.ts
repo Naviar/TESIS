@@ -52,8 +52,7 @@ export class LoginComponent implements OnInit {
 
 
   login(form?: NgForm) {
-    Cargando = false;
-    console.log(form.value);
+    Cargando = false;    
     this.loginService.authentication(form.value)
       .subscribe((data) => {
         if (data['fail'] == 1) {
@@ -96,8 +95,7 @@ export class LoginComponent implements OnInit {
 
     this.loginService.recoveryCode(correo)
       .subscribe(
-        res => {
-          console.log('respondio esto:', res);
+        res => {          
           if (res['exito'] === true) {
             M.toast({
               html: `<div class="alert alert-info" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
