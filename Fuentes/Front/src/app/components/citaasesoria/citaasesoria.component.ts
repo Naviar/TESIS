@@ -81,11 +81,13 @@ export class CitaasesoriaComponent implements OnInit {
       })
   }
 
-  calendario() {
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+  async calendario() {
     cargando = true;
     let cal = this.calendarComponent.getApi();
-    cal.removeAllEvents();
-    console.log("los borro000");
+    cal.removeAllEvents();    
     if (this.vez < 1) {
       for (let horario of this.agendarCitaService.horariosAsesoria) {
         this.horarioSelect = horario;
@@ -94,7 +96,7 @@ export class CitaasesoriaComponent implements OnInit {
       this.vez = 1;
     }
     for (let disponibilidad of this.disponibilidades) {
-
+      await this.delay(200);
       this.agendarCitaService.asesoriasLibres(disponibilidad)
         .subscribe(res => {
           this.agendarCitaService.horarioSelect = res as Horario;
