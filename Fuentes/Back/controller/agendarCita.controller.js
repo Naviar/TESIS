@@ -9,10 +9,10 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../models/config');
 
-
+//hola
 //////////////////////////////////////////////////////////////////////////////
 
-agendarCitaCtrl.getHorarios = async (req, res) => {
+agendarCitaCtrl.getHorarios = async(req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
@@ -31,7 +31,7 @@ agendarCitaCtrl.getHorarios = async (req, res) => {
 }
 
 
-agendarCitaCtrl.getHorarioId = async (req, res) => {
+agendarCitaCtrl.getHorarioId = async(req, res) => {
     let id = req.params.id;
     ibmdb.open(connStr, (err, conn) => {
 
@@ -48,6 +48,7 @@ agendarCitaCtrl.getHorarioId = async (req, res) => {
         })
     })
 }
+
 agendarCitaCtrl.disponibilidadesLibres = async (req, res) => {
     // console.log("lo que llega",req.body);
     let id = req.body.HORARIO_ID_HORARIO;
@@ -67,6 +68,7 @@ agendarCitaCtrl.disponibilidadesLibres = async (req, res) => {
         })
     })
 }
+
 agendarCitaCtrl.disponibilidadesOcupadas = async (req, res) => {
     // console.log("lo que llega",req.body);
     let id = req.body.HORARIO_ID_HORARIO;
@@ -98,13 +100,13 @@ agendarCitaCtrl.agendarCita = (req, res) => {
     var query = `INSERT INTO disponibilidad (fecha, id_estudiante, horario_id_horario) VALUES ('${fecha}','${estudiante_id}','${horario_id}')`;
 
 
-    ibmdb.open(connStr, function (err, conn) {
+    ibmdb.open(connStr, function(err, conn) {
         if (err) return console.log(err);
 
-        conn.query(query, function (err, data) {
+        conn.query(query, function(err, data) {
             if (err) res.json({ error: err })
             else {
-                conn.close(function () {
+                conn.close(function() {
                     console.log('Se ha cerrado la base de datos correctamente');
                 });
                 res.json("lo lograste");
@@ -115,7 +117,7 @@ agendarCitaCtrl.agendarCita = (req, res) => {
 
 ////////////////////////////////////ASESORIAS/////////////////////////////////////////////////
 
-agendarCitaCtrl.getAsesorias = async (req, res) => {
+agendarCitaCtrl.getAsesorias = async(req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
@@ -132,8 +134,8 @@ agendarCitaCtrl.getAsesorias = async (req, res) => {
         })
     })
 }
-agendarCitaCtrl.asesoriasLibres = async (req, res) => {
-    console.log("lo que llega",req.body);
+agendarCitaCtrl.asesoriasLibres = async(req, res) => {
+    console.log("lo que llega", req.body);
     let id = req.body.HORARIO_ID_HORARIO;
     let fecha = req.body.FECHA;
     ibmdb.open(connStr, (err, conn) => {
@@ -151,8 +153,8 @@ agendarCitaCtrl.asesoriasLibres = async (req, res) => {
         })
     })
 }
-agendarCitaCtrl.asesoriasOcupadas = async (req, res) => {
-    console.log("lo que llega",req.body);
+agendarCitaCtrl.asesoriasOcupadas = async(req, res) => {
+    console.log("lo que llega", req.body);
     let id = req.body.HORARIO_ID_HORARIO;
     let fecha = req.body.FECHA;
     ibmdb.open(connStr, (err, conn) => {

@@ -11,6 +11,8 @@ import { compromiso } from '../../models/compromiso';
 import decode from 'jwt-decode';
 import { EtapaService } from '../../services/etapa.service';
 
+declare var M: any;
+
 @Component({ 
   selector: 'app-asesoria',
   templateUrl: './asesoria.component.html',
@@ -133,24 +135,35 @@ export class AsesoriaComponent implements OnInit {
         (err) => { console.log('error en post formato', err); },
 
         () => {
+          
 
           this.asesoriaService.postFormatoAsesoria2(this.data_has)
             .subscribe(
-              (res) => { console.log('guardo tabla intermedia', res); },
+              (res) => { console.log('guardo tabla intermedia', res);
+              M.toast({
+                html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                        <h4 class="alert-heading">FORMATO GUARDADO</h4>
+                        <p>El formato asesoria ha sido creado satisfactoriamente</p>
+                        <hr>
+                    </div>`}); },
 
               (err) => { console.log('error guardadno tabla intermedia', err); },
 
               () => {
+                
+                this.etapa = 5;
+                      this.etapaService.putEtapa(form.value.estudiante, this.etapa)
+                        .subscribe(res => {
+                          console.log(res);
+                          
+                        });
+
                 if (this.asesoriaService.compromisos.length > 0) {
                   this.asesoriaService.postCompromisos().subscribe(
                     (res) => { console.log('srespuesta de compromisos', res); },
                     (err) => { console.log('error enviando compromisos', err); },
                     () => {
-                      this.etapa = 2;
-                      this.etapaService.putEtapa(form.value.estudiante, this.etapa)
-                        .subscribe(res => {
-                          console.log(res);
-                        });
+                      
                     }
                   )
                 }
