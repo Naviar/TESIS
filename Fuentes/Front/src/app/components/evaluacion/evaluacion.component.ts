@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { EvaluacionService } from 'src/app/services/evaluacion.service';
 import decode from 'jwt-decode';
 import { EtapaService } from '../../services/etapa.service';
+import { Router } from '@angular/router';
 
 declare var M: any;
 
@@ -19,7 +20,7 @@ export class EvaluacionComponent implements OnInit {
   evaluacionForm: FormGroup;
   etapa: number;
 
-  constructor(private fb: FormBuilder, private evaluacionService: EvaluacionService, private etapaService: EtapaService) {
+  constructor(private fb: FormBuilder, private evaluacionService: EvaluacionService, private etapaService: EtapaService , private router : Router) {
     this.buildForm();
   }
 
@@ -89,17 +90,21 @@ export class EvaluacionComponent implements OnInit {
               (res) => { console.log('actualizo la evaluacion de la asesoria'); },
               (err) => { console.log('error en el update de la asesoria eval'); },
               () => {
-              this.etapa = 6;
-                this.etapaService.putEtapa(this.id_estudiante, this.etapa)
-                  .subscribe(res => {
-                    console.log(res);
-                  });
+              // this.etapa = 6;
+              //   this.etapaService.putEtapa(this.id_estudiante, this.etapa)
+              //     .subscribe(res => {
+              //       console.log(res);
+              //     });
               }
             )
         }
 
-
-      });
+      },
+      (err)=>{
+       console.log('error',err);},
+       () => {this.router.navigate(['home']);} 
+        
+        );
   }
 
 
@@ -126,8 +131,8 @@ export class EvaluacionComponent implements OnInit {
     this.etapaService.getEtapa(this.id_estudiante)
       .subscribe(
         (res) => {
-          console.log('la respuesta de getetapa', res);
-          this.etapa_estudiante = res[0].ETAPA
+          console.log('la respuesta de getetapa', res['ETAPA']);
+          this.etapa_estudiante = res['ETAPA'];
           console.log(this.etapa_estudiante);
         },
         (err) => { console.log('error intentando hacer el get etapa:', err); }
