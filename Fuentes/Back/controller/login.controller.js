@@ -71,8 +71,8 @@ loginCtrl.authentication = (req, res) => {
                         res.json({ fail: 2 })
                     } else if (data[0].ACTIVO == false) {
                         res.json({ fail: 3 })
-                    } 
-                  else {
+                    }
+                    else {
                         console.log("NO ENTRO A NADA");
                         console.log("esto llega", data[0].ID_USUARIO);
 
@@ -80,32 +80,39 @@ loginCtrl.authentication = (req, res) => {
                         rol_usuario = data[0].ROL_ID_ROL;
                         nombre_usuario = data[0].NOMBRE;
                         //Se crea un token con el id el correo y el rol
+                        conn.query(`UPDATE usuario SET fecha = CURRENT_DATE WHERE id_usuario = ${id_usuario}`, (error, dato) => {
+                            if (error) { res.send('Ocurrio un error en la busqueda' + error) } else {
+                                if (data[0].ROL_ID_ROL !== 3) {
 
-                        if (data[0].ROL_ID_ROL !== 3) {
-                            token = jwt.sign({ id_usuario: id_usuario, rol_usuario: rol_usuario, nombre_usuario: nombre_usuario },
-                                    config.secret, { expiresIn: 86400 }
-                                )
-                                //Se responde con el token de autenticacion
-                            res.json({ auth: true, token: token })
-                        } else {
-                            conn.query(`SELECT etapa,id_estudiante FROM estudiante WHERE usuario_id_usuario = ${id_usuario}`, (err, data) => {
-                                if (err) { res.send('Ocurrio un error en la busqueda' + err) } else {
-                                    console.log('id_estudiante :::::', data[0].ID_ESTUDIANTE);
-                                    token = jwt.sign({ id_usuario: id_usuario, rol_usuario: rol_usuario, nombre_usuario: nombre_usuario, id_estudiante: data[0].ID_ESTUDIANTE },
-                                            config.secret, { expiresIn: 86400 }
-                                        )
-                                        //Se responde con el token de autenticacion
+                                    token = jwt.sign({ id_usuario: id_usuario, rol_usuario: rol_usuario, nombre_usuario: nombre_usuario },
+                                        config.secret, { expiresIn: 86400 }
+                                    )
+                                    //Se responde con el token de autenticacion
                                     res.json({ auth: true, token: token })
+                                } else {
+                                    conn.close();
+                                    ibmdb.open(connStr, (err, conn) => {
+                                        if (err) { console.log(err) } else {
+                                            conn.query(`SELECT etapa,id_estudiante FROM estudiante WHERE usuario_id_usuario = ${id_usuario}`, (err, data) => {
+                                                if (err) { res.send('Ocurrio un error en la busqueda' + err) } else {
+
+                                                    console.log('id_estudiante :::::', data[0].ID_ESTUDIANTE);
+                                                    token = jwt.sign({ id_usuario: id_usuario, rol_usuario: rol_usuario, nombre_usuario: nombre_usuario, id_estudiante: data[0].ID_ESTUDIANTE },
+                                                        config.secret, { expiresIn: 86400 }
+                                                    )
+                                                    //Se responde con el token de autenticacion
+                                                    res.json({ auth: true, token: token })
+
+                                                }
+                                            });
+                                        }
+                                    });
                                 }
-                            });
-                        }
-
-
-
+                            }
+                        });
                     }
-
                 }
-                conn.close()
+                conn.close();
             })
 
         }
@@ -119,39 +126,39 @@ loginCtrl.authentication = (req, res) => {
 loginCtrl.register = (req, res) => {
 
 
-  let nombre = req.body.nombre_usuario;
-  let apellido = req.body.apellido_usuario;
-  let celular = req.body.celular;
-  let correo = req.body.correo;
-  let hashedPassword = bcrypt.hashSync(req.body.password, 8);
-  let rol = req.body.rol;
-  //Abriendo conexion a la base de datos
+    let nombre = req.body.nombre_usuario;
+    let apellido = req.body.apellido_usuario;
+    let celular = req.body.celular;
+    let correo = req.body.correo;
+    let hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    let rol = req.body.rol;
+    //Abriendo conexion a la base de datos
 
-  ibmdb.open(connStr, (err, conn) => {
+    ibmdb.open(connStr, (err, conn) => {
 
-    if (err) { console.log("ERROR" + err); }
-    else {
-      //Metodo que hace el query
+        if (err) { console.log("ERROR" + err); }
+        else {
+            //Metodo que hace el query
 
-      conn.query(`INSERT INTO usuario (nombre, correo, password, apellido, celular, rol_id_rol, activo)
-          VALUES ( '${nombre}', '${correo}', '${hashedPassword}', '${apellido}', '${celular}', '${rol}', '${false}')`
-        , (err, data) => {
-          //Se cierra la conexion de la base de datos
+            conn.query(`INSERT INTO usuario (nombre, correo, password, apellido, celular, rol_id_rol, activo, fecha)
+          VALUES ( '${nombre}', '${correo}', '${hashedPassword}', '${apellido}', '${celular}', '${rol}', '${false}', CURRENT_DATE)`
+                , (err, data) => {
+                    //Se cierra la conexion de la base de datos
 
-          if (err) {
-            res.status(500).send('Hubo un problema registrando el usuario ' + err)
-            console.log("Este es el error", err)
-          }
-          else {
-            conn.query(`select id_usuario from usuario order by id_usuario desc limit 0,1`, (err, data) => {
-              console.log("Se registro con este IDD", data[0].ID_USUARIO);
+                    if (err) {
+                        res.status(500).send('Hubo un problema registrando el usuario ' + err)
+                        console.log("Este es el error", err)
+                    }
+                    else {
+                        conn.query(`select id_usuario from usuario order by id_usuario desc limit 0,1`, (err, data) => {
+                            console.log("Se registro con este IDD", data[0].ID_USUARIO);
 
-              res.json({ auth: true })
-            })
-            conn.close()
+                            res.json({ auth: true })
+                        })
+                        conn.close()
 
-                }
-            })
+                    }
+                })
         }
     })
 }
@@ -226,14 +233,14 @@ loginCtrl.getIdUsuario = (req, res) => {
     console.log(correo);
     var query = `SELECT id_usuario FROM usuario WHERE correo ='${correo}'`;
 
-    ibmdb.open(connStr, function(err, conn) {
+    ibmdb.open(connStr, function (err, conn) {
         if (err) return console.log(err);
 
-        conn.query(query, function(err, data) {
+        conn.query(query, function (err, data) {
 
             if (err) res.json({ error: err })
             else res.json(data)
-            conn.close(function() {
+            conn.close(function () {
                 console.log('termino de buscar');
             });
         });
@@ -256,14 +263,14 @@ loginCtrl.registerAsesor = (req, res) => {
 
             conn.query(`INSERT INTO asesor (usuario_id_usuario, facultad_id_facultad)
           VALUES ( '${id_usuario}', '${id_facultad}')`, (err, data) => {
-                //Se cierra la conexion de la base de datos
-                conn.close()
-                if (err) {
-                    res.status(500).send('Hubo un problema registrando el usuario ' + err)
-                    console.log("Este es el error", err)
-                } else res.json({ data: 'Se creo el asesor de manera satisfactoria!!!' })
+                    //Se cierra la conexion de la base de datos
+                    conn.close()
+                    if (err) {
+                        res.status(500).send('Hubo un problema registrando el usuario ' + err)
+                        console.log("Este es el error", err)
+                    } else res.json({ data: 'Se creo el asesor de manera satisfactoria!!!' })
 
-            })
+                })
         }
     })
 }
@@ -285,13 +292,13 @@ loginCtrl.registerEstudiante = (req, res) => {
 
             conn.query(`INSERT INTO estudiante (usuario_id_usuario, facultad_id_facultad, codigo, semestre, jornada_id_jornada, etapa)
           VALUES ( '${id_usuario}', '${id_facultad}', '${codigo}', '${semestre}', '${id_jornada}', '${0}')`, (err, data) => {
-                //Se cierra la conexion de la base de datos
-                conn.close()
-                if (err) {
-                    res.status(500).send('Hubo un problema registrando el usuario ' + err)
-                    console.log("Este es el error", err)
-                } else res.json({ data: 'Se creo el estudiante de manera satisfactoria!!!' })
-            })
+                    //Se cierra la conexion de la base de datos
+                    conn.close()
+                    if (err) {
+                        res.status(500).send('Hubo un problema registrando el usuario ' + err)
+                        console.log("Este es el error", err)
+                    } else res.json({ data: 'Se creo el estudiante de manera satisfactoria!!!' })
+                })
         }
     })
 }
@@ -303,14 +310,14 @@ loginCtrl.usuarioDuplicado = (req, res) => {
 
     var query = `SELECT COUNT(*) AS duplicate from usuario where correo='${correo}' or celular='${celular}'`;
 
-    ibmdb.open(connStr, function(err, conn) {
+    ibmdb.open(connStr, function (err, conn) {
         if (err) return console.log(err);
 
-        conn.query(query, function(err, data) {
+        conn.query(query, function (err, data) {
 
             if (err) res.json({ error: err })
             else res.json(data)
-            conn.close(function() {
+            conn.close(function () {
                 console.log('termino de buscar');
             });
         });
@@ -322,14 +329,14 @@ loginCtrl.estudianteDuplicado = (req, res) => {
 
     var query = `SELECT COUNT(*) AS duplicate from estudiante and where codigo='${codigo}' `;
 
-    ibmdb.open(connStr, function(err, conn) {
+    ibmdb.open(connStr, function (err, conn) {
         if (err) return console.log(err);
 
-        conn.query(query, function(err, data) {
+        conn.query(query, function (err, data) {
 
             if (err) res.json({ error: err })
             else res.json(data)
-            conn.close(function() {
+            conn.close(function () {
                 console.log('termino de buscar');
             });
         });
@@ -343,7 +350,7 @@ loginCtrl.recoveryPassword = (req, res) => {
     query = `select password,recovery FROM usuario WHERE correo = '${recovery.correo}'`;
 
     ibmdb.open(connStr, (err, conn) => {
-        conn.query(query, function(err, data) {
+        conn.query(query, function (err, data) {
             if (err) { res.json({ error: err }) } else {
                 if (data.length === 0) {
                     console.log('no esta registrado ese correo', data);
@@ -358,11 +365,11 @@ loginCtrl.recoveryPassword = (req, res) => {
                     var hashedPassword = bcrypt.hashSync(recovery.password, 8);
                     query2 = `UPDATE usuario SET password='${hashedPassword}' WHERE correo = '${recovery.correo}'`;
 
-                    conn.query(query2, function(err, data) {
+                    conn.query(query2, function (err, data) {
                         if (err) { res.json({ error: err }) } else {
                             res.json({
                                 exito: true,
-                                mensaje: `se actualizo correctamente la contraseña para el usuario ${recovery.correo}`
+                                mensaje: `Se actualizo correctamente la contraseña para el usuario ${recovery.correo}`
                             })
                         }
                     });
@@ -370,7 +377,7 @@ loginCtrl.recoveryPassword = (req, res) => {
                 } else {
                     res.json({
                         exito: false,
-                        mensaje: `el correo o codigo de cambio de contraseña son incorrectos`
+                        mensaje: `El correo o codigo de cambio de contraseña son incorrectos`
                     })
                 }
             }
@@ -396,7 +403,7 @@ loginCtrl.recoveryCode = (req, res) => {
     query2 = `UPDATE usuario SET recovery = '${key}' WHERE correo='${correo}'`;
 
     ibmdb.open(connStr, (err, conn) => {
-        conn.query(query, function(err, data) {
+        conn.query(query, function (err, data) {
             if (err) { res.json({ error: err }) } else {
                 if (data.length === 0) {
                     console.log('no esta registrado ese correo', data);
@@ -407,7 +414,7 @@ loginCtrl.recoveryCode = (req, res) => {
                 } else {
                     console.log('se encontro este usuario', data[0].NOMBRE);
                     nombre = data[0].NOMBRE;
-                    conn.query(query2, function(err, data) {
+                    conn.query(query2, function (err, data) {
                         if (err) {
                             res.json({ error: err });
                         } else {
@@ -416,12 +423,12 @@ loginCtrl.recoveryCode = (req, res) => {
                                 from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
                                 to: `${correo}`, // lista de los destinatarios del 
                                 subject: 'CODIGO PARA RECUPERAR CONTRASEÑA PLATAFORMA DRSU', // Línea del asunto 
-                                html: `<h1>solicitud cambio de contraseña</h1>
+                                html: `<h1>Solicitud cambio de contraseña</h1>
                                     <p>Hola ${nombre} tu codigo para poder cambiar la contraseña es <b>${key}</b></p>
-                                    <p>si no solicitaste este codigo , hacer caso omiso a este mensaje.</p>` // cuerpo de texto sin formato 
+                                    <p>Si no solicitaste este codigo , haz caso omiso a este mensaje.</p>` // cuerpo de texto sin formato 
                             };
 
-                            transporter.sendMail(mailOptions, function(err, info) {
+                            transporter.sendMail(mailOptions, function (err, info) {
                                 if (err) {
                                     console.log(err)
 

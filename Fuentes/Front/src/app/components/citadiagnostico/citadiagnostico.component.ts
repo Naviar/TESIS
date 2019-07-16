@@ -81,7 +81,11 @@ export class CitadiagnosticoComponent implements OnInit {
         ()=>{this.calendario();})
   }
 
-  calendario() {
+   delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
+  async calendario() {
     cargando = true;
     let cal = this.calendarComponent.getApi();
     cal.removeAllEvents();
@@ -94,9 +98,10 @@ export class CitadiagnosticoComponent implements OnInit {
       this.vez = 1;
     }
     for (let disponibilidad of this.disponibilidades) {
+      await this.delay(200);
       this.agendarCitaService.disponibilidadesLibres(disponibilidad)
         .subscribe(res => {
-
+          console.log("Que es esta respuestaaaaaaaa",res); 
           this.agendarCitaService.horarioSelect = res as Horario;
           if (this.agendarCitaService.horarioSelect[0] == undefined) {
             this.agendarCitaService.disponibilidadesOcupadas(disponibilidad)

@@ -15,3 +15,7 @@ SELECT * FROM horario WHERE id_horario=2 AND NOT EXISTS (SELECT id_disponibilida
 UPDATE usuario SET activo=true WHERE id_usuario=3
 
 SELECT h.*, t.nombre_tipo_asesoria FROM horario AS h INNER JOIN tipo_asesoria AS t ON h.tipo_asesoria_id_tipo_asesoria = t.id_tipo_asesoria WHERE h.id_horario='${id}' AND t.activo = '${true}' AND NOT EXISTS (SELECT id_disponibilidad FROM disponibilidad WHERE disponibilidad.horario_id_horario = h.id_horario AND disponibilidad.fecha = '${fecha}');
+
+UPDATE usuario SET fecha = CURRENT_DATE WHERE id_usuario = 7;
+
+SELECT * FROM usuario WHERE rol_id_rol = 3 AND fecha >= CURRENT_DATE - 1 YEAR;

@@ -71,18 +71,17 @@ INSERT INTO Jornada VALUES (2,'Nocturna');
 SELECT * FROM Jornada;
 
 --Para tabla Usuario 
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('Lider','Liderra','lider@usantotomas.edu.co','3111111111','$2a$08$QD7oP90fF4U2tg5GfPJ8semQcuOFsJl0dMCa4zSdUF0l4grrDyYxC','1',1);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('Asesor','Asesorra','asesor@usantotomas.edu.co','3222222222','$2a$08$R4ZR/7V4OWJPNZLzS7ElgOrodLRU8zl4WE.VFD3epi0MZlnEv6Z9C','1',2);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('Estudiante','Estudianterra','estudiante@usantotomas.edu.co','3333333333','$2a$08$/u57dkyDMFIq8bU9M3zP5ek6P/QSr92uVw30FAwA9YTpS2OAs9swC','1',3);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('Thomas','Herrera','thomasherrera@usantotomas.edu.co','3202135913','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('EtapaCero','Herrera','etapacero@usantotomas.edu.co','3000000000','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('EtapaUno','Herrera','etapauno@usantotomas.edu.co','3000000001','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('EtapaDos','Herrera','etapados@usantotomas.edu.co','3000000002','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('EtapaTres','Herrera','etapatres@usantotomas.edu.co','3000000003','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('EtapaCuatro','Herrera','etapacuatro@usantotomas.edu.co','3000000004','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('EtapaCinco','Herrera','etapacinco@usantotomas.edu.co','3000000005','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
-INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol) VALUES ('EtapaSeis','Herrera','etapaseis@usantotomas.edu.co','3000000006','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3);
-
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('Lider','Liderra','lider@usantotomas.edu.co','3111111111','$2a$08$QD7oP90fF4U2tg5GfPJ8semQcuOFsJl0dMCa4zSdUF0l4grrDyYxC','1',1, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('Asesor','Asesorra','asesor@usantotomas.edu.co','3222222222','$2a$08$R4ZR/7V4OWJPNZLzS7ElgOrodLRU8zl4WE.VFD3epi0MZlnEv6Z9C','1',2, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('Estudiante','Estudianterra','estudiante@usantotomas.edu.co','3333333333','$2a$08$/u57dkyDMFIq8bU9M3zP5ek6P/QSr92uVw30FAwA9YTpS2OAs9swC','1',3, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('Thomas','Herrera','thomasherrera@usantotomas.edu.co','3202135913','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('EtapaCero','Herrera','etapacero@usantotomas.edu.co','3000000000','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('EtapaUno','Herrera','etapauno@usantotomas.edu.co','3000000001','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('EtapaDos','Herrera','etapados@usantotomas.edu.co','3000000002','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('EtapaTres','Herrera','etapatres@usantotomas.edu.co','3000000003','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('EtapaCuatro','Herrera','etapacuatro@usantotomas.edu.co','3000000004','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('EtapaCinco','Herrera','etapacinco@usantotomas.edu.co','3000000005','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3, '2019-07-05');
+INSERT INTO Usuario (Nombre, Apellido, Correo, Celular, Password, Activo, Rol_id_rol, Fecha) VALUES ('EtapaSeis','Herrera','etapaseis@usantotomas.edu.co','3000000006','$2a$08$dFdVmaDuaN2WhnzpQ1hJ1eAq.T0wGvQOONwG9MoGnrQN/waA5FFMy','1',3, '2019-07-05');
 SELECT * FROM Usuario;
 
 --Para tabla Asesor
