@@ -1,0 +1,100 @@
+<app-nav-bar></app-nav-bar>
+<br>
+
+<div class="text-center">
+  <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+    style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<body>
+  <div class="container separador">
+    <div class="row justify-content-center">
+      <div class="card" style="width: 700px">
+        <div class="card-body">
+          <h2 class="row justify-content-center">Seguimiento a estudiantes</h2>
+          <br>
+          <form *ngIf="selectEstudiante.value!=0">
+            <div class="row">
+              <div class="col">
+                <label><Strong><label id="lbl">*</label>Nombre del estudiante</Strong>
+                </label>
+                <input class="form-control" id="input" type="text" name="NOMBRE" #name="ngModel"
+                  [(ngModel)]="diagnosticoService.estudiantesFilter.NOMBRE" disabled>
+              </div>
+              <div class="col">
+                <label><Strong><label id="lbl">*</label>Apellido del estudiante</Strong>
+                </label>
+                <input class="form-control" id="input" type="text" name="APELLIDO" #name="ngModel"
+                  [(ngModel)]="diagnosticoService.estudiantesFilter.APELLIDO" disabled>
+              </div>
+            </div>
+            <br>
+            <div class="row col-12">
+              <label><Strong><label id="lbl">*</label>Facultad del estudiante</Strong>
+              </label>
+              <input class="form-control" id="input" type="text" name="FACULTAD"
+                value={{this.nombreFacultad(diagnosticoService.estudiantesFilter.FACULTAD_ID_FACULTAD)}} disabled>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col">
+                <label><Strong><label id="lbl">*</label>Semestre del estudiante</Strong>
+                </label>
+                <input class="form-control" id="input" type="text" name="SEMESTRE" #name="ngModel"
+                  [(ngModel)]="diagnosticoService.estudiantesFilter.SEMESTRE" disabled>
+              </div>
+              <div class="col">
+                <label><Strong><label id="lbl">*</label>Jornada del estudiante</Strong>
+                </label>
+                <input class="form-control" id="input" type="text" name="JORNADA"
+                  value={{this.nombreJornada(diagnosticoService.estudiantesFilter.JORNADA_ID_JORNADA)}} disabled>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col">
+                <label><Strong><label id="lbl">*</label>Correo del estudiante</Strong>
+                </label>
+                <input class="form-control" id="input" type="text" name="CORREO" #name="ngModel"
+                  [(ngModel)]="diagnosticoService.estudiantesFilter.CORREO" disabled>
+              </div>
+              <div class="col">
+                <label><Strong><label id="lbl">*</label>Celular del estudiante</Strong>
+                </label>
+                <input class="form-control" id="input" type="text" name="CELULAR" #name="ngModel"
+                  [(ngModel)]="diagnosticoService.estudiantesFilter.CELULAR" disabled>
+              </div>
+            </div>
+          </form>
+          <br>
+          <form [formGroup]="seguimientoForm" novalidate>
+            <div class="form-label-group">
+              <label><Strong><label id="lbl">*</label>Estudiante</Strong>
+              </label>
+              <select id="select" class="form-control" name="estudiante" formControlName="estudiante"
+                (change)="cambioEstudiante()" (click)="clickEstudiante()" #selectEstudiante>
+                <option value="" disabled>Seleccione un estudiante</option>
+                <option *ngFor="let estudiante of seguimientoService.estudiantes" value={{estudiante.ID_ESTUDIANTE}}>
+                  {{estudiante.NOMBRE}} {{estudiante.APELLIDO}}
+                </option>
+              </select>
+              <div *ngIf="seguimientoForm.get('estudiante').errors" class="alert alert-danger">
+                <div *ngIf="seguimientoForm.get('estudiante').errors['required']">
+                  Estudiante requerido
+                </div>
+              </div>
+            </div>
+            <br>
+          </form>
+          <div class="form-label-group">
+            <button *ngIf="negocio==false" [disabled]="!seguimientoForm.valid" (click)="buscarFormato(seguimientoForm)"
+              class="btn btn-block" id="btnRegister" type="button">Buscar</button>
+            <button (click)="resetForm()" class="btn btn-block" id="btnBack" type="button">Limpiar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

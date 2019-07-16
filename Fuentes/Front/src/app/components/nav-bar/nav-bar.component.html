@@ -64,6 +64,12 @@
           <span class="sr-only"></span>
         </a>
       </li>
+      <li *ngIf="condition == 1 || condition == 2" class="nav-item active">
+          <a class="nav-link" id="nav-link" routerLink="/tracking">
+            <i class="fa fa-calendar-check-o"></i> Seguimiento
+            <span class="sr-only"></span>
+          </a>
+        </li>
       <li class="nav-item active">
         <a class="nav-link" id="nav-link" routerLink="/home">
           <i class="fa fa-phone-square"></i> Contacto

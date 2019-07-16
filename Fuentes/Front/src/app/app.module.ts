@@ -26,7 +26,8 @@ import { AsesoriaComponent } from './components/asesoria/asesoria.component';
 import { CitaasesoriaComponent } from './components/citaasesoria/citaasesoria.component';
 import { CitaspendientesComponent } from './components/citaspendientes/citaspendientes.component';
 import { AutenticarusuariosComponent } from './components/autenticarusuarios/autenticarusuarios.component';
-
+import { SeguimientoComponent } from './components/seguimiento/seguimiento.component';
+ 
 
 
 
@@ -45,7 +46,7 @@ import { AutenticarusuariosComponent } from './components/autenticarusuarios/aut
     CitadiagnosticoComponent, 
     CitaasesoriaComponent, 
     CitaspendientesComponent, 
-    AutenticarusuariosComponent   
+    AutenticarusuariosComponent, SeguimientoComponent   
   ],
   imports: [
     BrowserModule,

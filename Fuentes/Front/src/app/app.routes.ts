@@ -21,6 +21,7 @@ import { GuardScheduleDiagnostic } from './services/guard.schedule.diagnostic';
 import { GuardAdvisory } from './services/guard.advisory';
 import { GuardScheduleAdvice } from './services/guard.schedule.advice';
 import { GuardAuthenticateUsers } from './services/guard.authenticate.users';
+import { SeguimientoComponent } from './components/seguimiento/seguimiento.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
     { path: 'schedule/advice', component: CitaasesoriaComponent, canActivate:[GuardScheduleAdvice] },
     { path: 'pending/dates', component: CitaspendientesComponent, canActivate:[GuardService] },
     { path: 'authenticate/users', component: AutenticarusuariosComponent, canActivate:[GuardAuthenticateUsers] },
+    { path: 'tracking', component: SeguimientoComponent, canActivate:[GuardService] },
  
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
