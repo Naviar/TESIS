@@ -70,8 +70,8 @@ export class CitaspendientesComponent implements OnInit {
     this.getTipoReunion();
   }
 
-  getCitasPendientes() { 
-    cargando=true;
+  getCitasPendientes() {
+    cargando = true;
     if (this.rol == 1) {            //LIDER      
       this.citasPendientesService.getCitasLider(this.usuario_id)
         .subscribe(res => {
@@ -100,22 +100,33 @@ export class CitaspendientesComponent implements OnInit {
   calendario() {
     let cal = this.calendarComponent.getApi();
     // cal.removeAllEvents();    
-    for (let disponibilidad of this.disponibilidades) {      
-      this.citasPendientesService.getHorario(disponibilidad.HORARIO_ID_HORARIO)
-        .subscribe(res => {
-          this.agendarCitaService.horarioSelect = res as Horario;
-          if(this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION==1){            
-            cal.addEvent({ title: 'Cita ' + this.tiposReunion.find(reunion => reunion.ID_TIPO_REUNION == this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION).NOMBRE_TIPO_REUNION, start: disponibilidad.FECHA + "T" + this.agendarCitaService.horarioSelect[0].HORA_INICIO, id: disponibilidad.HORARIO_ID_HORARIO, backgroundColor: "RED" });
-          }
-          else if(this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION==2){
-            cal.addEvent({ title: 'Cita ' + this.tiposReunion.find(reunion => reunion.ID_TIPO_REUNION == this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION).NOMBRE_TIPO_REUNION, start: disponibilidad.FECHA + "T" + this.agendarCitaService.horarioSelect[0].HORA_INICIO, id: disponibilidad.HORARIO_ID_HORARIO, backgroundColor: "RED" });
-          }
-          if (disponibilidad == this.disponibilidades[this.disponibilidades.length - 1]) {
-            cargando = false;
-          }
-        })
+    if (this.disponibilidades.length < 1) {
+      M.toast({
+        html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+            <h4 class="alert-heading">NO TIENE CITAS</h4>
+            <p>El usuario no tiene citas pendientes actualmente</p>
+            <hr>
+        </div>`});
+      cargando = false;
     }
-    cargando = false;
+    else {
+      for (let disponibilidad of this.disponibilidades) {
+        this.citasPendientesService.getHorario(disponibilidad.HORARIO_ID_HORARIO)
+          .subscribe(res => {
+            this.agendarCitaService.horarioSelect = res as Horario;
+            if (this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION == 1) {
+              cal.addEvent({ title: 'Cita ' + this.tiposReunion.find(reunion => reunion.ID_TIPO_REUNION == this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION).NOMBRE_TIPO_REUNION, start: disponibilidad.FECHA + "T" + this.agendarCitaService.horarioSelect[0].HORA_INICIO, id: disponibilidad.HORARIO_ID_HORARIO, backgroundColor: "RED" });
+            }
+            else if (this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION == 2) {
+              cal.addEvent({ title: 'Cita ' + this.tiposReunion.find(reunion => reunion.ID_TIPO_REUNION == this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION).NOMBRE_TIPO_REUNION, start: disponibilidad.FECHA + "T" + this.agendarCitaService.horarioSelect[0].HORA_INICIO, id: disponibilidad.HORARIO_ID_HORARIO, backgroundColor: "RED" });
+            }
+            if (disponibilidad == this.disponibilidades[this.disponibilidades.length - 1]) {
+              cargando = false;
+            }
+          })
+      }
+      cargando = false;
+    }
   }
 
   evento(info) {
@@ -130,10 +141,10 @@ export class CitaspendientesComponent implements OnInit {
         this.fecha = info.event.start;
         this.fecha2 = this.datePipe.transform(this.fecha, 'yyyy-MM-dd');
         this.horario_id = info.event.id;
-        if(this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION==1){            
+        if (this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION == 1) {
           this.titulo = "Diagnostico";
-        } 
-        else if(this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION==2){
+        }
+        else if (this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION == 2) {
           this.titulo = this.tiposAsesoria.find(asesoria => asesoria.ID_TIPO_ASESORIA == this.agendarCitaService.horarioSelect[0].TIPO_ASESORIA_ID_TIPO_ASESORIA).NOMBRE_TIPO_ASESORIA;
         }
         cargando = false;
@@ -168,7 +179,7 @@ export class CitaspendientesComponent implements OnInit {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
     this.usuario_id = parseInt(tokenPayload.id_usuario);
-    this.estudiante_id = parseInt(tokenPayload.id_estudiante);    
+    this.estudiante_id = parseInt(tokenPayload.id_estudiante);
     this.rol = parseInt(tokenPayload.rol_usuario);
   }
   yaCargo() {

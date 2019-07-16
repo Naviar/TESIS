@@ -96,7 +96,7 @@ export class CitaasesoriaComponent implements OnInit {
       this.vez = 1;
     }
     for (let disponibilidad of this.disponibilidades) {
-      await this.delay(200);
+      await this.delay(500);
       this.agendarCitaService.asesoriasLibres(disponibilidad)
         .subscribe(res => {
           this.agendarCitaService.horarioSelect = res as Horario;

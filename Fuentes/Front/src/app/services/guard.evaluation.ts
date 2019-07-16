@@ -35,7 +35,7 @@ export class GuardEvaluation {
      {        
         this.rta=  this.getValidRol();
         return this.rta;
-     }
+     } 
      
    }
  
@@ -54,7 +54,7 @@ export class GuardEvaluation {
              this.etapa = res as etapa;            
              console.log('la respuesta de getetap WTFa', this.etapa.ETAPA);
              if (this.etapa.ETAPA==2 || this.etapa.ETAPA==5){
-                 this.temp = true;
+                 this.temp = true;                 
              }
              else
              {
