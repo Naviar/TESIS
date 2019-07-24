@@ -88,7 +88,7 @@ seguimientoCtrl.getEstudiantes = (req, res) => {
     let id_asesoria = parseInt(req.params.id_asesoria);
     ibmdb.open(connStr, (err, conn) => {
   
-      conn.query(`SELECT * FROM formato_diagnostico WHERE id_formato_diagnostico = '${id_asesoria}'`, (err, data) => {
+      conn.query(`SELECT * FROM formato_asesoria WHERE id_formato_asesoria = '${id_asesoria}'`, (err, data) => {
   
         if (err) {
           res.json({ error: err })
@@ -131,7 +131,7 @@ seguimientoCtrl.getEstudiantes = (req, res) => {
     let id_evaluacion = parseInt(req.params.id_evaluacion);
     ibmdb.open(connStr, (err, conn) => {
   
-      conn.query(`SELECT * FROM formato_diagnostico WHERE id_formato_diagnostico = '${id_evaluacion}'`, (err, data) => {
+      conn.query(`SELECT * FROM formato_evaluacion WHERE id_formato_evaluacion = '${id_evaluacion}'`, (err, data) => {
   
         if (err) {
           res.json({ error: err })

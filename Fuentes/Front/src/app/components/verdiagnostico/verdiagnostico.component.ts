@@ -27,8 +27,7 @@ export class VerdiagnosticoComponent implements OnInit {
   asesoria: string;
 
   constructor(private router: Router, public seguimientoService: SeguimientoService, public diagnosticoService: DiagnosticoService) {
-    this.ruta = this.router.url.split('/');
-    console.log("formatooooo", this.ruta[3]);
+    this.ruta = this.router.url.split('/');    
     this.seguimientoService.selected_diagnostico[0] = {
       ID_FORMATO_DIAGNOSTICO: "",
       ETAPA_ID_ETAPA: 0,
@@ -56,14 +55,13 @@ export class VerdiagnosticoComponent implements OnInit {
     this.getEtapas();
     this.getSectores();
     this.getAsesorias();
-    this.getDiagnostico();
+    
   }
   getDiagnostico() {
     cargando = true;
     this.seguimientoService.getDiagnostico(parseInt(this.ruta[3]))
       .subscribe(res => {
-        this.seguimientoService.selected_diagnostico = res as Diagnostico;
-        console.log("Etapas",this.seguimientoService.selected_diagnostico[0]);
+        this.seguimientoService.selected_diagnostico = res as Diagnostico;          
         this.estudiante = this.seguimientoService.estudiantes.find(estudiante => estudiante.ID_ESTUDIANTE == this.seguimientoService.selected_diagnostico[0].ESTUDIANTE_ID_ESTUDIANTE).NOMBRE + " " + this.seguimientoService.estudiantes.find(estudiante => estudiante.ID_ESTUDIANTE == this.seguimientoService.selected_diagnostico[0].ESTUDIANTE_ID_ESTUDIANTE).APELLIDO;
         this.etapa = this.diagnosticoService.etapas.find(etapa => etapa.ID_ETAPA == this.seguimientoService.selected_diagnostico[0].ETAPA_ID_ETAPA).NOMBRE_ETAPA;
         this.sector = this.diagnosticoService.sectores.find(sector => sector.ID_SECTOR == this.seguimientoService.selected_diagnostico[0].SECTOR_ID_SECTOR).NOMBRE_SECTOR;
@@ -118,6 +116,7 @@ export class VerdiagnosticoComponent implements OnInit {
       .subscribe(res => {
         this.diagnosticoService.asesorias = res as asesoria[];
         cargando = false;
+        this.getDiagnostico();
       })
   }
   yaCargo() {

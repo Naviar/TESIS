@@ -1,10 +1,12 @@
 <app-nav-bar></app-nav-bar>
 <br>
-<div  class="text-center">
-        <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
+<div class="text-center">
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+        style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
 <body>
     <div class="container separador">
         <div class="row justify-content-center">
@@ -12,9 +14,11 @@
                 <div class="card-body">
                     <h2 class="row justify-content-center">Formato evaluacion</h2>
                     <hr>
-                    <p>"Apreciado usuario del CSE, con el propósito de evaluar la calidad y pertinencia de los servicios prestados por la Universidad Santo Tomás, le agradecemos diligenciar este formato teniendo en cuenta la siguiente escala de valoración:
+                    <p>"Apreciado usuario del CSE, con el propósito de evaluar la calidad y pertinencia de los servicios
+                        prestados por la Universidad Santo Tomás, le agradecemos diligenciar este formato teniendo en
+                        cuenta la siguiente escala de valoración:
                         <strong>4. Excelente, 3. Bueno, 2. Regular, 1.
-              Deficiente.</strong>"
+                            Deficiente.</strong>"
                     </p>
                     <hr>
                     <h5 class="row justify-content-center">EVALUACIÓN GENERAL</h5>
@@ -24,21 +28,16 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="ejemplo">A nivel general ¿Cómo evalúa el servicio del Consultorio Social
-                    Empresarial?*</label>
+                                        Empresarial?*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('eval_general_q1').errors , 'completo': ! evaluacionForm.get('eval_general_q1').errors}  " min="1" max="4" (keypress)="keyPress($event);" (keypress)="keyPress($event);" type="number" class="form-control"
-                                        name="eval_general_q1" placeholder="1 a 4" required formControlName="eval_general_q1">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('eval_general_q1').errors , 'completo': ! evaluacionForm.get('eval_general_q1').errors}  "
+                                        min="1" max="4" (keypress)="keyPress($event);" (keypress)="keyPress($event);"
+                                        type="number" class="form-control" name="eval_general_q1" placeholder="1 a 4"
+                                        required formControlName="eval_general_q1">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('eval_general_q1').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('eval_general_q1').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('eval_general_q1').errors['min'] || evaluacionForm.get('eval_general_q1').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
@@ -47,18 +46,13 @@
                                     <label for="ejemplo">¿Que tan útil fue el servicio tomado?*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('eval_general_q2').errors , 'completo': ! evaluacionForm.get('eval_general_q2').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="eval_general_q2" placeholder="1 a 4"
-                                        required formControlName="eval_general_q2">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('eval_general_q2').errors , 'completo': ! evaluacionForm.get('eval_general_q2').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="eval_general_q2" placeholder="1 a 4" required
+                                        formControlName="eval_general_q2">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('eval_general_q2').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('eval_general_q2').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('eval_general_q2').errors['min'] || evaluacionForm.get('eval_general_q2').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
@@ -67,18 +61,13 @@
                                     <label for="ejemplo">Aporte del CSE en su proyecto social y/o empresarial*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('eval_general_q3').errors , 'completo': ! evaluacionForm.get('eval_general_q3').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="eval_general_q3" placeholder="1 a 4"
-                                        required formControlName="eval_general_q3">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('eval_general_q3').errors , 'completo': ! evaluacionForm.get('eval_general_q3').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="eval_general_q3" placeholder="1 a 4" required
+                                        formControlName="eval_general_q3">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('eval_general_q3').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('eval_general_q3').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('eval_general_q3').errors['min'] || evaluacionForm.get('eval_general_q3').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
@@ -87,18 +76,13 @@
                                     <label for="ejemplo">¿Cómo evalúa la divulgación y promoción del servicio?*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('eval_general_q4').errors , 'completo': ! evaluacionForm.get('eval_general_q4').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="eval_general_q4" placeholder="1 a 4"
-                                        required formControlName="eval_general_q4">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('eval_general_q4').errors , 'completo': ! evaluacionForm.get('eval_general_q4').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="eval_general_q4" placeholder="1 a 4" required
+                                        formControlName="eval_general_q4">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('eval_general_q4').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('eval_general_q4').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('eval_general_q4').errors['min'] || evaluacionForm.get('eval_general_q4').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <h5 class="row justify-content-center">PERSONAL RESPONSABLE</h5>
@@ -106,21 +90,17 @@
                         <div class="form-label-group">
                             <div class="row">
                                 <div class="col">
-                                    <label for="ejemplo">Actitud y trato del profesional responsable del servicio*</label>
+                                    <label for="ejemplo">Actitud y trato del profesional responsable del
+                                        servicio*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q1').errors , 'completo': ! evaluacionForm.get('pers_responsable_q1').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="pers_responsable_q1"
-                                        placeholder="1 a 4" required formControlName="pers_responsable_q1">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q1').errors , 'completo': ! evaluacionForm.get('pers_responsable_q1').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="pers_responsable_q1" placeholder="1 a 4" required
+                                        formControlName="pers_responsable_q1">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('pers_responsable_q1').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q1').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q1').errors['min'] || evaluacionForm.get('pers_responsable_q1').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
@@ -129,18 +109,13 @@
                                     <label for="ejemplo">Manejo y conocimiento del tema*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q2').errors , 'completo': ! evaluacionForm.get('pers_responsable_q2').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="pers_responsable_q2"
-                                        placeholder="1 a 4" required formControlName="pers_responsable_q2">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q2').errors , 'completo': ! evaluacionForm.get('pers_responsable_q2').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="pers_responsable_q2" placeholder="1 a 4" required
+                                        formControlName="pers_responsable_q2">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('pers_responsable_q2').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q2').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q2').errors['min'] || evaluacionForm.get('pers_responsable_q2').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
@@ -149,18 +124,13 @@
                                     <label for="ejemplo">Apoyo y acompañamiento en el transcurso del servicio*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q3').errors , 'completo': ! evaluacionForm.get('pers_responsable_q3').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="pers_responsable_q3"
-                                        placeholder="1 a 4" required formControlName="pers_responsable_q3">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q3').errors , 'completo': ! evaluacionForm.get('pers_responsable_q3').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="pers_responsable_q3" placeholder="1 a 4" required
+                                        formControlName="pers_responsable_q3">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('pers_responsable_q3').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q3').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q3').errors['min'] || evaluacionForm.get('pers_responsable_q3').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
@@ -169,18 +139,13 @@
                                     <label for="ejemplo">Respuesta a las inquietudes y solicitudes*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q4').errors , 'completo': ! evaluacionForm.get('pers_responsable_q4').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="pers_responsable_q4"
-                                        placeholder="1 a 4" required formControlName="pers_responsable_q4">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q4').errors , 'completo': ! evaluacionForm.get('pers_responsable_q4').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="pers_responsable_q4" placeholder="1 a 4" required
+                                        formControlName="pers_responsable_q4">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('pers_responsable_q4').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q4').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q4').errors['min'] || evaluacionForm.get('pers_responsable_q4').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
@@ -189,18 +154,13 @@
                                     <label for="ejemplo">Metodología utilizada*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q5').errors , 'completo': ! evaluacionForm.get('pers_responsable_q5').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="pers_responsable_q5"
-                                        placeholder="1 a 4" required formControlName="pers_responsable_q5">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q5').errors , 'completo': ! evaluacionForm.get('pers_responsable_q5').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="pers_responsable_q5" placeholder="1 a 4" required
+                                        formControlName="pers_responsable_q5">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('pers_responsable_q5').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q5').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q5').errors['min'] || evaluacionForm.get('pers_responsable_q5').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
@@ -209,18 +169,13 @@
                                     <label for="ejemplo">Cumplimiento de horarios*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q6').errors , 'completo': ! evaluacionForm.get('pers_responsable_q6').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="pers_responsable_q6"
-                                        placeholder="1 a 4" required formControlName="pers_responsable_q6">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('pers_responsable_q6').errors , 'completo': ! evaluacionForm.get('pers_responsable_q6').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="pers_responsable_q6" placeholder="1 a 4" required
+                                        formControlName="pers_responsable_q6">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('pers_responsable_q6').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q6').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('pers_responsable_q6').errors['min'] || evaluacionForm.get('pers_responsable_q6').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <h5 class="row justify-content-center">INSTALACIONES Y EQUIPOS USADOS</h5>
                         <br>
@@ -230,31 +185,30 @@
                                     <label for="ejemplo">Calidad de las instalaciones*</label>
                                 </div>
                                 <div class="col">
-                                    <input [ngClass]="{'requerido': evaluacionForm.get('insta_equipos_q1').errors , 'completo': ! evaluacionForm.get('insta_equipos_q1').errors}  " type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="insta_equipos_q1" placeholder="1 a 4"
-                                        required formControlName="insta_equipos_q1">
+                                    <input
+                                        [ngClass]="{'requerido': evaluacionForm.get('insta_equipos_q1').errors , 'completo': ! evaluacionForm.get('insta_equipos_q1').errors}  "
+                                        type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="insta_equipos_q1" placeholder="1 a 4" required
+                                        formControlName="insta_equipos_q1">
                                 </div>
                             </div>
-                            <!-- <div *ngIf="evaluacionForm.get('insta_equipos_q1').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('insta_equipos_q1').errors['required']">
-                                    Calificacion requerida
-                                </div>
-                                <div *ngIf="evaluacionForm.get('insta_equipos_q1').errors['min'] || evaluacionForm.get('insta_equipos_q1').errors['max']">
-                                    Calificacion incorrecta, digite un numero entre 1 y 4
-                                </div>
-                            </div> -->
                         </div>
                         <br>
                         <div class="form-label-group">
                             <div class="row">
                                 <div class="col">
-                                    <label for="ejemplo">Equipos tecnológicos usados durante el servicio (si se usó)*</label>
+                                    <label for="ejemplo">Equipos tecnológicos usados durante el servicio (si se
+                                        usó)*</label>
                                 </div>
                                 <div class="col">
-                                    <input type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="insta_equipos_q2" placeholder="1 a 4" formControlName="insta_equipos_q2">
+                                    <input type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="insta_equipos_q2" placeholder="1 a 4"
+                                        formControlName="insta_equipos_q2">
                                 </div>
                             </div>
                             <div *ngIf="evaluacionForm.get('insta_equipos_q2').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('insta_equipos_q2').errors['min'] || evaluacionForm.get('insta_equipos_q2').errors['max']">
+                                <div
+                                    *ngIf="evaluacionForm.get('insta_equipos_q2').errors['min'] || evaluacionForm.get('insta_equipos_q2').errors['max']">
                                     Calificacion incorrecta, digite un numero entre 1 y 4
                                 </div>
                             </div>
@@ -266,11 +220,14 @@
                                     <label for="ejemplo">Calidad del material de apoyo (Si se usó)*</label>
                                 </div>
                                 <div class="col">
-                                    <input type="number" min="1" max="4" (keypress)="keyPress($event);" class="form-control" name="insta_equipos_q3" placeholder="1 a 4" formControlName="insta_equipos_q3">
+                                    <input type="number" min="1" max="4" (keypress)="keyPress($event);"
+                                        class="form-control" name="insta_equipos_q3" placeholder="1 a 4"
+                                        formControlName="insta_equipos_q3">
                                 </div>
                             </div>
                             <div *ngIf="evaluacionForm.get('insta_equipos_q3').errors" class="alert alert-danger">
-                                <div *ngIf="evaluacionForm.get('insta_equipos_q3').errors['min'] || evaluacionForm.get('insta_equipos_q3').errors['max']">
+                                <div
+                                    *ngIf="evaluacionForm.get('insta_equipos_q3').errors['min'] || evaluacionForm.get('insta_equipos_q3').errors['max']">
                                     Calificacion incorrecta, digite un numero entre 1 y 4
                                 </div>
                             </div>
@@ -278,61 +235,67 @@
                         <br>
                         <p>
                             <strong>
-                Deslice hacia la derecha en caso de que su respuesta sea afirmativa, en caso contrario deslice a la
-                izquierda.
-              </strong>
+                                Deslice hacia la derecha en caso de que su respuesta sea afirmativa, en caso contrario
+                                deslice a la
+                                izquierda.
+                            </strong>
                         </p>
                         <br>
                         <div class="form-label-group">
-                            <label for="ejemplo">¿Considera que el servicio prestado contribuyó al avance de su proyecto empresarial
-                y/o social?</label>
-                            <label class="switch">                
-                <input type="checkbox" formControlName="yesno_q1">
-                <span class="slider round">&nbsp; SI  NO</span>
-              </label>
+                            <label for="ejemplo">¿Considera que el servicio prestado contribuyó al avance de su proyecto
+                                empresarial
+                                y/o social?</label>
+                            <label class="switch">
+                                <input type="checkbox" formControlName="yesno_q1">
+                                <span class="slider round">&nbsp; SI NO</span>
+                            </label>
                         </div>
                         <br>
                         <div class="form-label-group">
                             <label for="ejemplo">¿Los servicios de la USTA para la comunidad ayudan a su crecimiento y
-                desarrollo?</label>
+                                desarrollo?</label>
                             <label class="switch">
-                <input type="checkbox" formControlName="yesno_q2">
-                <span class="slider round">&nbsp; SI   NO</span>
-              </label>
+                                <input type="checkbox" formControlName="yesno_q2">
+                                <span class="slider round">&nbsp; SI NO</span>
+                            </label>
                         </div>
                         <br>
                         <div class="form-label-group">
                             <label for="ejemplo">¿Se encuentra satisfecho (a) con el servicio recibido?</label>
                             <label class="switch">
-                <input type="checkbox" formControlName="yesno_q3">
-                <span class="slider round">&nbsp; SI   NO</span>
-              </label>
+                                <input type="checkbox" formControlName="yesno_q3">
+                                <span class="slider round">&nbsp; SI NO</span>
+                            </label>
                         </div>
                         <br>
                         <div class="form-label-group">
-                            <label for="ejemplo">¿El personal de la USTA responde de manera respetuosa a sus solicitudes?</label>
+                            <label for="ejemplo">¿El personal de la USTA responde de manera respetuosa a sus
+                                solicitudes?</label>
                             <label class="switch">
-                <input type="checkbox" formControlName="yesno_q4">
-                <span class="slider round">&nbsp; SI   NO</span>
-              </label>
+                                <input type="checkbox" formControlName="yesno_q4">
+                                <span class="slider round">&nbsp; SI NO</span>
+                            </label>
                         </div>
                         <br>
                         <div class="form-label-group">
                             <label for="ejemplo">¿Tomaría otro servicio brindado por la Universidad Santo Tomás?</label>
                             <label class="switch">
-                <input type="checkbox" formControlName="yesno_q5">
-                <span class="slider round">&nbsp; SI   NO</span>
-              </label>
+                                <input type="checkbox" formControlName="yesno_q5">
+                                <span class="slider round">&nbsp; SI NO</span>
+                            </label>
                         </div>
                         <br>
                         <div class="form-label-group">
                             <label for="ejemplo">Observaciones</label>
-                            <textarea type="text" class="text-area" name="observaciones" placeholder="Ingrese las observaciones" formControlName="observaciones" maxlength="199"></textarea>
+                            <textarea type="text" class="text-area" name="observaciones"
+                                placeholder="Ingrese las observaciones" formControlName="observaciones"
+                                maxlength="199"></textarea>
                         </div>
                     </form>
                     <br>
                     <div class="form-label-group">
-                        <button [disabled]="!evaluacionForm.valid" (click)="guardarEvaluacion(evaluacionForm)" class="btn btn-block" id="btnRegister" type="button">Guardar</button>
+                        <button [disabled]="!evaluacionForm.valid" (click)="guardarEvaluacion(evaluacionForm)"
+                            class="btn btn-block" id="btnRegister" type="button">Guardar</button>
                         <button (click)="resetForm()" class="btn btn-block" id="btnBack" type="button">Limpiar</button>
                     </div>
                 </div>

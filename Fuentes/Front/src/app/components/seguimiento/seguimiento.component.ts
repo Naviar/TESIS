@@ -46,9 +46,9 @@ export class SeguimientoComponent implements OnInit {
     this.seguimientoForm = this.fb.group({
       estudiante: ['', Validators.compose([Validators.required])],
       formato: ['', Validators.compose([Validators.required])],
-      selectedFormato: ['', Validators.compose([Validators.required])],
-      selectedFormato2: ['', Validators.compose([Validators.required])],
-      selectedFormato3: ['', Validators.compose([Validators.required])]
+      selectedFormato: ['', Validators.compose(null)],
+      selectedFormato2: ['', Validators.compose(null)],
+      selectedFormato3: ['', Validators.compose(null)]
     });
   }
   getEstudiantes() {
@@ -92,7 +92,7 @@ export class SeguimientoComponent implements OnInit {
   }
   buscarFormato(form?: NgForm){
     console.log("FORMATO", form.value);
-    if(form.value.formato==1){          
+    if(form.value.formato==1){         
       this.ruta = "see/diagnostic/" + form.value.selectedFormato;      
       this.router.navigate([this.ruta]);
     }
@@ -108,7 +108,11 @@ export class SeguimientoComponent implements OnInit {
   
   cambioFormato(tipo_formato:number, id_estudiante:number){
     cargando=true;
+    const formato1 = this.seguimientoForm.get('selectedFormato');
+    const formato2 = this.seguimientoForm.get('selectedFormato2');
+    const formato3 = this.seguimientoForm.get('selectedFormato3');
     if(tipo_formato == 1){
+      formato1.setValidators([Validators.required]);      
       this.seguimientoService.getDiagnosticos(id_estudiante)
       .subscribe(res=>{
         this.seguimientoService.diagnosticos = res as Diagnostico[];
@@ -116,13 +120,15 @@ export class SeguimientoComponent implements OnInit {
       })
     }
     else if(tipo_formato == 2){
+      formato2.setValidators([Validators.required]);
       this.seguimientoService.getAsesorias(id_estudiante)
       .subscribe(res=>{
         this.seguimientoService.asesorias = res as asesoriaFormato[];        
         cargando=false;
       })
     }
-    else if(tipo_formato == 3){
+    else if(tipo_formato == 3){      
+      formato3.setValidators([Validators.required]);
       this.seguimientoService.getEvaluaciones(id_estudiante)
       .subscribe(res=>{
         this.seguimientoService.evaluaciones = res as Evaluacion[];

@@ -33,6 +33,28 @@ export class SeguimientoService {
     FECHA: "",
     ESTUDIANTE_ID_ESTUDIANTE: 0
   };
+  selected_evaluacion: Evaluacion = {
+    EVAL_GENERAL_Q1: "",
+    EVAL_GENERAL_Q2: "",
+    EVAL_GENERAL_Q3: "",
+    EVAL_GENERAL_Q4: "",
+    PERS_RESPONSABLE_Q1: "",
+    PERS_RESPONSABLE_Q2: "",
+    PERS_RESPONSABLE_Q3: "",
+    PERS_RESPONSABLE_Q4: "",
+    PERS_RESPONSABLE_Q5: "",
+    PERS_RESPONSABLE_Q6: "",
+    INSTA_EQUIPOS_Q1: "",
+    INSTA_EQUIPOS_Q2: "",
+    INSTA_EQUIPOS_Q3: "",
+    YESNO_Q1: "",
+    YESNO_Q2: "",
+    YESNO_Q3: "",
+    YESNO_Q4: "",
+    YESNO_Q5: "",
+    OBSERVACIONES: "",
+    FECHA: ""
+  };
   readonly URL_API = 'http://localhost:3500/seguimiento';  
 
   constructor(public http: HttpClient) { 
