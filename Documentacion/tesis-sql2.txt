@@ -85,6 +85,7 @@ CREATE TABLE Formato_evaluacion (
   Yesno_q4 BOOLEAN NOT NULL,
   Yesno_q5 BOOLEAN NOT NULL,
   Observaciones VARCHAR(200) NULL,
+  Fecha TIMESTAMP NOT NULL,
   PRIMARY KEY (Id_formato_evaluacion))
 ;
 
@@ -302,12 +303,13 @@ CREATE TABLE Horario_has_asesor (
 -- -----------------------------------------------------
 CREATE TABLE Formato_asesoria (
   Id_formato_asesoria INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-  Requerimiento VARCHAR(45) NOT NULL,
-  Descripcion VARCHAR(45) NOT NULL,
-  Resultado VARCHAR(45) NOT NULL,
+  Requerimiento VARCHAR(100) NOT NULL,
+  Descripcion VARCHAR(200) NOT NULL,
+  Resultado VARCHAR(100) NOT NULL,
   Formato_evaluacion_id_formato_evaluacion SMALLINT NULL,
   Tipo_asesoria_id_tipo_asesoria SMALLINT NULL,
   Tipo_asesoria_actual SMALLINT NOT NULL,
+  Fecha TIMESTAMP NOT NULL,
   PRIMARY KEY (Id_formato_asesoria),
   CONSTRAINT fk_formato_asesoria_formato_evaluacion1
     FOREIGN KEY (Formato_evaluacion_id_formato_evaluacion)
@@ -327,9 +329,9 @@ CREATE TABLE Formato_asesoria (
 -- -----------------------------------------------------
 CREATE TABLE Compromiso (
   Id_compromiso INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
-  Actividad VARCHAR(45) NOT NULL,
+  Actividad VARCHAR(100) NOT NULL,
   Fecha DATE NOT NULL,
-  Observacion VARCHAR(45) NULL,
+  Observacion VARCHAR(200) NULL,
   Id_usuario INT NOT NULL,
   Formato_asesoria_id_formato_asesoria INT NOT NULL,
   PRIMARY KEY (Id_compromiso),

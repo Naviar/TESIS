@@ -36,12 +36,12 @@ evaluacionCtrl.crearEvaluacion = (req, res) => {
     var query = `INSERT INTO formato_evaluacion (eval_general_q1, eval_general_q2, eval_general_q3, eval_general_q4, 
             pers_responsable_q1, pers_responsable_q2, pers_responsable_q3, pers_responsable_q4, pers_responsable_q5, pers_responsable_q6,
             insta_equipos_q1, insta_equipos_q2, insta_equipos_q3,
-            yesno_q1, yesno_q2, yesno_q3, yesno_q4, yesno_q5, observaciones)
+            yesno_q1, yesno_q2, yesno_q3, yesno_q4, yesno_q5, observaciones, fecha)
 
     VALUES ('${eval_general_q1}','${eval_general_q2}','${eval_general_q3}','${eval_general_q4}',
     '${pers_responsable_q1}','${pers_responsable_q2}','${pers_responsable_q3}','${pers_responsable_q4}','${pers_responsable_q5}','${pers_responsable_q6}',
     '${insta_equipos_q1}', '${insta_equipos_q2}','${insta_equipos_q3}',
-    '${yesno_q1}', '${yesno_q2}', '${yesno_q3}', '${yesno_q4}', '${yesno_q5}', '${observaciones}')`;
+    '${yesno_q1}', '${yesno_q2}', '${yesno_q3}', '${yesno_q4}', '${yesno_q5}', '${observaciones}', CURRENT_TIMESTAMP - 5 HOUR)`;
 
 
     ibmdb.open(connStr, function(err, conn) {

@@ -27,6 +27,9 @@ import { CitaasesoriaComponent } from './components/citaasesoria/citaasesoria.co
 import { CitaspendientesComponent } from './components/citaspendientes/citaspendientes.component';
 import { AutenticarusuariosComponent } from './components/autenticarusuarios/autenticarusuarios.component';
 import { SeguimientoComponent } from './components/seguimiento/seguimiento.component';
+import { VerdiagnosticoComponent } from './components/verdiagnostico/verdiagnostico.component';
+import { VerasesoriaComponent } from './components/verasesoria/verasesoria.component';
+import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
  
 
 
@@ -46,7 +49,7 @@ import { SeguimientoComponent } from './components/seguimiento/seguimiento.compo
     CitadiagnosticoComponent, 
     CitaasesoriaComponent, 
     CitaspendientesComponent, 
-    AutenticarusuariosComponent, SeguimientoComponent   
+    AutenticarusuariosComponent, SeguimientoComponent, VerdiagnosticoComponent, VerasesoriaComponent, VerevaluacionComponent   
   ],
   imports: [
     BrowserModule,

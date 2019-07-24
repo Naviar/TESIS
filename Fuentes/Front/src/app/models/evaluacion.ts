@@ -18,4 +18,5 @@ export interface Evaluacion{
     YESNO_Q4: string;
     YESNO_Q5: string;
     OBSERVACIONES: string;
+    FECHA: string;
 }

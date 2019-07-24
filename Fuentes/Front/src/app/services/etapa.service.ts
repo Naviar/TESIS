@@ -13,7 +13,7 @@ export class EtapaService {
     
   }
   getEtapa(id_estudiante:number){    
-    return this.http.get(this.URL_API+"/getEtapa"+ `/${id_estudiante}`);
+    return this.http.get(this.URL_API+"/getEtapa" + `/${id_estudiante}`);
   }
   putEtapa(id_estudiante:number, etapa:number){    
     console.log("ETAPALLL",etapa); 

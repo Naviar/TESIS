@@ -96,14 +96,14 @@ asesoriaCtrl.postFormAsesoria = (req, res) => {
     var query = '';
     if (TIPO_ASESORIA_ID_TIPO_ASESORIA == '0') {
 
-        query = `INSERT INTO formato_asesoria (requerimiento, descripcion, resultado, tipo_asesoria_actual)
+        query = `INSERT INTO formato_asesoria (requerimiento, descripcion, resultado, tipo_asesoria_actual, fecha)
    
-       VALUES ('${REQUERIMIENTO}','${DESCRIPCION}','${RESULTADO}','${TIPO_ASESORIA_ACTUAL}')`;
+       VALUES ('${REQUERIMIENTO}','${DESCRIPCION}','${RESULTADO}','${TIPO_ASESORIA_ACTUAL}', CURRENT_TIMESTAMP - 5 HOUR)`;
 
     } else {
-        query = `INSERT INTO formato_asesoria (requerimiento, descripcion, resultado, tipo_asesoria_actual , tipo_asesoria_id_tipo_asesoria)
+        query = `INSERT INTO formato_asesoria (requerimiento, descripcion, resultado, tipo_asesoria_actual , tipo_asesoria_id_tipo_asesoria, fecha)
    
-       VALUES ('${REQUERIMIENTO}','${DESCRIPCION}','${RESULTADO}','${TIPO_ASESORIA_ACTUAL}','${TIPO_ASESORIA_ID_TIPO_ASESORIA}')`;
+       VALUES ('${REQUERIMIENTO}','${DESCRIPCION}','${RESULTADO}','${TIPO_ASESORIA_ACTUAL}','${TIPO_ASESORIA_ID_TIPO_ASESORIA}', CURRENT_TIMESTAMP - 5 HOUR)`;
     }
 
 

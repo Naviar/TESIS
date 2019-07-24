@@ -12,6 +12,7 @@ import decode from 'jwt-decode';
 import { EtapaService } from '../../services/etapa.service';
 
 declare var M: any;
+let cargando = false;
 
 @Component({ 
   selector: 'app-asesoria',
@@ -28,6 +29,7 @@ export class AsesoriaComponent implements OnInit {
     DESCRIPCION: '',
     RESULTADO: '',
     TIPO_ASESORIA_ACTUAL: undefined,
+    FECHA: ''
   };
 
   compromiso: compromiso = {
@@ -116,7 +118,7 @@ export class AsesoriaComponent implements OnInit {
     this.formato.TIPO_ASESORIA_ID_TIPO_ASESORIA = form.value.asesoria_requerida;
 
     console.log('formato', this.formato);
-
+    cargando=true;
     this.asesoriaService.postfFormatoAsesoria(this.formato)
       .subscribe(
         (res) => {
@@ -146,7 +148,6 @@ export class AsesoriaComponent implements OnInit {
                         <p>El formato asesoria ha sido creado satisfactoriamente</p>
                         <hr>
                     </div>`}); },
-
               (err) => { console.log('error guardadno tabla intermedia', err); },
 
               () => {
@@ -155,7 +156,8 @@ export class AsesoriaComponent implements OnInit {
                       this.etapaService.putEtapa(form.value.estudiante, this.etapa)
                         .subscribe(res => {
                           console.log(res);
-                          
+                          cargando=false;
+                          this.resetForm();
                         });
 
                 if (this.asesoriaService.compromisos.length > 0) {
@@ -168,6 +170,8 @@ export class AsesoriaComponent implements OnInit {
                   )
                 }
               }
+              
+
             )
 
 
@@ -175,7 +179,10 @@ export class AsesoriaComponent implements OnInit {
         }
       )
   }
-
+  resetForm() {
+    this.asesoriaForm.reset();
+    this.compromisoForm.reset();
+  }
   addCompromiso(form: NgForm) {
 
 
@@ -247,5 +254,11 @@ export class AsesoriaComponent implements OnInit {
   nombreJornada(id_jornada: number) {
     return this.loginService.jornadas.find(jornada => jornada.ID_JORNADA == id_jornada).NOMBRE_JORNADA;
   }
-
+  yaCargo() {
+    if (cargando == false) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }
