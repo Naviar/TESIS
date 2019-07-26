@@ -11,6 +11,7 @@ router.get('/getAsesoria/:id_asesoria', seguimientoCtrl.getAsesoria);
 router.get('/getEvaluaciones/:id_estudiante', seguimientoCtrl.getEvaluaciones);
 router.get('/getEvaluacion/:id_evaluacion', seguimientoCtrl.getEvaluacion);
 router.get('/getNameAsesoria/:id_asesoria', seguimientoCtrl.getNameAsesoria);
+router.get('/getCompromisosAsesoria/:id_asesoria', seguimientoCtrl.getCompromisosAsesoria);
 
 
 

@@ -115,4 +115,8 @@ export class SeguimientoService {
     return this.http.get(this.URL_API+"/getNameAsesoria"+`/${id_asesoria}`);
   }
 
+  getCompromisosAsesoria(id_asesoria:number){
+    return this.http.get(this.URL_API+'/getCompromisosAsesoria'+`/${id_asesoria}`);
+  }
+
 }

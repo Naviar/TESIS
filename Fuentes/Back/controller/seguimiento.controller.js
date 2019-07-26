@@ -120,6 +120,28 @@ seguimientoCtrl.getNameAsesoria = (req, res) => {
         })
     })
 }
+
+seguimientoCtrl.getCompromisosAsesoria = (req, res) => {
+    const { id_asesoria } = req.params;
+    ibmdb.open(connStr, (err, conn) => {
+
+        if (err) res.sendStatus(500).json({ message: "error enla bd" });
+
+        conn.query(`SELECT c.actividad ,c.fecha, c.observacion , u.nombre , u.apellido , u.rol_id_rol FROM COMPROMISO AS c INNER JOIN usuario AS u ON c.id_usuario = u.id_usuario WHERE c.formato_asesoria_id_formato_asesoria = '${id_asesoria}'`, (err, data) => {
+
+            if (err) {
+                res.json({ error: err })
+                console.log("Hubo un error en la busqueda" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json(data)
+            }
+        })
+    })
+}
+
 seguimientoCtrl.getAsesoria = (req, res) => {
 
     let id_asesoria = parseInt(req.params.id_asesoria);
