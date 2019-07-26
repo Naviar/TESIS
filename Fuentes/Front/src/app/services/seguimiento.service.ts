@@ -4,12 +4,27 @@ import { Diagnostico} from '../models/diagnostico';
 import { estudiante } from '../models/estudiante';
 import { Evaluacion } from '../models/evaluacion';
 import { asesoriaFormato } from '../models/asesoriaFormato';
+import { asesoria } from '../models/asesoria';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SeguimientoService { 
   estudiantes: estudiante[];
+  estudianteAsesoria : estudiante = {
+    NOMBRE:"",
+    APELLIDO:"",
+    CORREO:"",
+    CELULAR:undefined,
+    CODIGO:undefined,
+    SEMESTRE:undefined,
+    USUARIO_ID_USUARIO:undefined,
+    FACULTAD_ID_FACULTAD : undefined,
+    JORNADA_ID_JORNADA :undefined,
+    ID_ESTUDIANTE:undefined,
+    FORMATO_DIAGNOSTICO_ID_DIAGNOSTICO:undefined,
+    ETAPA:undefined,
+  };
   diagnosticos: Diagnostico[];
   asesorias: asesoriaFormato[];
   evaluaciones: Evaluacion[];
@@ -55,6 +70,16 @@ export class SeguimientoService {
     OBSERVACIONES: "",
     FECHA: ""
   };
+
+  selected_asesoria : asesoriaFormato = {
+    REQUERIMIENTO : '',
+    DESCRIPCION : '',
+    RESULTADO : '',
+    TIPO_ASESORIA_ID_TIPO_ASESORIA: 0,
+    TIPO_ASESORIA_ACTUAL: 0,
+    FECHA: ''
+  };
+
   readonly URL_API = 'http://localhost:3500/seguimiento';  
 
   constructor(public http: HttpClient) { 
@@ -63,6 +88,10 @@ export class SeguimientoService {
   getEstudiantes(){
     return this.http.get(this.URL_API+"/getEstudiantes");
   } 
+
+  getEstudianteAsesoria(id_asesoria:number){
+    return this.http.get(this.URL_API+"/getEstudianteAsesoria/"+`${id_asesoria}`);
+  }
   getDiagnosticos(id_estudiante:number){
     return this.http.get(this.URL_API+"/getDiagnosticos" + `/${id_estudiante}`);
   }
@@ -81,5 +110,9 @@ export class SeguimientoService {
   getEvaluacion(id_evaluacion:number){
     return this.http.get(this.URL_API+"/getEvaluacion" + `/${id_evaluacion}`);
   } 
+
+  getNameAsesoria(id_asesoria :number){
+    return this.http.get(this.URL_API+"/getNameAsesoria"+`/${id_asesoria}`);
+  }
 
 }
