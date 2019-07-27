@@ -83,6 +83,7 @@ export class EvaluacionComponent implements OnInit {
                 this.etapaService.putEtapa(this.id_estudiante, this.etapa)
                   .subscribe(res => {
                     console.log(res);
+                    this.router.navigate(['home']);
                   });
               }
             )
@@ -91,7 +92,8 @@ export class EvaluacionComponent implements OnInit {
         if (this.etapa_estudiante === 5) {
           this.evaluacionService.actualizarEvaluacionAsesoria(data[0].ID_FORMATO_EVALUACION, this.id_estudiante)
             .subscribe(
-              (res) => { console.log('actualizo la evaluacion de la asesoria'); },
+              (res) => { console.log('actualizo la evaluacion de la asesoria'); 
+              this.router.navigate(['home']);},
               (err) => { console.log('error en el update de la asesoria eval'); },
               () => {
               // this.etapa = 6;
@@ -106,7 +108,7 @@ export class EvaluacionComponent implements OnInit {
       },
       (err)=>{
        console.log('error',err);},
-       () => {this.router.navigate(['home']);} 
+       
         
         );
   }
