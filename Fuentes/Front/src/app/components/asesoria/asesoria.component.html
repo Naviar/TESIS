@@ -1,11 +1,10 @@
 <app-nav-bar></app-nav-bar>
 <br>
 <div class="text-center">
-    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
-      style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
-      <span class="sr-only">Loading...</span>
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+        <span class="sr-only">Loading...</span>
     </div>
-  </div>
+</div>
 
 <body>
     <div class="container separador">
@@ -19,38 +18,31 @@
                             <div class="col">
                                 <label><Strong><label id="lbl">*</label>Nombre del estudiante</Strong>
                                 </label>
-                                <input class="form-control" id="input" type="text" name="NOMBRE" #name="ngModel"
-                                    [(ngModel)]="asesoriaService.estudiantesFilter.NOMBRE" disabled>
+                                <input class="form-control" id="input" type="text" name="NOMBRE" #name="ngModel" [(ngModel)]="asesoriaService.estudiantesFilter.NOMBRE" disabled>
                             </div>
                             <div class="col">
                                 <label><Strong><label id="lbl">*</label>Apellido del estudiante</Strong>
                                 </label>
-                                <input class="form-control" id="input" type="text" name="APELLIDO" #name="ngModel"
-                                    [(ngModel)]="asesoriaService.estudiantesFilter.APELLIDO" disabled>
+                                <input class="form-control" id="input" type="text" name="APELLIDO" #name="ngModel" [(ngModel)]="asesoriaService.estudiantesFilter.APELLIDO" disabled>
                             </div>
                         </div>
                         <br>
                         <div class="row col-12">
                             <label><Strong><label id="lbl">*</label>Facultad del estudiante</Strong>
                             </label>
-                            <input class="form-control" id="input" type="text" name="FACULTAD" 
-                                value={{this.nombreFacultad(asesoriaService.estudiantesFilter.FACULTAD_ID_FACULTAD)}}
-                                disabled>
+                            <input class="form-control" id="input" type="text" name="FACULTAD" value={{this.nombreFacultad(asesoriaService.estudiantesFilter.FACULTAD_ID_FACULTAD)}} disabled>
                         </div>
                         <br>
                         <div class="row">
                             <div class="col">
                                 <label><Strong><label id="lbl">*</label>Semestre del estudiante</Strong>
                                 </label>
-                                <input class="form-control" id="input" type="text" name="SEMESTRE" #name="ngModel"
-                                    [(ngModel)]="asesoriaService.estudiantesFilter.SEMESTRE" disabled>
+                                <input class="form-control" id="input" type="text" name="SEMESTRE" #name="ngModel" [(ngModel)]="asesoriaService.estudiantesFilter.SEMESTRE" disabled>
                             </div>
                             <div class="col">
                                 <label><Strong><label id="lbl">*</label>Jornada del estudiante</Strong>
                                 </label>
-                                <input class="form-control" id="input" type="text" name="JORNADA" 
-                                value={{this.nombreJornada(asesoriaService.estudiantesFilter.JORNADA_ID_JORNADA)}} 
-                                    disabled>
+                                <input class="form-control" id="input" type="text" name="JORNADA" value={{this.nombreJornada(asesoriaService.estudiantesFilter.JORNADA_ID_JORNADA)}} disabled>
                             </div>
                         </div>
                         <br>
@@ -58,14 +50,12 @@
                             <div class="col">
                                 <label><Strong><label id="lbl">*</label>Correo del estudiante</Strong>
                                 </label>
-                                <input class="form-control" id="input" type="text" name="CORREO" #name="ngModel"
-                                    [(ngModel)]="asesoriaService.estudiantesFilter.CORREO" disabled>
+                                <input class="form-control" id="input" type="text" name="CORREO" #name="ngModel" [(ngModel)]="asesoriaService.estudiantesFilter.CORREO" disabled>
                             </div>
                             <div class="col">
                                 <label><Strong><label id="lbl">*</label>Celular del estudiante</Strong>
                                 </label>
-                                <input class="form-control" id="input" type="text" name="CELULAR" #name="ngModel"
-                                    [(ngModel)]="asesoriaService.estudiantesFilter.CELULAR" disabled>
+                                <input class="form-control" id="input" type="text" name="CELULAR" #name="ngModel" [(ngModel)]="asesoriaService.estudiantesFilter.CELULAR" disabled>
                             </div>
                         </div>
                     </form>
@@ -74,8 +64,7 @@
                         <div class="form-label-group">
                             <label><Strong><label id="lbl">*</label>Estudiante</Strong>
                             </label>
-                            <select id="select" class="form-control" name="estudiante" formControlName="estudiante"
-                                (change)="cambioEstudiante()" (click)="clickEstudiante();" #selectEstudiante>
+                            <select id="select" class="form-control" name="estudiante" formControlName="estudiante" (change)="cambioEstudiante()" (click)="clickEstudiante();" #selectEstudiante>
                                 <option value="" disabled>Seleccione un estudiante</option>
                                 <option *ngFor="let estudiante of asesoriaService.estudiantes"
                                     value={{estudiante.ID_ESTUDIANTE}}>
@@ -93,9 +82,7 @@
                         <div class="form-label-group">
                             <label><Strong><label id="lbl">*</label>Requerimiento de asesoria:</Strong>
                             </label>
-                            <input type="text" class="form-control" name="ambito_social"
-                                placeholder="Describa el requerimiento de asesoria..." required
-                                formControlName="requerimiento_asesoria" maxlength="99">
+                            <input type="text" class="form-control" name="ambito_social" placeholder="Describa el requerimiento de asesoria..." required formControlName="requerimiento_asesoria" maxlength="99">
                             <div *ngIf="asesoriaForm.get('requerimiento_asesoria').errors" class="alert alert-danger">
                                 <div *ngIf="asesoriaForm.get('requerimiento_asesoria').errors['required']">
                                     Requerimiento de asesoria requerido
@@ -107,9 +94,7 @@
                         <div class="form-label-group">
                             <label><Strong><label id="lbl">*</label>Descripción de asesoria:</Strong>
                             </label>
-                            <textarea type="text" class="form-control" name="descripcion_asesoria"
-                                placeholder="Describa la descripción de la asesoria..." required
-                                formControlName="descripcion_asesoria" maxlength="300"></textarea>
+                            <textarea type="text" class="form-control" name="descripcion_asesoria" placeholder="Describa la descripción de la asesoria..." required formControlName="descripcion_asesoria" maxlength="199"></textarea>
                             <div *ngIf="asesoriaForm.get('descripcion_asesoria').errors" class="alert alert-danger">
                                 <div *ngIf="asesoriaForm.get('descripcion_asesoria').errors['required']">
                                     Descripción de asesoria requerido
@@ -120,9 +105,7 @@
                         <div class="form-label-group">
                             <label><Strong><label id="lbl">*</label>Resultado de asesoria:</Strong>
                             </label>
-                            <textarea type="text" class="form-control" name="resultado_asesoria"
-                                placeholder="Describa el resultado de la asesoria..." required
-                                formControlName="resultado_asesoria" maxlength="300"></textarea>
+                            <textarea type="text" class="form-control" name="resultado_asesoria" placeholder="Describa el resultado de la asesoria..." required formControlName="resultado_asesoria" maxlength="99"></textarea>
                             <div *ngIf="asesoriaForm.get('resultado_asesoria').errors" class="alert alert-danger">
                                 <div *ngIf="asesoriaForm.get('resultado_asesoria').errors['required']">
                                     Descripción de resultado asesoria requerido
@@ -138,8 +121,7 @@
                         <div *ngIf="check.checked" class="form-label-group">
                             <label><Strong><label id="lbl">*</label>Asesoria requerida:</Strong>
                             </label>
-                            <select id="select" class="form-control" name="tipo_asesoria"
-                                formControlName="asesoria_requerida">
+                            <select id="select" class="form-control" name="tipo_asesoria" formControlName="asesoria_requerida">
                                 <option value="" disabled>Seleccione un tipo de asesoria</option>
                                 <option *ngFor="let tipo_asesoria of asesoriaService.asesorias"
                                     value={{tipo_asesoria.ID_TIPO_ASESORIA}}>
@@ -167,9 +149,7 @@
                                     <div class="form-label-group">
                                         <label><Strong>Actividad:</Strong>
                                         </label>
-                                        <input type="text" class="form-control" name="actividad"
-                                            placeholder="Actividad..." required formControlName="actividad"
-                                            maxlength="99">
+                                        <input type="text" class="form-control" name="actividad" placeholder="Actividad..." required formControlName="actividad" maxlength="99">
 
                                     </div>
                                 </div>
@@ -177,8 +157,7 @@
                                     <div class="form-label-group">
                                         <label><Strong>Fecha:</Strong>
                                         </label>
-                                        <input type="date" class="form-control" name="fecha" required
-                                            formControlName="fecha">
+                                        <input type="date" class="form-control" name="fecha" required formControlName="fecha">
                                     </div>
                                 </div>
                             </div>
@@ -186,16 +165,13 @@
                             <div class="form-label-group">
                                 <label><Strong>Observación:</Strong>
                                 </label>
-                                <input type="text" class="form-control" name="observacion"
-                                    placeholder="Observaciones..." required formControlName="observacion"
-                                    maxlength="99">
+                                <input type="text" class="form-control" name="observacion" placeholder="Observaciones..." required formControlName="observacion" maxlength="199">
 
                             </div>
                             <br>
                             <div class="form-label-group">
                                 <label><Strong>Responsable:</Strong></label>
-                                <select id="select" class="form-control" name="responsable"
-                                    formControlName="responsable">
+                                <select id="select" class="form-control" name="responsable" formControlName="responsable">
                                     <option value="" disabled>Seleccione el responsable de la actividad</option>
                                     <option *ngFor="let responsable of this.asesoriaService.responsables"
                                         value={{responsable.id}}>
@@ -204,8 +180,7 @@
                                 </select>
                             </div>
                             <br>
-                            <button [disabled]=!compromisoForm.valid (click)="addCompromiso(compromisoForm);"
-                                class="btn btn-outline-info">Agregar</button>
+                            <button [disabled]=!compromisoForm.valid (click)="addCompromiso(compromisoForm);" class="btn btn-outline-info">Agregar</button>
 
                         </form>
 
@@ -226,8 +201,7 @@
                                     <td>{{compromiso.ACTIVIDAD}}</td>
                                     <td>{{compromiso.FECHA}}</td>
                                     <td>{{compromiso.OBSERVACION}}</td>
-                                    <td><button (click)="this.borrarCompromiso(idx)" class="btn btn-outline-danger"
-                                            type="button"><i class="material-icons">delete</i></button></td>
+                                    <td><button (click)="this.borrarCompromiso(idx)" class="btn btn-outline-danger" type="button"><i class="material-icons">delete</i></button></td>
                                 </tr>
 
                             </tbody>
@@ -237,9 +211,8 @@
 
                     </div>
                     <div class="form-label-group">
-                        <button [disabled]="!asesoriaForm.valid" (click)="enviarFormato(asesoriaForm)"
-                            class="btn btn-block" id="btnRegister" type="button">Guardar</button>
-                            <button (click)="resetForm()" class="btn btn-block" id="btnBack" type="button">Limpiar</button>
+                        <button [disabled]="!asesoriaForm.valid" (click)="enviarFormato(asesoriaForm)" class="btn btn-block" id="btnRegister" type="button">Guardar</button>
+                        <button (click)="resetForm()" class="btn btn-block" id="btnBack" type="button">Limpiar</button>
                     </div>
                 </div>
 
