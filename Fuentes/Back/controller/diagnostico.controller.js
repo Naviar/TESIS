@@ -60,7 +60,7 @@ diagnosticoCtrl.getEstudiantes = (req, res) => {
     // console.log(req.info);
     ibmdb.open(connStr, (err, conn) => {
   
-      conn.query("SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.formato_diagnostico_id_diagnostico IS NULL AND etapa = 1 AND u.fecha >= CURRENT_DATE - 1 YEAR", (err, data) => {
+      conn.query("SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE etapa = 1 AND u.fecha >= CURRENT_DATE - 1 YEAR", (err, data) => {
   
         if (err) {
           res.json({ error: err })

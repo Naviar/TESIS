@@ -1,5 +1,11 @@
 <app-nav-bar></app-nav-bar>
 <br>
+<div class="text-center">
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+      style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
 
 <body>
 
@@ -32,7 +38,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-label-group">
-                                                    <label><Strong><label id="lbl">*</label>Nombre de asesoria</Strong>
+                                                    <label><Strong>Nombre de asesoria</Strong>
                                                     </label>
                                                     <input maxlength="45" type="text" class="form-control" name="nombre_asesoria" placeholder="Nombre de la asesoria" formControlName="nombre_asesoria" id='input'>
                                                     <div *ngIf="asesoriaForm.get('nombre_asesoria').errors" class="alert alert-danger">
@@ -61,7 +67,7 @@
 
                         <div *ngFor="let asesoria of Asesorias" class="row">
                             <div class="col">
-                                <label for="ejemplo">{{asesoria.NOMBRE_TIPO_ASESORIA}} esta {{asesoria.ACTIVO}}</label>
+                                <label for="ejemplo">{{asesoria.NOMBRE_TIPO_ASESORIA}}</label>
 
                             </div>
                             <div class="col">
