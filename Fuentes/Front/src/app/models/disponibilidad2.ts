@@ -4,6 +4,7 @@ export class Disponibilidad2 {
         this.ID_ESTUDIANTE=ID_ESTUDIANTE;
         this.HORARIO_ID_HORARIO=HORARIO_ID_HORARIO;
     }
+    ID_DISPONIBILIDAD?: number;
     FECHA: string;
     ID_ESTUDIANTE: number;
     HORARIO_ID_HORARIO: number;

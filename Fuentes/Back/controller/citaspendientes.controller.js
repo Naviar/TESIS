@@ -9,9 +9,9 @@ var bcrypt = require('bcryptjs');
 var config = require('../models/config');
 
 
-CitasPendientesCtrl.getCitas =  (req, res) => {
+CitasPendientesCtrl.getCitas = (req, res) => {
 
-     ibmdb.open(connStr, (err, conn) => {
+    ibmdb.open(connStr, (err, conn) => {
 
         conn.query(`SELECT * FROM disponibilidad`, (err, data) => {
             if (err) {
@@ -26,9 +26,9 @@ CitasPendientesCtrl.getCitas =  (req, res) => {
         })
     })
 }
-CitasPendientesCtrl.getCitasEstudiante =  (req, res) => {
+CitasPendientesCtrl.getCitasEstudiante = (req, res) => {
     let id = req.params.id_estudiante;
-     ibmdb.open(connStr, (err, conn) => {
+    ibmdb.open(connStr, (err, conn) => {
 
         conn.query(`SELECT * FROM disponibilidad  WHERE id_estudiante = '${id}' ORDER BY id_disponibilidad DESC LIMIT 0,1`, (err, data) => {
             if (err) {
@@ -43,9 +43,9 @@ CitasPendientesCtrl.getCitasEstudiante =  (req, res) => {
         })
     })
 }
-CitasPendientesCtrl.getCitasAsesor =  (req, res) => {
+CitasPendientesCtrl.getCitasAsesor = (req, res) => {
     let id = req.params.id_asesor;
-     ibmdb.open(connStr, (err, conn) => {
+    ibmdb.open(connStr, (err, conn) => {
 
         conn.query(`SELECT * FROM disponibilidad AS d INNER JOIN horario AS h ON d.horario_id_horario = h.id_horario WHERE d.id_estudiante IS NOT NULL AND h.usuario_id_usuario = '${id}' AND  h.tipo_reunion_id_tipo_reunion = '${2}'`, (err, data) => {
             if (err) {
@@ -60,9 +60,9 @@ CitasPendientesCtrl.getCitasAsesor =  (req, res) => {
         })
     })
 }
-CitasPendientesCtrl.getCitasLider =  (req, res) => {
+CitasPendientesCtrl.getCitasLider = (req, res) => {
     let id = req.params.id_lider;
-     ibmdb.open(connStr, (err, conn) => {
+    ibmdb.open(connStr, (err, conn) => {
 
         conn.query(`SELECT * FROM disponibilidad AS d INNER JOIN horario AS h ON d.horario_id_horario = h.id_horario WHERE d.id_estudiante IS NOT NULL AND h.usuario_id_usuario = '${id}' AND  h.tipo_reunion_id_tipo_reunion = '${1}'`, (err, data) => {
             if (err) {
@@ -72,14 +72,15 @@ CitasPendientesCtrl.getCitasLider =  (req, res) => {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")
                 })
+
                 res.json(data)
             }
         })
     })
 }
-CitasPendientesCtrl.getHorarioId =  (req, res) => {
+CitasPendientesCtrl.getHorarioId = (req, res) => {
     let id = req.params.id;
-     ibmdb.open(connStr, (err, conn) => {
+    ibmdb.open(connStr, (err, conn) => {
 
         conn.query(`SELECT * FROM horario WHERE id_horario='${id}'`, (err, data) => {
             if (err) {
