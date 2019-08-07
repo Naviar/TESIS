@@ -226,15 +226,37 @@ export class CitaspendientesComponent implements OnInit {
   }
   this.citasPendientesService.cancelarCita(citaCancelada,this.idDisponibilidadSelect)
       .subscribe(
-        res => {console.log(res);
+        async res => {console.log(res);
           if(res['exito'] == true){
             console.log(res['message']);
+            M.toast({
+              html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                  <h4 class="alert-heading">Cita cancenlada </h4>
+                  <p>${res['message']}</p>
+                  <hr>
+              </div>`});
+            await this.getCitasPendientes();
+            this.calendario();
           }
           else {
             console.log(res['message']);
+            M.toast({
+              html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                  <h4 class="alert-heading">ocurrio un error, no se pudo cancelar la cita</h4>
+                  <p>${res['message']}</p>
+                  <hr>
+              </div>`});
           }
         },
-        err => {console.log(err);},
+        err => {console.log(err);
+          M.toast({
+            html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                <h4 class="alert-heading">ocurrio un error </h4>
+                <p>${err['error']}</p>
+                <hr>
+            </div>`});},
+
+        
   
       )
   }
