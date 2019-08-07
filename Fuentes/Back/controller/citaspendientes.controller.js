@@ -7,6 +7,14 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../models/config');
+const nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'consultorio.usta.DRSU@gmail.com',
+        pass: 'consultoriousta123'
+    }
+});
 
 
 CitasPendientesCtrl.getCitas = (req, res) => {
@@ -95,5 +103,91 @@ CitasPendientesCtrl.getHorarioId = (req, res) => {
         })
     })
 }
+
+CitasPendientesCtrl.deleteCita = (req, res) => {
+
+    const { id_cita } = req.params;
+    const Motivo = req.body.Motivo;
+    const Asunto = req.body.Asunto;
+    const id_horario = req.body.id_horario;
+    var query = '';
+    if (id_horario != undefined) {
+        query = `select correo from usuario where id_usuario = (select usuario_id_usuario from horario where id_horario='${id_horario}')`;
+    } else {
+        query = `select correo from usuario where id_usuario = (select usuario_id_usuario from estudiante where id_estudiante = (select id_estudiante from disponibilidad where id_disponibilidad = ${id_cita}))`
+    }
+
+    console.log('llego:', id_horario);
+    ibmdb.open(connStr, async(err, conn) => {
+
+        conn.query(query, async(err, data) => {
+            if (err) {
+                res.status(500).json({ error: err })
+                console.log("Hubo un error en la busqueda DE correo" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                console.log(data[0].CORREO);
+                const correo = data[0].CORREO;
+                borro = await deleteCita(id_cita);
+                console.log('borroooo:', borro);
+
+                const mailOptions = {
+                    from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
+                    to: `ivanarango@usantotomas.edu.co`, // lista de los destinatarios del 
+                    subject: `${Asunto}`, // Línea del asunto 
+                    html: `<h1>Cancelacion de cita consultorio socio-empresarial</h1>
+                        <p>${Motivo}</p>` // cuerpo de texto sin formato 
+                };
+
+                transporter.sendMail(mailOptions, function(err, info) {
+                    if (err) {
+                        console.log(err)
+
+                        res.json({ exito: true, message: `se cancelo la cita pero no se pudo enviar el mensaje , favor comunicarse con ${correo}` });
+                    } else {
+                        console.log(info);
+                        res.json({ exito: true, message: `se cancelo la cita y se envio el mensaje con su asunto y motivo de cancelacion a ${correo}` });
+                        conn.close(() => {
+                            console.log("Se ha cerrado la base de datos")
+
+                        });
+                    }
+
+                });
+
+            }
+        })
+    })
+
+}
+
+CitasPendientesCtrl.deleteCitaPorFuncionario = (req, res) => {
+
+
+
+}
+
+async function deleteCita(id_cita) {
+
+    console.log('id_cita:', id_cita);
+    await ibmdb.open(connStr, (err, conn) => {
+
+        conn.query(`DELETE FROM DISPONIBILIDAD WHERE ID_DISPONIBILIDAD = '${id_cita}'`, (err, data) => {
+            if (err) {
+
+                console.log("Hubo un error en eldelete DE DISPONIBILIDADES" + err);
+                return false;
+            } else {
+
+                return true;
+            }
+        })
+    })
+}
+
+
+
 
 module.exports = CitasPendientesCtrl;

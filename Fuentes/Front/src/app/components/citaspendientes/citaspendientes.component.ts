@@ -29,6 +29,7 @@ export class CitaspendientesComponent implements OnInit {
 
   private modalOpen: boolean = false;
   private modalOpen2 : boolean = false;
+ 
   tiposReunion: TipoReunion[] = [];
   tiposAsesoria: TipoAsesoria[] = [];
   calendarPlugins = [dayGridPlugin];
@@ -58,6 +59,7 @@ export class CitaspendientesComponent implements OnInit {
 
   // disponibilidades: { FECHA: string, ID_ESTUDIANTE: number, HORARIO_ID_HORARIO: number}[] = [{ FECHA: '', ID_ESTUDIANTE: 0, HORARIO_ID_HORARIO: 0}];
   idDisponibilidadSelect : number =null;
+  idHorarioSelect : number = null;
   disponibilidades: Disponibilidad2[] = [];
 
 
@@ -137,6 +139,7 @@ export class CitaspendientesComponent implements OnInit {
     cargando = true;
     console.log("evento clickeado", info);
     this.idDisponibilidadSelect = info.event.groupId;
+    this.idHorarioSelect = info.event.id;
     this.agendarCitaService.getHorarioId(info.event.id)
       .subscribe(res => {
         this.agendarCitaService.horarioSelect = res as Horario;
@@ -204,6 +207,36 @@ export class CitaspendientesComponent implements OnInit {
       Asunto: [`Cancelar cita`, Validators.compose([Validators.required]) ],
       Motivo: [``, Validators.compose([Validators.required]) ],
     });
+  }
+
+  cancelarCita(){
+    if(this.rol == 3){
+      var citaCancelada :object = {
+        Asunto : this.cancelarCitaForm.value.Asunto,
+        Motivo: this.cancelarCitaForm.value.Motivo,
+        id_horario: this.idHorarioSelect
+      }
+
+    }
+    else{
+      var citaCancelada :object = {
+        Asunto : this.cancelarCitaForm.value.Asunto,
+        Motivo: this.cancelarCitaForm.value.Motivo,
+      }
+  }
+  this.citasPendientesService.cancelarCita(citaCancelada,this.idDisponibilidadSelect)
+      .subscribe(
+        res => {console.log(res);
+          if(res['exito'] == true){
+            console.log(res['message']);
+          }
+          else {
+            console.log(res['message']);
+          }
+        },
+        err => {console.log(err);},
+  
+      )
   }
 
 }
