@@ -5,11 +5,12 @@ import { estudiante } from '../models/estudiante';
 import { Evaluacion } from '../models/evaluacion';
 import { asesoriaFormato } from '../models/asesoriaFormato';
 import { asesoria } from '../models/asesoria';
+import { compromiso2 } from '../models/compromiso2';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SeguimientoService { 
+export class SeguimientoService {  
   estudiantes: estudiante[];
   estudianteAsesoria : estudiante = {
     NOMBRE:"",
@@ -26,6 +27,7 @@ export class SeguimientoService {
     ETAPA:undefined,
   };
   diagnosticos: Diagnostico[];
+  compromisos: compromiso2[];
   asesorias: asesoriaFormato[];
   evaluaciones: Evaluacion[];
   selected_diagnostico: Diagnostico = {
@@ -49,6 +51,7 @@ export class SeguimientoService {
     ESTUDIANTE_ID_ESTUDIANTE: 0
   };
   selected_evaluacion: Evaluacion = {
+    ID_FORMATO_EVALUACION: "",
     EVAL_GENERAL_Q1: "",
     EVAL_GENERAL_Q2: "",
     EVAL_GENERAL_Q3: "",

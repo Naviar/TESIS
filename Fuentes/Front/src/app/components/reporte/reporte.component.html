@@ -1,0 +1,51 @@
+<app-nav-bar></app-nav-bar>
+<br>
+<div class="text-center">
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+        style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+<body>
+
+    <div class="container-separador">
+        <div class="row justify-content-center">
+            <div class="card" style="width: 700px">
+                <div class="card-body">
+                    <h2 class="row justify-content-center">Generar reporte</h2>
+                    <hr>
+                    <form [formGroup]="reporteForm" novalidate>
+                        <div class="form-label-group">
+                            <label><Strong><label id="lbl">*</label>Tipo de reporte</Strong>
+                            </label>
+                            <select id="select" class="form-control" name="tipoReporte" formControlName="tipoReporte">
+                                <option value="" disabled>Seleccione un tipo de reporte</option>
+                                <option value="1">Reporte de usuarios</option>
+                                <option value="2">Reporte de estudiantes</option>
+                                <option value="3">Reporte de diagnosticos</option>
+                                <option value="4">Reporte de asesorias</option>
+                                <option value="5">Reporte de evaluaciones</option>
+                                <option *ngIf="rol==1" value="3">Formato evaluación</option>
+                            </select>
+                            <div *ngIf="reporteForm.get('tipoReporte').errors" class="alert alert-danger">
+                                <div *ngIf="reporteForm.get('tipoReporte').errors['required']">
+                                    Tipo de reporte requerido
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <div class="form-label-group">
+                        <button [disabled]="!reporteForm.valid" (click)="generarExcel(reporteForm)"
+                            class="btn btn-block" id="btnRegister" type="button">Generar Excel</button>
+                        <button (click)="resetForm()" class="btn btn-block" id="btnBack" type="button">Limpiar</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

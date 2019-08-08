@@ -1,4 +1,5 @@
 export interface Evaluacion{
+    ID_FORMATO_EVALUACION: string;
     EVAL_GENERAL_Q1: string;
     EVAL_GENERAL_Q2: string;
     EVAL_GENERAL_Q3: string;

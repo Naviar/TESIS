@@ -36,7 +36,7 @@ export class AsesoriaComponent implements OnInit {
     ACTIVIDAD: '',
     FECHA: '',
     OBSERVACION: '',
-    ID_USUARIO: undefined,
+    ID_USUARIO: undefined
   };
 
 

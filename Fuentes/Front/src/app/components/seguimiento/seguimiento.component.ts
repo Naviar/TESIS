@@ -137,6 +137,7 @@ export class SeguimientoComponent implements OnInit {
     }
   }
 
+
   getValidRol() {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
