@@ -8,6 +8,7 @@ router.get('/getCitasEstudiante/:id_estudiante', CitasPendientesCtrl.getCitasEst
 router.get('/getCitasAsesor/:id_asesor', CitasPendientesCtrl.getCitasAsesor);
 router.get('/getCitasLider/:id_lider', CitasPendientesCtrl.getCitasLider);
 router.get('/getHorarioId/:id', CitasPendientesCtrl.getHorarioId);
+router.delete('/deleteCita/:id_cita', CitasPendientesCtrl.deleteCita);
 
 
 module.exports = router;

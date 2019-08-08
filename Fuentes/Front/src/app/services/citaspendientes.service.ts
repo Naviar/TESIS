@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Horario } from '../models/horario';
 import { Disponibilidad2 } from '../models/disponibilidad2';
 
@@ -26,4 +26,19 @@ export class CitasPendientes {
   getHorario(id:number){
     return this.http.get(this.URL_API+`/getHorarioId/${id}`);
   }
+  cancelarCita(CitaCancelada : object , id_cita : number){
+    console.log('servicio:', CitaCancelada);
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: CitaCancelada,
+    };
+    return this.http.delete(this.URL_API+`/deleteCita/${id_cita}`,options);
+  }
+
+
+
+
+
 }

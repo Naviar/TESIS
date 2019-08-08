@@ -1,89 +1,137 @@
 <app-nav-bar></app-nav-bar>
 <br>
-<div  class="text-center">
+<div class="text-center">
     <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
-      <span class="sr-only">Loading...</span>
+        <span class="sr-only">Loading...</span>
     </div>
-  </div>
-
-<div class="row justify-content-center">
-  <div id="calendar">
-    <full-calendar #CALENDARIO (eventClick)="evento($event)" defaultView="dayGridMonth" [plugins]="calendarPlugins"
-      [weekends]="true" ></full-calendar>
-  </div>
 </div>
 
-<div class="modal fade" id="agendar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
-  [ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content border-success">
-      <div class="modal-header">
-        <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
-          <Strong>Detalle cita {{titulo}}</Strong>
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="openModal(false)">
+<div class="row justify-content-center">
+    <div id="calendar">
+        <full-calendar #CALENDARIO (eventClick)="evento($event)" defaultView="dayGridMonth" [plugins]="calendarPlugins" [weekends]="true"></full-calendar>
+    </div>
+</div>
+
+<div class="modal fade" id="agendar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" [ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-success">
+            <div class="modal-header">
+                <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+                    <Strong>Detalle cita {{titulo}}</Strong>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="openModal(false)">
           <span aria-hidden="true">&times;</span>
         </button>
-      </div>
-      <div class="modal-body">
+            </div>
+            <div class="modal-body">
 
-        <form #horarioForm="ngForm">
-          <div class="row">
-            <div class="col">
-              <div class="form-label-group">
-                <label><Strong><label id="lbl">*</label>Dia</Strong>
-                </label>
-                <input class="form-control" id="input" type="text" name="dia" #name="ngModel"
-                  [(ngModel)]="horarioSelect.DIA" disabled>
-              </div>
+                <form #horarioForm="ngForm">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Dia</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="dia" #name="ngModel" [(ngModel)]="horarioSelect.DIA" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Fecha</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="fecha" #name="ngModel" [(ngModel)]="fecha2" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Tipo reunion</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="tipo_reunion" #name="ngModel" [(ngModel)]="tipoReunion" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Lugar Reunion</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="lugar" #name="ngModel" [(ngModel)]="horarioSelect.LUGAR" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Hora inicio</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="hora_inicio" #name="ngModel" [(ngModel)]="horarioSelect.HORA_INICIO" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Hora final</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="hora_fin" #name="ngModel" [(ngModel)]="horarioSelect.HORA_FIN" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <button class=" btn btn-outline-danger" (click)="this.openModal2(true);">Cancelar cita</button>
             </div>
-            <div class="col">
-              <div class="form-label-group">
-                <label><Strong><label id="lbl">*</label>Fecha</Strong>
-                </label>
-                <input class="form-control" id="input" type="text" name="fecha" #name="ngModel"
-                  [(ngModel)]="fecha2" disabled>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-label-group">
-                <label><Strong><label id="lbl">*</label>Tipo reunion</Strong>
-                </label>
-                <input class="form-control" id="input" type="text" name="tipo_reunion" #name="ngModel"
-                  [(ngModel)]="tipoReunion" disabled>
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col">
-              <div class="form-label-group">
-                <label><Strong><label id="lbl">*</label>Lugar Reunion</Strong>
-                </label>
-                <input class="form-control" id="input" type="text" name="lugar" #name="ngModel"
-                  [(ngModel)]="horarioSelect.LUGAR" disabled>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-label-group">
-                <label><Strong><label id="lbl">*</label>Hora inicio</Strong>
-                </label>
-                <input class="form-control" id="input" type="text" name="hora_inicio" #name="ngModel"
-                  [(ngModel)]="horarioSelect.HORA_INICIO" disabled>
-              </div>
-            </div>
-            <div class="col">
-              <div class="form-label-group">
-                <label><Strong><label id="lbl">*</label>Hora final</Strong>
-                </label>
-                <input class="form-control" id="input" type="text" name="hora_fin" #name="ngModel"
-                  [(ngModel)]="horarioSelect.HORA_FIN" disabled>
-              </div>
-            </div>
-          </div>
-        </form>
-        <br>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
+<!-- 
+modal cancelar -->
+
+<div class="modal fade" id="agendar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" [ngStyle]="{'display': modalOpen2 ? 'block' : 'none', 'opacity': 1}">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-success">
+            <div class="modal-header">
+                <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+                    <Strong>Cancelar cita {{titulo}}</Strong>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="openModal2(false)">
+        <span aria-hidden="true">&times;</span>
+      </button>
+            </div>
+            <div class="modal-body">
+
+                <form [formGroup]="cancelarCitaForm" novalidate>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Asunto</Strong>
+                                </label>
+                                <input maxlength="50" style="width: 350px;" type="text" class="form-control" name="Asunto" placeholder="Asunto de cancelacion de reunion" formControlName="Asunto" id='inputAsunto'>
+                                <div *ngIf="cancelarCitaForm.get('Asunto').errors" class="alert alert-danger">
+                                    <div *ngIf="cancelarCitaForm.get('Asunto').errors['required']">
+                                        Asunto requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Motivo</Strong>
+                                </label>
+                                <input maxlength="100" type="text" class="form-control" name="Motivo" placeholder="Motivo de cancelacion de reunion" formControlName="Motivo" id='inputMotivo'>
+                                <div *ngIf="cancelarCitaForm.get('Motivo').errors" class="alert alert-danger">
+                                    <div *ngIf="cancelarCitaForm.get('Motivo').errors['required']">
+                                        Motivo requerido
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+                <br>
+                <button class=" btn btn-outline-danger" [disabled]="!cancelarCitaForm.valid" (click)="this.cancelarCita();">cancelar cita y notificar</button>
+            </div>
+        </div>
+    </div>
 </div>
