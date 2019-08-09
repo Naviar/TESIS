@@ -45,8 +45,7 @@
                 </label>
               </div>
               <div class="col">
-                <a data-toggle="modal" data-target="#addhorario" href="" (click)="detalles(usuario.ID_USUARIO)"><i
-                    class="fa fa-eye"></i></a>
+                <a data-toggle="modal" data-target="#addhorario" href="" (click)="detalles(usuario.ID_USUARIO, usuario.ROL_ID_ROL)"><i class="fa fa-eye"></i></a>
               </div>
             </div>
           </div>                  
@@ -64,7 +63,7 @@
           <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
             <Strong>Detalles de usuario</Strong>
           </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetModal()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -106,14 +105,14 @@
             </div>
           </form>
           <br>
-          <form #asesorForm="ngForm" *ngIf="rol == 1">
+          <form #asesorForm="ngForm" *ngIf="condicion == 1">
             <div class="form-label-group">
               <label><Strong>Facultad</Strong></label>
               <input class="form-control" id="input" type="text" name="facultad" #name="ngModel" [(ngModel)]="facultad"
                 disabled>
             </div>
           </form>
-          <form #estudianteForm="ngForm" *ngIf="rol == 2">
+          <form #estudianteForm="ngForm" *ngIf="condicion == 2">
             <div class="row">
               <div class="col">
                 <div class="form-label-group">

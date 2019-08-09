@@ -5,6 +5,7 @@ import { usuario } from 'src/app/models/usuario';
 import { estudiante } from 'src/app/models/estudiante';
 import { LoginService } from 'src/app/services/login.service';
 import { facultad } from 'src/app/models/facultad';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 
 declare var M: any;
@@ -16,6 +17,8 @@ let cargando = true;
   styleUrls: ['./autenticarusuarios.component.css']
 })
 export class AutenticarusuariosComponent implements OnInit {
+  
+  condicion:number;
   inicio: usuario[] = [];
   usuario_id: number;
   rol: number;
@@ -25,24 +28,27 @@ export class AutenticarusuariosComponent implements OnInit {
     NOMBRE: "",
     APELLIDO: "",
     CORREO: "",
-    CELULAR: 0,
-    CODIGO: 0,
-    SEMESTRE: 0,
-    USUARIO_ID_USUARIO: 0,
-    FACULTAD_ID_FACULTAD: 0,
-    JORNADA_ID_JORNADA: 0,
-    ID_ESTUDIANTE: 0,
-    FORMATO_DIAGNOSTICO_ID_DIAGNOSTICO: 0,
-    ETAPA: 0
+    CELULAR: undefined,
+    CODIGO: undefined,
+    SEMESTRE: undefined,
+    USUARIO_ID_USUARIO: undefined,
+    FACULTAD_ID_FACULTAD: undefined,
+    JORNADA_ID_JORNADA: undefined,
+    ID_ESTUDIANTE: undefined,
+    FORMATO_DIAGNOSTICO_ID_DIAGNOSTICO: undefined,
+    ETAPA: undefined
   };
 
-  constructor(private autenticarUsuarioService: AutenticarUsuarios, private loginService: LoginService) { }
+  constructor(private autenticarUsuarioService: AutenticarUsuarios, private loginService: LoginService) {    
+   }
 
   ngOnInit() {
     this.getValidRol();
     this.getFacultades();
     this.getUsuarios();
   }
+
+
   getUsuarios() {
     cargando = true;
     // if (this.rol == 1) {            //LIDER      
@@ -96,9 +102,10 @@ export class AutenticarusuariosComponent implements OnInit {
       )
   }
 
-  detalles(id_usuario: number) {
+  detalles(id_usuario: number, rol_usuario: number) {
     cargando = true;
-    if (this.rol == 1) {            //LIDER       
+    if (rol_usuario == 2) {            //LIDER       
+      this.condicion=1;
       this.autenticarUsuarioService.getAsesorId(id_usuario)
         .subscribe(res => {
           this.usuarioSelect = res[0] as estudiante;
@@ -106,7 +113,8 @@ export class AutenticarusuariosComponent implements OnInit {
           cargando = false;
         })
     }
-    else if (this.rol == 2) {       //ASESOR    
+    else if (rol_usuario == 3) {       //ASESOR    
+      this.condicion=2;      
       this.autenticarUsuarioService.getEstudianteId(id_usuario)
         .subscribe(res => {
           this.usuarioSelect = res[0] as estudiante;
@@ -147,6 +155,24 @@ export class AutenticarusuariosComponent implements OnInit {
         }
       }
     }
+  }
+  resetModal() {
+    console.log("T-T");
+    this.usuarioSelect= {
+      NOMBRE: "",
+      APELLIDO: "",
+      CORREO: "",
+      CELULAR: undefined,
+      CODIGO: undefined,
+      SEMESTRE: undefined,
+      USUARIO_ID_USUARIO: undefined,
+      FACULTAD_ID_FACULTAD: undefined,
+      JORNADA_ID_JORNADA: undefined,
+      ID_ESTUDIANTE: undefined,
+      FORMATO_DIAGNOSTICO_ID_DIAGNOSTICO: undefined,
+      ETAPA: undefined
+    }  
+    this.facultad = ""; 
   }
 
   getValidRol() {

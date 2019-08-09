@@ -29,7 +29,7 @@ export class AsesoriaComponent implements OnInit {
     DESCRIPCION: '',
     RESULTADO: '',
     TIPO_ASESORIA_ACTUAL: undefined,
-    FECHA: ''
+    FECHA: '' 
   };
 
   compromiso: compromiso = {
