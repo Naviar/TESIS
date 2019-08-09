@@ -27,25 +27,51 @@ gestionAseroriaCtrl.changeStatus = async(req, res) => {
 
     const { id } = req.params;
     const activo = req.body.status;
-
+    const query = `select count(*) as resultado from disponibilidad as d inner join horario as h on h.id_horario = d.horario_id_horario where d.fecha > current timestamp - 5 hour and h.tipo_Asesoria_id_tipo_asesoria = '${id}'`;
     console.log(`change status ${id} , activo: ${activo} y req.body= ${req.body}`);
+
+
 
     await ibmdb.open(connStr, (err, conn) => {
 
 
-        conn.query(`UPDATE tipo_asesoria SET activo='${activo}' WHERE id_tipo_asesoria='${id}' `, (err, data) => {
+        conn.query(query, (err, data) => {
             if (err) {
-                res.json({ status: false })
+                res.json({ status: false, mensaje: `ocurrio un error en la bd.` })
                 console.log("Hubo un error actualizando el status asesoria" + err);
             } else {
-                conn.close(() => {
-                    console.log("Se ha cerrado la base de datos")
-                })
-                res.json({ status: true })
-            }
-        })
-    })
 
+                console.log('resultado:', data[0]['RESULTADO']);
+
+                if (data[0]['RESULTADO'] == 0) {
+
+                    conn.query(`UPDATE tipo_asesoria SET activo='${activo}' WHERE id_tipo_asesoria='${id}' `, (err, data) => {
+                        if (err) {
+                            res.json({ status: false, mensaje: `ocurrio un error en la bd.` });
+                            console.log("Hubo un error actualizando el status asesoria" + err);
+                        } else {
+
+                            res.json({ status: true, exito: true, mensaje: `se actualizo con exito el estado de la asesoria.` });
+                            conn.close(() => {
+                                console.log("Se ha cerrado la base de datos");
+                            })
+                        }
+                    });
+
+                } else {
+                    res.json({ status: true, exito: false, mensaje: `la asesoria que esta intentando desactivar tiene citas pendientes.` });
+                    conn.close(() => {
+                        console.log("Se ha cerrado la base de datos");
+                    })
+                }
+
+
+            }
+        });
+
+
+
+    });
 }
 
 gestionAseroriaCtrl.nuevaAsesoria = async(req, res) => {

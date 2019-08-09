@@ -13,22 +13,39 @@ import { AsesoriaComponent } from './components/asesoria/asesoria.component';
 import { CitaasesoriaComponent } from './components/citaasesoria/citaasesoria.component';
 import { CitaspendientesComponent } from './components/citaspendientes/citaspendientes.component';
 import { AutenticarusuariosComponent } from './components/autenticarusuarios/autenticarusuarios.component';
-
+import { GuardDiagnostic } from './services/guard.diagnostic';  
+import { GuardEvaluation } from './services/guard.evaluation';
+import { GuardSchedules } from './services/guard.schedules';
+import { GuardManageAdvice } from './services/guard.manage.advice';
+import { GuardScheduleDiagnostic } from './services/guard.schedule.diagnostic';
+import { GuardAdvisory } from './services/guard.advisory';
+import { GuardScheduleAdvice } from './services/guard.schedule.advice';
+import { GuardAuthenticateUsers } from './services/guard.authenticate.users';
+import { SeguimientoComponent } from './components/seguimiento/seguimiento.component';
+import { VerdiagnosticoComponent } from './components/verdiagnostico/verdiagnostico.component';
+import { VerasesoriaComponent } from './components/verasesoria/verasesoria.component';
+import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
+import { ReporteComponent } from './components/reporte/reporte.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'home', component: HomeComponent, canActivate:[GuardService] },
-    { path: 'diagnostic', component: DiagnosticoComponent, canActivate:[GuardService] },
-    { path: 'evaluation', component: EvaluacionComponent, canActivate:[GuardService] },
-    { path: 'schedules', component: DefinirhorariosComponent, canActivate:[GuardService] },
-    { path: 'manage/advice' , component:GestionasesoriasComponent, canActivate:[GuardService]},
-    { path: 'schedule/diagnostic', component: CitadiagnosticoComponent, canActivate:[GuardService] },
-    { path: 'advisory', component: AsesoriaComponent, canActivate:[GuardService] },
-    { path: 'schedule/advice', component: CitaasesoriaComponent, canActivate:[GuardService] },
+    { path: 'diagnostic', component: DiagnosticoComponent, canActivate:[GuardDiagnostic] }, 
+    { path: 'evaluation', component: EvaluacionComponent, canActivate:[GuardEvaluation] },
+    { path: 'schedules', component: DefinirhorariosComponent, canActivate:[GuardSchedules] },
+    { path: 'manage/advice' , component:GestionasesoriasComponent, canActivate:[GuardManageAdvice]},
+    { path: 'schedule/diagnostic', component: CitadiagnosticoComponent, canActivate:[GuardScheduleDiagnostic] },
+    { path: 'advisory', component: AsesoriaComponent, canActivate:[GuardAdvisory] },
+    { path: 'schedule/advice', component: CitaasesoriaComponent, canActivate:[GuardScheduleAdvice] },
     { path: 'pending/dates', component: CitaspendientesComponent, canActivate:[GuardService] },
-    { path: 'authenticate/users', component: AutenticarusuariosComponent, canActivate:[GuardService] },
-
+    { path: 'authenticate/users', component: AutenticarusuariosComponent, canActivate:[GuardAuthenticateUsers] },
+    { path: 'tracking', component: SeguimientoComponent, canActivate:[GuardAuthenticateUsers] },
+    { path: 'see/diagnostic/:id', component: VerdiagnosticoComponent, canActivate:[GuardAuthenticateUsers] },
+    { path: 'see/advisory/:id', component: VerasesoriaComponent, canActivate:[GuardAuthenticateUsers] },
+    { path: 'see/evaluation/:id', component: VerevaluacionComponent, canActivate:[GuardDiagnostic] },
+    { path: 'report', component: ReporteComponent, canActivate:[GuardDiagnostic] },
+ 
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
 

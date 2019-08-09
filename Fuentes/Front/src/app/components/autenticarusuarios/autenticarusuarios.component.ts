@@ -6,6 +6,7 @@ import { estudiante } from 'src/app/models/estudiante';
 import { LoginService } from 'src/app/services/login.service';
 import { facultad } from 'src/app/models/facultad';
 
+
 declare var M: any;
 let cargando = true;
 
@@ -128,7 +129,7 @@ export class AutenticarusuariosComponent implements OnInit {
       if (select == 1) {
         if (this.inicio[i].NOMBRE.toUpperCase().indexOf(input.toUpperCase()) > -1) {
           busqueda.push(this.inicio[i]);
-          this.usuarios = busqueda;                 
+          this.usuarios = busqueda;          
           look++;
         }
         if (look < 1) {
@@ -147,6 +148,7 @@ export class AutenticarusuariosComponent implements OnInit {
       }
     }
   }
+
   getValidRol() {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);

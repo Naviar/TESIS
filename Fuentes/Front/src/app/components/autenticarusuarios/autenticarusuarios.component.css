@@ -89,6 +89,7 @@ input:checked+.slider:before {
 
 #select {
     border-radius: .5rem;
+    width: 150px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 

@@ -12,7 +12,7 @@ AutenticarUsuariosCtrl.getAsesores =  (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-       conn.query(`SELECT * FROM usuario WHERE rol_id_rol = '${2}'`, (err, data) => {
+       conn.query(`SELECT * FROM usuario WHERE rol_id_rol = '${2}' AND fecha >= CURRENT_DATE - 1 YEAR;`, (err, data) => {
            if (err) {
                res.json({ error: err })
                console.log("Hubo un error en la busqueda DE ASESORES" + err);
@@ -30,7 +30,7 @@ AutenticarUsuariosCtrl.getEstudiantes =  (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-       conn.query(`SELECT * FROM usuario WHERE rol_id_rol = '${3}'`, (err, data) => {
+       conn.query(`SELECT * FROM usuario WHERE rol_id_rol = '${3}' AND fecha >= CURRENT_DATE - 1 YEAR;`, (err, data) => {
            if (err) {
                res.json({ error: err })
                console.log("Hubo un error en la busqueda DE ESTUDIANTES" + err);

@@ -20,6 +20,7 @@ export class AgendarCitaService {
     USUARIO_ID_USUARIO: 1,
     NOMBRE_TIPO_ASESORIA: ""
   }
+  disponibilidadSelect: Disponibilidad2;
 
   readonly URL_API = `http://localhost:3500/agendarCita`;
   constructor(private http : HttpClient) { }
@@ -29,6 +30,9 @@ export class AgendarCitaService {
   }
   getHorarioId(id:number){
     return this.http.get(this.URL_API+`/getHorarioId/${id}`);
+  }
+  getDisponibilidadId(id:number){
+    return this.http.get(this.URL_API+`/getDisponibilidadId/${id}`);
   }
   postDisponibilidad(disponibilidad:Disponibilidad2){
     return this.http.post(this.URL_API+`/agendarCita`,disponibilidad);
@@ -49,5 +53,7 @@ export class AgendarCitaService {
   asesoriasOcupadas(disponibilidad:Disponibilidad2){
     return this.http.post(this.URL_API+`/asesoriasOcupadas`,disponibilidad);
   }
+
+ 
 
 }

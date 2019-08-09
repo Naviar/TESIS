@@ -8,7 +8,7 @@ asesoriaCtrl.getEstudiantes = (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-        conn.query("SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.etapa = '4'", (err, data) => {
+        conn.query("SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.etapa = '4' AND u.fecha >= CURRENT_DATE - 1 YEAR;", (err, data) => {
 
             if (err) {
                 res.json({ error: err })
@@ -96,14 +96,14 @@ asesoriaCtrl.postFormAsesoria = (req, res) => {
     var query = '';
     if (TIPO_ASESORIA_ID_TIPO_ASESORIA == '0') {
 
-        query = `INSERT INTO formato_asesoria (requerimiento, descripcion, resultado, tipo_asesoria_actual)
+        query = `INSERT INTO formato_asesoria (requerimiento, descripcion, resultado, tipo_asesoria_actual, fecha)
    
-       VALUES ('${REQUERIMIENTO}','${DESCRIPCION}','${RESULTADO}','${TIPO_ASESORIA_ACTUAL}')`;
+       VALUES ('${REQUERIMIENTO}','${DESCRIPCION}','${RESULTADO}','${TIPO_ASESORIA_ACTUAL}', CURRENT_TIMESTAMP - 5 HOUR)`;
 
     } else {
-        query = `INSERT INTO formato_asesoria (requerimiento, descripcion, resultado, tipo_asesoria_actual , tipo_asesoria_id_tipo_asesoria)
+        query = `INSERT INTO formato_asesoria (requerimiento, descripcion, resultado, tipo_asesoria_actual , tipo_asesoria_id_tipo_asesoria, fecha)
    
-       VALUES ('${REQUERIMIENTO}','${DESCRIPCION}','${RESULTADO}','${TIPO_ASESORIA_ACTUAL}','${TIPO_ASESORIA_ID_TIPO_ASESORIA}')`;
+       VALUES ('${REQUERIMIENTO}','${DESCRIPCION}','${RESULTADO}','${TIPO_ASESORIA_ACTUAL}','${TIPO_ASESORIA_ID_TIPO_ASESORIA}', CURRENT_TIMESTAMP - 5 HOUR)`;
     }
 
 

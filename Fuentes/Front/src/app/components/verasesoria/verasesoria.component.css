@@ -1,0 +1,21 @@
+#btnRegister {
+    font-size: 1rem;
+    border-radius: 5rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s;
+    background-color: #00468f;
+    color: white;
+}
+
+#btnBack {
+    font-size: 1rem;
+    border-radius: 5rem;
+    letter-spacing: .1rem;
+    font-weight: bold;
+    padding: 1rem;
+    transition: all 0.2s;
+    background-color: grey;
+    color: white;
+}

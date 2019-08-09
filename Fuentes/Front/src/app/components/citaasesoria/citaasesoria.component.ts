@@ -62,7 +62,7 @@ export class CitaasesoriaComponent implements OnInit {
   disponibilidades: Disponibilidad2[] = [];
 
 
-  constructor(private agendarCitaService: AgendarCitaService, private etapaService: EtapaService, private datePipe: DatePipe, private _horarioService: HorariosService) {
+  constructor(private agendarCitaService: AgendarCitaService, private etapaService: EtapaService, private datePipe: DatePipe, private _horarioService: HorariosService, private router: Router) {
     this.fechaActual = new Date();
   }
 
@@ -81,11 +81,13 @@ export class CitaasesoriaComponent implements OnInit {
       })
   }
 
-  calendario() {
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+  async calendario() {
     cargando = true;
     let cal = this.calendarComponent.getApi();
-    cal.removeAllEvents();
-    console.log("los borro000");
+    cal.removeAllEvents();    
     if (this.vez < 1) {
       for (let horario of this.agendarCitaService.horariosAsesoria) {
         this.horarioSelect = horario;
@@ -94,7 +96,7 @@ export class CitaasesoriaComponent implements OnInit {
       this.vez = 1;
     }
     for (let disponibilidad of this.disponibilidades) {
-
+      await this.delay(500);
       this.agendarCitaService.asesoriasLibres(disponibilidad)
         .subscribe(res => {
           this.agendarCitaService.horarioSelect = res as Horario;
@@ -250,7 +252,8 @@ export class CitaasesoriaComponent implements OnInit {
           this.etapa=4;
           this.etapaService.putEtapa(this.estudiante_id, this.etapa)
           .subscribe(res =>{
-            console.log(res);
+            console.log(res);            
+            this.router.navigate(['/pending/dates']);
           });
         cargando = false;
         this.openModal(false);
@@ -260,7 +263,7 @@ export class CitaasesoriaComponent implements OnInit {
   getValidRol() {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
-    this.estudiante_id = parseInt(tokenPayload.id_usuario);
+    this.estudiante_id = parseInt(tokenPayload.id_estudiante);
 
   }
   yaCargo() {

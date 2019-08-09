@@ -15,6 +15,8 @@ router.get('/jornadas', loginCtrl.getJornadas);
 router.get('/id/:correo', loginCtrl.getIdUsuario);
 router.post('/usuarioDuplicado', loginCtrl.usuarioDuplicado);
 router.post('/estudianteDuplicado', loginCtrl.estudianteDuplicado);
+router.post('/recoveryPassword', loginCtrl.recoveryPassword);
+router.post('/recoveryCode', loginCtrl.recoveryCode);
 
 
 

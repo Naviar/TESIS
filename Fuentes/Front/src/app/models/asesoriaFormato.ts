@@ -6,4 +6,5 @@ export interface asesoriaFormato {
     FORMATO_EVALUACION_ID_FORMATO_EVALUACION?: number;
     TIPO_ASESORIA_ID_TIPO_ASESORIA?: number;
     TIPO_ASESORIA_ACTUAL: number;
+    FECHA: string;
 }

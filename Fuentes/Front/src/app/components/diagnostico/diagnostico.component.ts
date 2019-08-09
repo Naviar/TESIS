@@ -16,6 +16,7 @@ import { EtapaService } from 'src/app/services/etapa.service';
 import decode from 'jwt-decode';
 
 declare var M: any;
+let cargando = false;
 
 @Component({
   selector: 'app-diagnostico',
@@ -27,7 +28,7 @@ export class DiagnosticoComponent implements OnInit {
   diagnosticoForm: FormGroup;
   negocioForm: FormGroup;
   etapa:number;
-  constructor(private diagnosticoService: DiagnosticoService, private etapaService: EtapaService, private loginService: LoginService, private router: Router, private fb: FormBuilder) {
+  constructor(public diagnosticoService: DiagnosticoService, public etapaService: EtapaService, public loginService: LoginService, private router: Router, private fb: FormBuilder) {
     this.buildForm();
   }
 
@@ -117,6 +118,7 @@ export class DiagnosticoComponent implements OnInit {
   }
 
   guardarDiagnostico(form?: NgForm, form2?: NgForm) {
+    cargando=true;
     console.log("este es el form", form.value);
     form.value.actividades_clave = form2.value.actividades_clave;
     form.value.canales = form2.value.canales;
@@ -137,6 +139,7 @@ export class DiagnosticoComponent implements OnInit {
                       <p>El formato diagnostico ha sido creado satisfactoriamente</p>
                       <hr>
                   </div>`});
+                  cargando=false;
             this.getEstudiantes();
             this.etapa=2;
             this.etapaService.putEtapa(form.value.estudiante, this.etapa)
@@ -156,5 +159,12 @@ export class DiagnosticoComponent implements OnInit {
   }
   nombreJornada(id_jornada : number){
     return this.loginService.jornadas.find(jornada => jornada.ID_JORNADA == id_jornada).NOMBRE_JORNADA;
+  }
+  yaCargo() {
+    if (cargando == false) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

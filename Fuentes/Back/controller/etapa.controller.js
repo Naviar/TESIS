@@ -5,7 +5,7 @@ let connStr = require('../database');
 etapaCtrl.getEtapa = (req, res) => {
     
     let id_estudiante = parseInt(req.params.id_estudiante);
-    console.log("IDDDDD",id_estudiante);
+    
     // console.log(req.info);
     ibmdb.open(connStr, (err, conn) => {
 

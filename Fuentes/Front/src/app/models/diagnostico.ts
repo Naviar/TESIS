@@ -1,7 +1,7 @@
 export interface Diagnostico{   
     ID_FORMATO_DIAGNOSTICO:string;     
-    ETAPA_PROYECTO: number; 
-    SECTOR_PROYECTO: number;     
+    ETAPA_ID_ETAPA: number; 
+    SECTOR_ID_SECTOR: number;     
     AMBITO_SOCIAL: string; 
     DESCRIPCION_PROYECTO: string;    
     SOCIOS_CLAVE: string; 
@@ -13,6 +13,8 @@ export interface Diagnostico{
     SEGMENTOS_CLIENTES: string; 
     ESTRUCTURA_COSTOS: string; 
     FUENTE_INGRESOS: string; 
-    TIPO_ASESORIA: number;
+    TIPO_ASESORIA_ID_TIPO_ASESORIA: number;
     FORMATO_EVALUACION: number;
+    FECHA: string;
+    ESTUDIANTE_ID_ESTUDIANTE: number;
 }
