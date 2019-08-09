@@ -8,13 +8,16 @@ import { HttpClient } from '@angular/common/http';
 export class AutenticarUsuarios {
 
   readonly URL_API = `http://localhost:3500/autenticarUsuarios`;
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient) { } 
 
   getAsesores(){
     return this.http.get(this.URL_API+"/getAsesores");
   }
   getEstudiantes(){
     return this.http.get(this.URL_API+"/getEstudiantes");
+  }
+  geUsuarios(){
+    return this.http.get(this.URL_API+"/getUsuarios");
   }
   getAsesorId(id:number){
     return this.http.get(this.URL_API+`/getAsesorId/${id}`);

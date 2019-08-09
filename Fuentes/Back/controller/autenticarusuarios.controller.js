@@ -43,6 +43,23 @@ AutenticarUsuariosCtrl.getEstudiantes =  (req, res) => {
        })
    })
 }
+AutenticarUsuariosCtrl.getUsuarios =  (req, res) => {
+
+    ibmdb.open(connStr, (err, conn) => {
+
+       conn.query(`SELECT * FROM usuario`, (err, data) => {
+           if (err) {
+               res.json({ error: err })
+               console.log("Hubo un error en la busqueda DE USUARIOS" + err);
+           } else {
+               conn.close(() => {
+                   console.log("Se ha cerrado la base de datos")
+               })
+               res.json(data)
+           }
+       })
+   })
+}
 AutenticarUsuariosCtrl.getAsesorId =  (req, res) => {
     let id = req.params.id;
 
