@@ -139,8 +139,8 @@ export class ReporteComponent implements OnInit {
     this.seguimientoService.getEstudiantes()
       .subscribe(res => {
         this.seguimientoService.estudiantes = res as estudiante[];
-        imprimir.push(['ID', 'NOMBRE', 'APELLIDO', 'CORREO', 'CELULAR', 'CODIGO', 'SEMESTRE', 'FACULTAD', 'JORNADA', 'ETAPA',
-          'ID_ASESORIA', 'REQUERIMIENTO', 'DESCRIPCIÓN', 'RESULTADO', 'ID_EVALUACIÓN',
+        imprimir.push(['ID', 'NOMBRE', 'APELLIDO', 'ID_ASESORIA', 'REQUERIMIENTO', 'DESCRIPCIÓN', 'RESULTADO',
+          'ID_EVALUACIÓN',
           'TIPO DE ASESORIA REQUERIDA',
           'TIPO DE ASESORIA ACTUAL',
           'ID_COMPROMISO', 'ACTIVIDAD', 'FECHA', 'OBSERVACION', 'NOMBRE DEL RESPONSABLE', 'APELLIDO DEL RESPONSABLE',
@@ -238,7 +238,75 @@ export class ReporteComponent implements OnInit {
         }
       })
   }
-
+  getGeneral(){
+    cargando = true;
+    this.seguimientoService.getEstudiantes()
+      .subscribe(res => {
+        this.seguimientoService.estudiantes = res as estudiante[];
+        imprimir.push(['ID', 'NOMBRE', 'APELLIDO', 'ID_ASESORIA', 'REQUERIMIENTO', 'DESCRIPCIÓN', 'RESULTADO',
+          'ID_EVALUACIÓN',
+          'TIPO DE ASESORIA REQUERIDA',
+          'TIPO DE ASESORIA ACTUAL',
+          'ID_COMPROMISO', 'ACTIVIDAD', 'FECHA', 'OBSERVACION', 'NOMBRE DEL RESPONSABLE', 'APELLIDO DEL RESPONSABLE',
+          'ROL']);
+        for (let estudiante of this.seguimientoService.estudiantes) {
+          this.seguimientoService.getAsesorias(estudiante.ID_ESTUDIANTE)
+            .subscribe(res => {
+              this.seguimientoService.asesorias = res as asesoriaFormato[];
+              for (let asesoria of this.seguimientoService.asesorias) {
+                console.log("entro N veces");
+                this.seguimientoService.getCompromisosAsesoria(asesoria.ID_FORMATO_ASESORIA)
+                  .subscribe(res => {
+                    this.seguimientoService.compromisos = res as compromiso2[];
+                    
+                    if (this.seguimientoService.compromisos.length == 0) {
+                      this.fin = 1;
+                      imprimir.push([estudiante.ID_ESTUDIANTE, estudiante.NOMBRE, estudiante.APELLIDO, asesoria.ID_FORMATO_ASESORIA, asesoria.REQUERIMIENTO, asesoria.DESCRIPCION, asesoria.RESULTADO,
+                      asesoria.FORMATO_EVALUACION_ID_FORMATO_EVALUACION,
+                      (asesoria.TIPO_ASESORIA_ID_TIPO_ASESORIA != null) ? this.asesoriaService.asesorias.filter(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == asesoria.TIPO_ASESORIA_ID_TIPO_ASESORIA)[0].NOMBRE_TIPO_ASESORIA: 'N/A',
+                      (asesoria.TIPO_ASESORIA_ACTUAL!= null) ? this.asesoriaService.asesorias.filter(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == asesoria.TIPO_ASESORIA_ACTUAL)[0].NOMBRE_TIPO_ASESORIA: 'N/A',
+                        'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A',
+                        'N/A']);
+                    }
+                    else {
+                      this.fin = 0;
+                      this.cont = 0;
+                      for (let compromiso of this.seguimientoService.compromisos) {                        
+                        if (this.cont == 0) {                          
+                          imprimir.push([estudiante.ID_ESTUDIANTE, estudiante.NOMBRE, estudiante.APELLIDO, asesoria.ID_FORMATO_ASESORIA, asesoria.REQUERIMIENTO, asesoria.DESCRIPCION, asesoria.RESULTADO,
+                          asesoria.FORMATO_EVALUACION_ID_FORMATO_EVALUACION,
+                          (asesoria.TIPO_ASESORIA_ID_TIPO_ASESORIA!= null) ? this.asesoriaService.asesorias.filter(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == asesoria.TIPO_ASESORIA_ID_TIPO_ASESORIA)[0].NOMBRE_TIPO_ASESORIA: 'N/A',
+                          (asesoria.TIPO_ASESORIA_ACTUAL!= null) ? this.asesoriaService.asesorias.filter(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == asesoria.TIPO_ASESORIA_ACTUAL)[0].NOMBRE_TIPO_ASESORIA: 'N/A',
+                          compromiso.ID_COMPROMISO, compromiso.ACTIVIDAD, compromiso.FECHA, compromiso.OBSERVACION, compromiso.NOMBRE, compromiso.APELLIDO,
+                          this.loginService.roles.filter(rol => rol.ID_ROL == compromiso.ROL_ID_ROL)[0].NOMBRE_ROL]);
+                          this.cont++;
+                        }
+                        else {
+                          imprimir.push([' ', ' ', ' ', ' ', ' ', ' ', ' ',
+                            ' ',
+                            ' ',
+                            ' ',
+                            compromiso.ID_COMPROMISO, compromiso.ACTIVIDAD, compromiso.FECHA, compromiso.OBSERVACION, compromiso.NOMBRE, compromiso.APELLIDO,
+                            this.loginService.roles.filter(rol => rol.ID_ROL == compromiso.ROL_ID_ROL)[0].NOMBRE_ROL]);
+                          this.cont++;
+                        }
+                        if (compromiso == this.seguimientoService.compromisos[this.seguimientoService.compromisos.length - 1]) {
+                          this.fin = 1;
+                        }
+                      }
+                    }
+                    if (estudiante == this.seguimientoService.estudiantes[this.seguimientoService.estudiantes.length - 1] &&
+                      asesoria == this.seguimientoService.asesorias[this.seguimientoService.asesorias.length - 1] &&
+                      this.fin == 1) {
+                      this.descargarExcel('Reporte_Asesorias');
+                      cargando = false;
+                    }
+                  })
+              }
+            })
+        }
+      })
+  }
 
   generarExcel(form?: NgForm) {
     imprimir = [];

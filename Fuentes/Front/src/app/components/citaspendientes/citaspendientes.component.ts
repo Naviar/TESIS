@@ -13,6 +13,9 @@ import { TipoReunion } from 'src/app/models/tiporeunion';
 import { TipoAsesoria } from 'src/app/models/tipoasesoria';
 import { NgForm, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CitasPendientes } from 'src/app/services/citaspendientes.service';
+import { estudiante } from 'src/app/models/estudiante';
+import { LoginService } from 'src/app/services/login.service';
+import { facultad } from 'src/app/models/facultad';
 
 declare var M: any;
 let cargando = true;
@@ -44,9 +47,15 @@ export class CitaspendientesComponent implements OnInit {
   rol: number;
   titulo: string;
   cancelarCitaForm : FormGroup;
+  nombre: string;
+  correo: string;
+  celular: string;
+  codigo: string;
+  semestre: string;
+  facultad: string;
 
   horarioSelect: Horario = {
-    ID_HORARIO: 1,
+    ID_HORARIO: 1, 
     DIA: this.Dias[1],
     HORA_INICIO: "",
     HORA_FIN: "",
@@ -63,12 +72,12 @@ export class CitaspendientesComponent implements OnInit {
   disponibilidades: Disponibilidad2[] = [];
 
 
-  constructor(private fb : FormBuilder,private agendarCitaService: AgendarCitaService, private citasPendientesService: CitasPendientes, private datePipe: DatePipe, private _horarioService: HorariosService) {
+  constructor(private fb : FormBuilder,private agendarCitaService: AgendarCitaService, private citasPendientesService: CitasPendientes, private datePipe: DatePipe, private _horarioService: HorariosService,  public loginService: LoginService) {
 
   }
 
   ngOnInit() {
-    
+    this.getFacultades();
     this.getValidRol();
     this.getCitasPendientes();
     this.getTiposAsesorias();
@@ -154,8 +163,29 @@ export class CitaspendientesComponent implements OnInit {
         else if (this.agendarCitaService.horarioSelect[0].TIPO_REUNION_ID_TIPO_REUNION == 2) {
           this.titulo = this.tiposAsesoria.find(asesoria => asesoria.ID_TIPO_ASESORIA == this.agendarCitaService.horarioSelect[0].TIPO_ASESORIA_ID_TIPO_ASESORIA).NOMBRE_TIPO_ASESORIA;
         }
-        cargando = false;
-        this.openModal(true);
+        this.agendarCitaService.getDisponibilidadId(this.idDisponibilidadSelect)
+        .subscribe(res=>{
+          this.agendarCitaService.disponibilidadSelect = res as Disponibilidad2;          
+          this.citasPendientesService.getEstudiante(this.agendarCitaService.disponibilidadSelect[0].ID_ESTUDIANTE)
+          .subscribe(res=>{
+            this.citasPendientesService.estudiante = res as estudiante;
+            this.nombre = this.citasPendientesService.estudiante[0].NOMBRE + " " + this.citasPendientesService.estudiante[0].APELLIDO;     
+            this.correo = this.citasPendientesService.estudiante[0].CORREO;
+            this.celular = this.citasPendientesService.estudiante[0].CELULAR;  
+            this.codigo = this.citasPendientesService.estudiante[0].CODIGO;    
+            this.facultad = this.loginService.facultades.filter(facultad => facultad.ID_FACULTAD == this.citasPendientesService.estudiante[0].FACULTAD_ID_FACULTAD)[0].NOMBRE_FACULTAD;   
+            this.semestre = this.citasPendientesService.estudiante[0].SEMESTRE;     
+            cargando = false;
+            this.openModal(true);
+          })
+        })
+      })
+  }
+
+  getFacultades() {
+    this.loginService.getFacultades()
+      .subscribe(res => {
+        this.loginService.facultades = res as facultad[];
       })
   }
 

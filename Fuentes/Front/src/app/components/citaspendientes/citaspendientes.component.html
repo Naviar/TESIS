@@ -73,6 +73,57 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+                        <Strong>Detalle del estudiante</Strong>
+                    </h5>
+                    <hr> 
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Nombre</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="nombre" #name="ngModel" [(ngModel)]="nombre" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Correo</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="correo" #name="ngModel" [(ngModel)]="correo" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Celular</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="celular" #name="ngModel" [(ngModel)]="celular" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Codigo</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="codigo" #name="ngModel" [(ngModel)]="codigo" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Facultad</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="facultad" #name="ngModel" [(ngModel)]="facultad" disabled>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Semestre</Strong>
+                                </label>
+                                <input class="form-control" id="input" type="text" name="semestre" #name="ngModel" [(ngModel)]="semestre" disabled>
+                            </div>
+                        </div>
+                    </div>
                 </form>
                 <br>
                 <button class=" btn btn-outline-danger" (click)="this.openModal2(true);">Cancelar cita</button>

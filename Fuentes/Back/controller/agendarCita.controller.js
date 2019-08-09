@@ -49,6 +49,24 @@ agendarCitaCtrl.getHorarioId = async(req, res) => {
     })
 }
 
+agendarCitaCtrl.getDisponibilidadId = async(req, res) => {
+    let id = req.params.id;
+    ibmdb.open(connStr, (err, conn) => {
+
+        conn.query(`SELECT * FROM disponibilidad WHERE id_disponibilidad='${id}'`, (err, data) => {
+            if (err) {
+                res.json({ error: err })
+                console.log("Hubo un error en la busqueda DE HORARIOS" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json(data)
+            }
+        })
+    })
+}
+
 agendarCitaCtrl.disponibilidadesLibres = async (req, res) => {
     // console.log("lo que llega",req.body);
     let id = req.body.HORARIO_ID_HORARIO;
@@ -67,7 +85,7 @@ agendarCitaCtrl.disponibilidadesLibres = async (req, res) => {
             }
         })
     })
-}
+} 
 
 agendarCitaCtrl.disponibilidadesOcupadas = async (req, res) => {
     // console.log("lo que llega",req.body);
