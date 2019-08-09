@@ -45,22 +45,28 @@ export class AutenticarusuariosComponent implements OnInit {
   }
   getUsuarios() {
     cargando = true;
-    if (this.rol == 1) {            //LIDER      
-      this.autenticarUsuarioService.getAsesores()
-        .subscribe(res => {
-          this.usuarios = res as usuario[];
-          this.inicio = res as usuario[];
-          cargando = false;
-        })
-    }
-    else if (this.rol == 2) {       //ASESOR    
-      this.autenticarUsuarioService.getEstudiantes()
-        .subscribe(res => {
-          this.usuarios = res as usuario[];
-          this.inicio = res as usuario[];
-          cargando = false;
-        })
-    }
+    // if (this.rol == 1) {            //LIDER      
+    //   this.autenticarUsuarioService.getAsesores()
+    //     .subscribe(res => {
+    //       this.usuarios = res as usuario[]; 
+    //       this.inicio = res as usuario[];   
+    //       cargando=false;      
+    //     })
+    // }
+    // else if (this.rol == 2) {       //ASESOR    
+    //   this.autenticarUsuarioService.getEstudiantes()
+    //     .subscribe(res => {
+    //       this.usuarios = res as usuario[];    
+    //       this.inicio = res as usuario[];
+    //       cargando=false;      
+    //     })
+    // }
+    this.autenticarUsuarioService.geUsuarios()
+      .subscribe(res => {
+        this.usuarios = res as usuario[];
+        this.inicio = res as usuario[];
+        cargando = false;
+      })
   }
   changeStatus(id_usuario: number, estado: any) {
     this.autenticarUsuarioService.changeStatus(id_usuario, estado)
@@ -116,8 +122,7 @@ export class AutenticarusuariosComponent implements OnInit {
         this.loginService.facultades = res as facultad[];
       })
   }
-  buscar(input, select) {
-    console.log("entro o si");
+  buscar(input, select) {    
     var busqueda: usuario[] = [], i;
     var look = 0;
     for (i = 0; i < this.inicio.length; i++) {
