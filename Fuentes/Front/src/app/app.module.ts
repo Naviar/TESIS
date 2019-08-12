@@ -6,6 +6,7 @@ import { HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms'
 import {ReactiveFormsModule} from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,7 +26,12 @@ import { AsesoriaComponent } from './components/asesoria/asesoria.component';
 import { CitaasesoriaComponent } from './components/citaasesoria/citaasesoria.component';
 import { CitaspendientesComponent } from './components/citaspendientes/citaspendientes.component';
 import { AutenticarusuariosComponent } from './components/autenticarusuarios/autenticarusuarios.component';
-
+import { SeguimientoComponent } from './components/seguimiento/seguimiento.component';
+import { VerdiagnosticoComponent } from './components/verdiagnostico/verdiagnostico.component';
+import { VerasesoriaComponent } from './components/verasesoria/verasesoria.component';
+import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
+import { ReporteComponent } from './components/reporte/reporte.component';
+ 
 
 
 
@@ -44,7 +50,7 @@ import { AutenticarusuariosComponent } from './components/autenticarusuarios/aut
     CitadiagnosticoComponent, 
     CitaasesoriaComponent, 
     CitaspendientesComponent, 
-    AutenticarusuariosComponent   
+    AutenticarusuariosComponent, SeguimientoComponent, VerdiagnosticoComponent, VerasesoriaComponent, VerevaluacionComponent, ReporteComponent   
   ],
   imports: [
     BrowserModule,
@@ -55,7 +61,8 @@ import { AutenticarusuariosComponent } from './components/autenticarusuarios/aut
     HttpClientModule,
     ToastrModule.forRoot(),
     AmazingTimePickerModule,
-    FullCalendarModule 
+    FullCalendarModule ,
+    NgxPaginationModule
 
   ],
   providers: [DatePipe],

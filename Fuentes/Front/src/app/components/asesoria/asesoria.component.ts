@@ -11,6 +11,9 @@ import { compromiso } from '../../models/compromiso';
 import decode from 'jwt-decode';
 import { EtapaService } from '../../services/etapa.service';
 
+declare var M: any;
+let cargando = false;
+
 @Component({ 
   selector: 'app-asesoria',
   templateUrl: './asesoria.component.html',
@@ -26,13 +29,14 @@ export class AsesoriaComponent implements OnInit {
     DESCRIPCION: '',
     RESULTADO: '',
     TIPO_ASESORIA_ACTUAL: undefined,
+    FECHA: '' 
   };
 
   compromiso: compromiso = {
     ACTIVIDAD: '',
     FECHA: '',
     OBSERVACION: '',
-    ID_USUARIO: undefined,
+    ID_USUARIO: undefined
   };
 
 
@@ -114,7 +118,7 @@ export class AsesoriaComponent implements OnInit {
     this.formato.TIPO_ASESORIA_ID_TIPO_ASESORIA = form.value.asesoria_requerida;
 
     console.log('formato', this.formato);
-
+    cargando=true;
     this.asesoriaService.postfFormatoAsesoria(this.formato)
       .subscribe(
         (res) => {
@@ -133,28 +137,41 @@ export class AsesoriaComponent implements OnInit {
         (err) => { console.log('error en post formato', err); },
 
         () => {
+          
 
           this.asesoriaService.postFormatoAsesoria2(this.data_has)
             .subscribe(
-              (res) => { console.log('guardo tabla intermedia', res); },
-
+              (res) => { console.log('guardo tabla intermedia', res);
+              M.toast({
+                html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                        <h4 class="alert-heading">FORMATO GUARDADO</h4>
+                        <p>El formato asesoria ha sido creado satisfactoriamente</p>
+                        <hr>
+                    </div>`}); },
               (err) => { console.log('error guardadno tabla intermedia', err); },
 
               () => {
+                
+                this.etapa = 5;
+                      this.etapaService.putEtapa(form.value.estudiante, this.etapa)
+                        .subscribe(res => {
+                          console.log(res);
+                          cargando=false;
+                          this.resetForm();
+                        });
+
                 if (this.asesoriaService.compromisos.length > 0) {
                   this.asesoriaService.postCompromisos().subscribe(
                     (res) => { console.log('srespuesta de compromisos', res); },
                     (err) => { console.log('error enviando compromisos', err); },
                     () => {
-                      this.etapa = 2;
-                      this.etapaService.putEtapa(form.value.estudiante, this.etapa)
-                        .subscribe(res => {
-                          console.log(res);
-                        });
+                      
                     }
                   )
                 }
               }
+              
+
             )
 
 
@@ -162,7 +179,10 @@ export class AsesoriaComponent implements OnInit {
         }
       )
   }
-
+  resetForm() {
+    this.asesoriaForm.reset();
+    this.compromisoForm.reset();
+  }
   addCompromiso(form: NgForm) {
 
 
@@ -234,5 +254,11 @@ export class AsesoriaComponent implements OnInit {
   nombreJornada(id_jornada: number) {
     return this.loginService.jornadas.find(jornada => jornada.ID_JORNADA == id_jornada).NOMBRE_JORNADA;
   }
-
+  yaCargo() {
+    if (cargando == false) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

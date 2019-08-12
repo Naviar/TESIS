@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
       <div class="card" style="width: 700px">
         <div class="card-body">
-          <h2 class="row justify-content-center">Autenticar usuarios</h2>
+          <h2 class="row justify-content-center">Activar usuarios</h2>
           <hr>
           <p>"Active o desactive los usuarios, para que puedan hacer uso de la plataforma"
           </p>
@@ -18,9 +18,22 @@
               <span class="sr-only">Loading...</span>
             </div>
           </div>
-
+          <h5>Filtrar:</h5>
+          <div class="row">
+          <div class="col">
+            <select id="select" class="form-control" #mySelect>
+              <option value=1>Nombre</option>
+              <option value=2>Apellido</option>
+            </select>
+          </div>
+          <div class="col">
+          <input id="inputt" class="form-control" placeholder="Buscar..." #myInput (keyup)="this.buscar(myInput.value, mySelect.value)"
+            style="border-radius: 0rem;" title="Ingrese el campo para filtrar" aria-describedby="basic-addon2">
+          </div>
+          </div>
+          <br>
           <div class="form-label-group">
-            <div *ngFor="let usuario of usuarios" class="row">
+            <div *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 5, currentPage: p }" class="row">
               <div class="col">
                 <label class="name" for="ejemplo">{{usuario.NOMBRE}} {{usuario.APELLIDO}}</label>
               </div>
@@ -32,11 +45,11 @@
                 </label>
               </div>
               <div class="col">
-                <a data-toggle="modal" data-target="#addhorario" href="" (click)="detalles(usuario.ID_USUARIO)"><i
-                    class="fa fa-eye"></i></a>
+                <a data-toggle="modal" data-target="#addhorario" href="" (click)="detalles(usuario.ID_USUARIO, usuario.ROL_ID_ROL)"><i class="fa fa-eye"></i></a>
               </div>
             </div>
-          </div>
+          </div>                  
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>                
         </div>
       </div>
     </div>
@@ -50,7 +63,7 @@
           <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
             <Strong>Detalles de usuario</Strong>
           </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetModal()">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -92,14 +105,14 @@
             </div>
           </form>
           <br>
-          <form #asesorForm="ngForm" *ngIf="rol == 1">
+          <form #asesorForm="ngForm" *ngIf="condicion == 1">
             <div class="form-label-group">
               <label><Strong>Facultad</Strong></label>
               <input class="form-control" id="input" type="text" name="facultad" #name="ngModel" [(ngModel)]="facultad"
                 disabled>
             </div>
           </form>
-          <form #estudianteForm="ngForm" *ngIf="rol == 2">
+          <form #estudianteForm="ngForm" *ngIf="condicion == 2">
             <div class="row">
               <div class="col">
                 <div class="form-label-group">

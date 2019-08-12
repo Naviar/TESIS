@@ -3,6 +3,7 @@
     width: 500px;
 }
 
+
 .switch {
     margin-left: 5px;
     position: relative;
@@ -88,6 +89,7 @@ input:checked+.slider:before {
 
 #select {
     border-radius: .5rem;
+    width: 150px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -96,3 +98,13 @@ input:checked+.slider:before {
     border-radius: 2rem;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+#inputt{
+    height: auto;
+    width: 450px;
+    border-radius: .5rem;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+
+pagination-controls{
+    text-align: center;
+  }

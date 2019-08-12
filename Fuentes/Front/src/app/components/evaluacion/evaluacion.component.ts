@@ -4,8 +4,10 @@ import { NgForm } from '@angular/forms';
 import { EvaluacionService } from 'src/app/services/evaluacion.service';
 import decode from 'jwt-decode';
 import { EtapaService } from '../../services/etapa.service';
+import { Router } from '@angular/router';
 
 declare var M: any;
+let cargando = true;
 
 @Component({
   selector: 'app-evaluacion',
@@ -19,7 +21,7 @@ export class EvaluacionComponent implements OnInit {
   evaluacionForm: FormGroup;
   etapa: number;
 
-  constructor(private fb: FormBuilder, private evaluacionService: EvaluacionService, private etapaService: EtapaService) {
+  constructor(private fb: FormBuilder, private evaluacionService: EvaluacionService, private etapaService: EtapaService , private router : Router) {
     this.buildForm();
   }
 
@@ -51,10 +53,12 @@ export class EvaluacionComponent implements OnInit {
       yesno_q5: [false, Validators.compose([])],
       observaciones: ['', Validators.compose([])]
     });
+    cargando=false;
 
   }
 
   guardarEvaluacion(form?: NgForm) {
+    cargando = true;
     console.log("formulariooo", form.value);
     this.evaluacionService.postEvaluacion(form.value)
 
@@ -66,6 +70,7 @@ export class EvaluacionComponent implements OnInit {
                   <p>El formato evaluacion ha sido creado satisfactoriamente</p>
                   <hr>
               </div>`});
+        cargando=false;
         this.resetForm();
         this.buildForm();
         if (this.etapa_estudiante === 2) {
@@ -78,6 +83,7 @@ export class EvaluacionComponent implements OnInit {
                 this.etapaService.putEtapa(this.id_estudiante, this.etapa)
                   .subscribe(res => {
                     console.log(res);
+                    this.router.navigate(['home']);
                   });
               }
             )
@@ -86,20 +92,25 @@ export class EvaluacionComponent implements OnInit {
         if (this.etapa_estudiante === 5) {
           this.evaluacionService.actualizarEvaluacionAsesoria(data[0].ID_FORMATO_EVALUACION, this.id_estudiante)
             .subscribe(
-              (res) => { console.log('actualizo la evaluacion de la asesoria'); },
+              (res) => { console.log('actualizo la evaluacion de la asesoria'); 
+              this.router.navigate(['home']);},
               (err) => { console.log('error en el update de la asesoria eval'); },
               () => {
-              this.etapa = 6;
-                this.etapaService.putEtapa(this.id_estudiante, this.etapa)
-                  .subscribe(res => {
-                    console.log(res);
-                  });
+              // this.etapa = 6;
+              //   this.etapaService.putEtapa(this.id_estudiante, this.etapa)
+              //     .subscribe(res => {
+              //       console.log(res);
+              //     });
               }
             )
         }
 
-
-      });
+      },
+      (err)=>{
+       console.log('error',err);},
+       
+        
+        );
   }
 
 
@@ -126,17 +137,19 @@ export class EvaluacionComponent implements OnInit {
     this.etapaService.getEtapa(this.id_estudiante)
       .subscribe(
         (res) => {
-          console.log('la respuesta de getetapa', res);
-          this.etapa_estudiante = res[0].ETAPA
+          console.log('la respuesta de getetapa', res['ETAPA']);
+          this.etapa_estudiante = res['ETAPA'];
           console.log(this.etapa_estudiante);
         },
         (err) => { console.log('error intentando hacer el get etapa:', err); }
       )
   }
-
-
-
-
-
+  yaCargo() {
+    if (cargando == false) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
 }

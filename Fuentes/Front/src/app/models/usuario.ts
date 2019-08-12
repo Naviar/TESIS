@@ -6,4 +6,5 @@ export interface usuario{
     CELULAR:number;
     ACTIVO:boolean;
     ROL_ID_ROL:number;
+    FECHA: string;
 }

@@ -15,7 +15,9 @@ export class GuardService {
       this.router.navigate(['login']);
       return false;
     }
-    return true; 
+    else{
+      return true; 
+    }
+    
   }
-
 }

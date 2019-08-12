@@ -1,0 +1,156 @@
+<app-nav-bar></app-nav-bar>
+<br>
+
+<div class="text-center">
+  <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+    style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<!-- FORMATO DIAGNOSTICO -->
+
+<body>
+  <div class="container separador">
+    <div class="row justify-content-center">
+      <div class="card" style="width: 700px">
+        <div class="card-body">
+          <div class="container" id="contenido">
+            <h2 class="row justify-content-center">Formato diagnostico</h2>
+            <br>
+            <form>
+              <div class="form-label-group">
+                <label><Strong><label id="lbl">*</label>Estudiante</Strong>
+                </label>
+                <input type="text" class="form-control" name="estudiante" #name="ngModel" [(ngModel)]="estudiante"
+                  required maxlength="99" disabled>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col">
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Etapa del proyecto</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="etapa_proyecto" #name="ngModel" [(ngModel)]="etapa"
+                      required maxlength="99" disabled>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Sector del proyecto</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="sector_proyecto" #name="ngModel" [(ngModel)]="sector"
+                      required maxlength="99" disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <label><Strong><label id="lbl">*</label>Sector Económico y/o ámbito social:</Strong>
+                </label>
+                <input type="text" class="form-control" name="ambito_social" #name="ngModel"
+                  [(ngModel)]="seguimientoService.selected_diagnostico[0].AMBITO_SOCIAL" required maxlength="99" disabled>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <label><Strong><label id="lbl">*</label>Descripción del proyecto:</Strong>
+                </label>
+                <textarea type="text" class="form-control" name="descripcion_proyecto" #name="ngModel"
+                  [(ngModel)]="seguimientoService.selected_diagnostico[0].DESCRIPCION_PROYECTO" required disabled
+                  maxlength="199"></textarea>
+              </div>
+              <br>
+              <div>
+                <form>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Socios clave:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="socios_clave" #name="ngModel"
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].SOCIOS_CLAVE" placeholder="N/A" required disabled
+                      maxlength="99">
+                  </div>
+                  <br>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Actividades clave:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="actividades_clave" #name="ngModel"
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].ACTIVIDADES_CLAVE" required disabled
+                      placeholder="N/A" maxlength="99">
+                  </div>
+                  <br>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Recursos clave:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="recursos_clave" #name="ngModel"
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].RECURSOS_CLAVE" placeholder="N/A" required disabled
+                      maxlength="99">
+                  </div>
+                  <br>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Propuesta de valor:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="propuesta_valor" #name="ngModel"
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].PROPUESTA_VALOR" required disabled
+                      placeholder="N/A" maxlength="199">
+                  </div>
+                  <br>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Relacion con clientes:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="relacion_clientes" #name="ngModel"
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].RELACION_CLIENTES" required disabled
+                      placeholder="N/A" maxlength="99">
+                  </div>
+                  <br>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Canales:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="canales" #name="ngModel"
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].CANALES" required placeholder="N/A" disabled
+                      maxlength="99">
+                  </div>
+                  <br>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Segmentos de clientes:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="segmentos_clientes" #name="ngModel" placeholder="N/A" disabled
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].SEGMENTOS_CLIENTES" required
+                      maxlength="99">
+                  </div>
+                  <br>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Estructura de costos:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="estructura_costos" #name="ngModel" placeholder="N/A" disabled
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].ESTRUCTURA_COSTOS" required
+                      maxlength="99">
+                  </div>
+                  <br>
+                  <div class="form-label-group">
+                    <label><Strong><label id="lbl">*</label>Fuente de ingresos:</Strong>
+                    </label>
+                    <input type="text" class="form-control" name="fuente_ingresos" #name="ngModel" placeholder="N/A" disabled
+                      [(ngModel)]="seguimientoService.selected_diagnostico[0].FUENTE_INGRESOS" required maxlength="99">
+                  </div>
+                </form>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <label><Strong><label id="lbl">*</label>Asesoria requerida</Strong>
+                </label>
+                <input type="text" class="form-control" name="tipo_asesoria" #name="ngModel" [(ngModel)]="asesoria" disabled
+                  required maxlength="99" disabled>
+              </div>
+            </form>
+          </div>
+          <br>
+          <div class="form-label-group">
+            <button (click)="generarPDF()" class="btn btn-block" id="btnRegister" type="button">Descargar</button>
+            <button (click)="goBack()" class="btn btn-block" id="btnBack" type="button">Volver</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<!-- FIN FORMATO DIAGNOSTICO -->

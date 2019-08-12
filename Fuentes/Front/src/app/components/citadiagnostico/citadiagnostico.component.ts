@@ -60,7 +60,7 @@ export class CitadiagnosticoComponent implements OnInit {
   disponibilidades: Disponibilidad2[] = [];
 
 
-  constructor(private agendarCitaService: AgendarCitaService, private etapaService: EtapaService, private datePipe: DatePipe, private _horarioService: HorariosService) {
+  constructor(private agendarCitaService: AgendarCitaService, private etapaService: EtapaService, private datePipe: DatePipe, private _horarioService: HorariosService, private router: Router) {
     this.fechaActual = new Date();
   }
 
@@ -81,7 +81,11 @@ export class CitadiagnosticoComponent implements OnInit {
         ()=>{this.calendario();})
   }
 
-  calendario() {
+   delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+}
+
+  async calendario() {
     cargando = true;
     let cal = this.calendarComponent.getApi();
     cal.removeAllEvents();
@@ -94,9 +98,10 @@ export class CitadiagnosticoComponent implements OnInit {
       this.vez = 1;
     }
     for (let disponibilidad of this.disponibilidades) {
+      await this.delay(500); 
       this.agendarCitaService.disponibilidadesLibres(disponibilidad)
         .subscribe(res => {
-
+          console.log("Que es esta respuestaaaaaaaa",res); 
           this.agendarCitaService.horarioSelect = res as Horario;
           if (this.agendarCitaService.horarioSelect[0] == undefined) {
             this.agendarCitaService.disponibilidadesOcupadas(disponibilidad)
@@ -248,6 +253,7 @@ export class CitadiagnosticoComponent implements OnInit {
           this.etapaService.putEtapa(this.estudiante_id, this.etapa)
           .subscribe(res =>{
             console.log(res);
+            this.router.navigate(['/pending/dates']);
           });
         cargando = false;
         this.openModal(false);

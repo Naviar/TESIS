@@ -1,5 +1,11 @@
 <app-nav-bar></app-nav-bar>
 <br>
+<div class="text-center">
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+      style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
 
 <body>
 
@@ -13,12 +19,10 @@
                     <p>"Gestione las asesorias que estaran habilitadas , o agregue una nueva."
                     </p>
                     <div style="text-align: center">
-                        <button type="button" class="btn btn-outline-success" data-toggle="modal"
-                            data-target="#addasesoria">Agregar
+                        <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#addasesoria">Agregar
                             Asesoria</button>
                     </div>
-                    <div class="modal fade" id="addasesoria" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="addasesoria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content border-success">
                                 <div class="modal-header">
@@ -34,15 +38,11 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="form-label-group">
-                                                    <label><Strong><label id="lbl">*</label>Nombre de asesoria</Strong>
+                                                    <label><Strong>Nombre de asesoria</Strong>
                                                     </label>
-                                                    <input maxlength="45" type="text" class="form-control"
-                                                        name="nombre_asesoria" placeholder="Nombre de la asesoria"
-                                                        formControlName="nombre_asesoria" id='input'>
-                                                    <div *ngIf="asesoriaForm.get('nombre_asesoria').errors"
-                                                        class="alert alert-danger">
-                                                        <div
-                                                            *ngIf="asesoriaForm.get('nombre_asesoria').errors['required']">
+                                                    <input maxlength="45" type="text" class="form-control" name="nombre_asesoria" placeholder="Nombre de la asesoria" formControlName="nombre_asesoria" id='input'>
+                                                    <div *ngIf="asesoriaForm.get('nombre_asesoria').errors" class="alert alert-danger">
+                                                        <div *ngIf="asesoriaForm.get('nombre_asesoria').errors['required']">
                                                             Nombre para la asesoria requerido
                                                         </div>
                                                     </div>
@@ -53,8 +53,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <br>
-                                            <button class=" btn btn-outline-primary" [disabled]="!asesoriaForm.valid"
-                                                (click)="this.sendNuevaAsesoria(asesoriaForm)">Agregar</button>
+                                            <button class=" btn btn-outline-primary" [disabled]="!asesoriaForm.valid" (click)="this.sendNuevaAsesoria(asesoriaForm); this.asesoriaForm.reset();">Agregar</button>
                                         </div>
 
                                     </div>
@@ -68,7 +67,7 @@
 
                         <div *ngFor="let asesoria of Asesorias" class="row">
                             <div class="col">
-                                <label for="ejemplo">{{asesoria.NOMBRE_TIPO_ASESORIA}} esta {{asesoria.ACTIVO}}</label>
+                                <label for="ejemplo">{{asesoria.NOMBRE_TIPO_ASESORIA}}</label>
 
                             </div>
                             <div class="col">

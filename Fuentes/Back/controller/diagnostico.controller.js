@@ -32,7 +32,7 @@ diagnosticoCtrl.crearDiagnostico = (req, res) => {
 
     SELECT '${etapa_proyecto}','${sector_proyecto}','${ambito_social}','${descripcion_proyecto}',
     '${socios_clave}','${actividades_clave}','${recursos_clave}','${propuesta_valor}','${relacion_clientes}','${canales}','${segmentos_clientes}',
-    '${estructura_costos}','${fuente_ingresos}','${tipo_asesoria}','${estudiante}', estudiante.semestre, estudiante.facultad_id_facultad, CURRENT_TIMESTAMP
+    '${estructura_costos}','${fuente_ingresos}','${tipo_asesoria}','${estudiante}', estudiante.semestre, estudiante.facultad_id_facultad, CURRENT_TIMESTAMP - 5 HOUR
     FROM estudiante 
     WHERE id_estudiante= '${estudiante}'`;
         
@@ -60,7 +60,7 @@ diagnosticoCtrl.getEstudiantes = (req, res) => {
     // console.log(req.info);
     ibmdb.open(connStr, (err, conn) => {
   
-      conn.query("SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.formato_diagnostico_id_diagnostico IS NULL AND etapa = 1", (err, data) => {
+      conn.query("SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE etapa = 1 AND u.fecha >= CURRENT_DATE - 1 YEAR", (err, data) => {
   
         if (err) {
           res.json({ error: err })

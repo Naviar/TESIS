@@ -1,0 +1,264 @@
+<app-nav-bar></app-nav-bar>
+<br>
+<div class="text-center">
+  <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+    style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<body>
+  <div class="container separador">
+    <div class="row justify-content-center">
+      <div class="card" style="width: 700px">
+        <div class="card-body">
+          <div class="container" id="contenido">
+            <h2 class="row justify-content-center">Formato evaluacion</h2>
+            <hr>
+            <p>"Apreciado usuario del CSE, con el propósito de evaluar la calidad y pertinencia de los servicios
+              prestados por la Universidad Santo Tomás, le agradecemos diligenciar este formato teniendo en
+              cuenta la siguiente escala de valoración:
+              <strong>4. Excelente, 3. Bueno, 2. Regular, 1.
+                Deficiente.</strong>"
+            </p>
+            <hr>
+            <h5 class="row justify-content-center">EVALUACIÓN GENERAL</h5>
+            <br>
+            <form >
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">A nivel general ¿Cómo evalúa el servicio del Consultorio Social
+                      Empresarial?*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text"  class="form-control" #name="ngModel" name="EVAL_GENERAL_Q1"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].EVAL_GENERAL_Q1" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">¿Que tan útil fue el servicio tomado?*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="EVAL_GENERAL_Q2"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].EVAL_GENERAL_Q2" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Aporte del CSE en su proyecto social y/o empresarial*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="EVAL_GENERAL_Q3"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].EVAL_GENERAL_Q3" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">¿Cómo evalúa la divulgación y promoción del servicio?*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="EVAL_GENERAL_Q4"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].EVAL_GENERAL_Q4" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <h5 class="row justify-content-center">PERSONAL RESPONSABLE</h5>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Actitud y trato del profesional responsable del
+                      servicio*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="PERS_RESPONSABLE_Q1"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].PERS_RESPONSABLE_Q1" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Manejo y conocimiento del tema*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="PERS_RESPONSABLE_Q2"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].PERS_RESPONSABLE_Q2" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Apoyo y acompañamiento en el transcurso del servicio*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="PERS_RESPONSABLE_Q3"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].PERS_RESPONSABLE_Q3" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Respuesta a las inquietudes y solicitudes*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="PERS_RESPONSABLE_Q4"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].PERS_RESPONSABLE_Q4" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Metodología utilizada*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="PERS_RESPONSABLE_Q5"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].PERS_RESPONSABLE_Q5" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Cumplimiento de horarios*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="PERS_RESPONSABLE_Q6"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].PERS_RESPONSABLE_Q6" required disabled>
+                  </div>
+                </div>
+              </div>
+              <h5 class="row justify-content-center">INSTALACIONES Y EQUIPOS USADOS</h5>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Calidad de las instalaciones*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="INSTA_EQUIPOS_Q1"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].INSTA_EQUIPOS_Q1" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Equipos tecnológicos usados durante el servicio (si se
+                      usó)*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="INSTA_EQUIPOS_Q2"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].INSTA_EQUIPOS_Q2" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="ejemplo">Calidad del material de apoyo (Si se usó)*</label>
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" #name="ngModel" name="INSTA_EQUIPOS_Q3"
+                      [(ngModel)]="seguimientoService.selected_evaluacion[0].INSTA_EQUIPOS_Q3" required disabled>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <p>
+                <strong>
+                  Deslice hacia la derecha en caso de que su respuesta sea afirmativa, en caso contrario
+                  deslice a la
+                  izquierda.
+                </strong>
+              </p>
+              <br>
+              <div class="form-label-group">
+                <label for="ejemplo">¿Considera que el servicio prestado contribuyó al avance de su proyecto
+                  empresarial
+                  y/o social?</label>
+                <label class="switch">
+                  <input type="checkbox" class="form-control" #name="ngModel" name="YESNO_Q1"
+                    [(ngModel)]="seguimientoService.selected_evaluacion[0].YESNO_Q1" required disabled>
+                  <span class="slider round">&nbsp; SI NO</span>
+                </label>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <label for="ejemplo">¿Los servicios de la USTA para la comunidad ayudan a su crecimiento y
+                  desarrollo?</label>
+                <label class="switch">
+                  <input type="checkbox" class="form-control" #name="ngModel" name="YESNO_Q2"
+                    [(ngModel)]="seguimientoService.selected_evaluacion[0].YESNO_Q2" required disabled>
+                  <span class="slider round">&nbsp; SI NO</span>
+                </label>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <label for="ejemplo">¿Se encuentra satisfecho (a) con el servicio recibido?</label>
+                <label class="switch">
+                  <input type="checkbox" class="form-control" #name="ngModel" name="YESNO_Q3"
+                    [(ngModel)]="seguimientoService.selected_evaluacion[0].YESNO_Q3" required disabled>
+                  <span class="slider round">&nbsp; SI NO</span>
+                </label>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <label for="ejemplo">¿El personal de la USTA responde de manera respetuosa a sus
+                  solicitudes?</label>
+                <label class="switch">
+                  <input type="checkbox" class="form-control" #name="ngModel" name="YESNO_Q4"
+                    [(ngModel)]="seguimientoService.selected_evaluacion[0].YESNO_Q4" required disabled>
+                  <span class="slider round">&nbsp; SI NO</span>
+                </label>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <label for="ejemplo">¿Tomaría otro servicio brindado por la Universidad Santo Tomás?</label>
+                <label class="switch">
+                  <input type="checkbox" class="form-control" #name="ngModel" name="YESNO_Q5"
+                    [(ngModel)]="seguimientoService.selected_evaluacion[0].YESNO_Q5" required disabled>
+                  <span class="slider round">&nbsp; SI NO</span>
+                </label>
+              </div>
+              <br>
+              <div class="form-label-group">
+                <label for="ejemplo">Observaciones</label>
+                <textarea type="text" class="text-area" name="observaciones"  #name="ngModel"
+                  [(ngModel)]="seguimientoService.selected_evaluacion[0].OBSERVACIONES" required disabled
+                  maxlength="199"></textarea>
+              </div>
+            </form>
+            <br>
+            <div class="form-label-group">
+              <button (click)="generarPDF()" class="btn btn-block" id="btnRegister" type="button">Descargar</button>
+              <button (click)="goBack()" class="btn btn-block" id="btnBack" type="button">Volver</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

@@ -55,15 +55,19 @@ export class LoginService {
   registerAsesor(asesor: asesor){        
     return this.http.post(this.URL_API + '/registerAsesor', asesor);
   }
-  registerEstudiante(estudiante: estudiante){    
-    console.log("HASTA AQUI VASOS", estudiante);
+  registerEstudiante(estudiante: estudiante){        
     return this.http.post(this.URL_API + '/registerEstudiante', estudiante);
   }
   usuarioDuplicado(usuario:register){
     return this.http.post(this.URL_API + '/usuarioDuplicado', usuario);
   }
-  estudianteDuplicado(usuario:estudiante){
-    console.log("HASTA AQUI VASOS", usuario);
+  estudianteDuplicado(usuario:estudiante){    
     return this.http.post(this.URL_API + '/estudianteDuplicado', usuario);
+  }
+  recoveryPassword(recovery:any){    
+    return this.http.post(this.URL_API+'/recoveryPassword',recovery);
+  }
+  recoveryCode(correo:string){
+    return this.http.post(this.URL_API+'/recoveryCode',{correo});
   }
 }
