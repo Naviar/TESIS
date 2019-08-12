@@ -101,29 +101,28 @@ CitasPendientesCtrl.getHorarioId = (req, res) => {
                 res.json(data)
             }
         })
-    }) 
+    })
 }
 
 CitasPendientesCtrl.getEstudianteId = (req, res) => {
     let id = req.params.id;
     // console.log(req.info);
     ibmdb.open(connStr, (err, conn) => {
-  
-      conn.query(`SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.id_estudiante = '${id}'`, (err, data) => {
-  
-        if (err) {
-          res.json({ error: err })
-           console.log("Hubo un error en la busqueda" + err);
-        }
-        else {
-          conn.close(() => {
-             console.log("Se ha cerrado la base de datos")
-          })
-          res.json(data)
-        }
-      })
+
+        conn.query(`SELECT e.*, u.nombre, u.apellido, u.correo, u.celular FROM estudiante AS e INNER JOIN usuario AS u ON e.usuario_id_usuario = u.id_usuario WHERE e.id_estudiante = '${id}'`, (err, data) => {
+
+            if (err) {
+                res.json({ error: err })
+                console.log("Hubo un error en la busqueda" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json(data)
+            }
+        })
     })
-  }
+}
 
 CitasPendientesCtrl.deleteCita = (req, res) => {
 
@@ -135,7 +134,8 @@ CitasPendientesCtrl.deleteCita = (req, res) => {
     if (id_horario != undefined) {
         query = `select correo from usuario where id_usuario = (select usuario_id_usuario from horario where id_horario='${id_horario}')`;
     } else {
-        query = `select correo from usuario where id_usuario = (select usuario_id_usuario from estudiante where id_estudiante = (select id_estudiante from disponibilidad where id_disponibilidad = ${id_cita}))`
+        query = `select correo  from usuario  where id_usuario = (select usuario_id_usuario from estudiante where id_estudiante = (select id_estudiante from disponibilidad where id_disponibilidad = ${id_cita}))`;
+
     }
 
     console.log('llego:', id_horario);
@@ -149,14 +149,18 @@ CitasPendientesCtrl.deleteCita = (req, res) => {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")
                 })
+
                 console.log(data[0].CORREO);
                 const correo = data[0].CORREO;
                 borro = await deleteCita(id_cita);
                 console.log('borroooo:', borro);
 
+                if (id_horario == undefined)
+                    DevolverEtapa(correo);
+
                 const mailOptions = {
                     from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
-                    to: `ivanarango@usantotomas.edu.co`, // lista de los destinatarios del 
+                    to: correo, // lista de los destinatarios del 
                     subject: `${Asunto}`, // Línea del asunto 
                     html: `<h1>Cancelacion de cita consultorio socio-empresarial</h1>
                         <p>${Motivo}</p>` // cuerpo de texto sin formato 
@@ -184,11 +188,7 @@ CitasPendientesCtrl.deleteCita = (req, res) => {
 
 }
 
-CitasPendientesCtrl.deleteCitaPorFuncionario = (req, res) => {
 
-
-
-}
 
 async function deleteCita(id_cita) {
 
@@ -205,6 +205,27 @@ async function deleteCita(id_cita) {
                 return true;
             }
         })
+    })
+}
+
+async function DevolverEtapa(correo) {
+
+    var queryE = `UPDATE estudiante SET etapa = etapa-1 WHERE usuario_id_usuario = (select id_usuario from usuario where correo = '${correo}')`;
+
+    ibmdb.open(connStr, (err, conn) => {
+
+        conn.query(queryE, (err, data) => {
+
+            if (err) {
+
+                console.log("Hubo un error en la actualizacion de la etapa" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos ")
+                })
+                console.log('se actualizo la etapa correctamente');
+            }
+        });
     })
 }
 

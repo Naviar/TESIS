@@ -16,6 +16,7 @@ import { CitasPendientes } from 'src/app/services/citaspendientes.service';
 import { estudiante } from 'src/app/models/estudiante';
 import { LoginService } from 'src/app/services/login.service';
 import { facultad } from 'src/app/models/facultad';
+import { EtapaService } from '../../services/etapa.service';
 
 declare var M: any;
 let cargando = true;
@@ -32,7 +33,8 @@ export class CitaspendientesComponent implements OnInit {
 
   private modalOpen: boolean = false;
   private modalOpen2 : boolean = false;
- 
+   
+  etapa : number ;
   tiposReunion: TipoReunion[] = [];
   tiposAsesoria: TipoAsesoria[] = [];
   calendarPlugins = [dayGridPlugin];
@@ -72,11 +74,12 @@ export class CitaspendientesComponent implements OnInit {
   disponibilidades: Disponibilidad2[] = [];
 
 
-  constructor(private fb : FormBuilder,private agendarCitaService: AgendarCitaService, private citasPendientesService: CitasPendientes, private datePipe: DatePipe, private _horarioService: HorariosService,  public loginService: LoginService) {
+  constructor(private etapaService : EtapaService,private fb : FormBuilder,private agendarCitaService: AgendarCitaService, private citasPendientesService: CitasPendientes, private datePipe: DatePipe, private _horarioService: HorariosService,  public loginService: LoginService) {
 
   }
 
   ngOnInit() {
+    
     this.getFacultades();
     this.getValidRol();
     this.getCitasPendientes();
@@ -223,6 +226,12 @@ export class CitaspendientesComponent implements OnInit {
     this.usuario_id = parseInt(tokenPayload.id_usuario);
     this.estudiante_id = parseInt(tokenPayload.id_estudiante);
     this.rol = parseInt(tokenPayload.rol_usuario);
+
+    if(this.rol == 3){
+
+      this.etapaService.getEtapa(this.estudiante_id).subscribe((res) => {this.etapa = res as number;
+                                                                          console.log('etapa:',this.etapa);} );
+    }
   }
   yaCargo() {
     if (cargando == false) {
@@ -234,9 +243,24 @@ export class CitaspendientesComponent implements OnInit {
 
   buildFormCancelar(){
     this.cancelarCitaForm = this.fb.group({      
-      Asunto: [`Cancelar cita`, Validators.compose([Validators.required]) ],
+      Asunto: [`Cancelacion de cita , consultorio empresarial`, Validators.compose([Validators.required]) ],
       Motivo: [``, Validators.compose([Validators.required]) ],
     });
+  }
+
+  devolverEtapa(id_estudiante : number , etapa:number){
+
+   this.etapaService.putEtapa(this.estudiante_id, etapa)
+   .subscribe(
+
+    res => {
+        alert('El estudiante quedo habilitado para agendar cita');
+    },
+
+    err => {console.log(err);}
+
+   )
+
   }
 
   cancelarCita(){
@@ -246,7 +270,16 @@ export class CitaspendientesComponent implements OnInit {
         Motivo: this.cancelarCitaForm.value.Motivo,
         id_horario: this.idHorarioSelect
       }
-
+      this.etapaService.getEtapa(this.estudiante_id).subscribe(
+        (res) => {
+          this.etapa = res as number;
+          this.etapaService.putEtapa(this.estudiante_id,this.etapa-1)
+          .subscribe(
+            res => alert(`el estudiante puede agendar nuevamente una cita`),
+            err =>console.log(err)
+          )
+        }        
+        );
     }
     else{
       var citaCancelada :object = {
@@ -265,8 +298,7 @@ export class CitaspendientesComponent implements OnInit {
                   <p>${res['message']}</p>
                   <hr>
               </div>`});
-            await this.getCitasPendientes();
-            this.calendario();
+              
           }
           else {
             console.log(res['message']);
@@ -290,5 +322,7 @@ export class CitaspendientesComponent implements OnInit {
   
       )
   }
+
+  
 
 }
