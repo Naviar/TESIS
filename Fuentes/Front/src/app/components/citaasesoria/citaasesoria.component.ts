@@ -67,14 +67,15 @@ export class CitaasesoriaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAsesorias();
+    this.getValidRol();
+    
     this.getTiposAsesorias();
     this.getTipoReunion();
-    this.getValidRol();
+    
   }
 
-  getAsesorias() {
-    this.agendarCitaService.getAsesorias()
+  getAsesoria() {
+    this.agendarCitaService.getAsesoria(this.estudiante_id)
       .subscribe(res => {
         this.agendarCitaService.horariosAsesoria = res as Horario[];
         this.calendario();
@@ -264,6 +265,7 @@ export class CitaasesoriaComponent implements OnInit {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
     this.estudiante_id = parseInt(tokenPayload.id_estudiante);
+    this.getAsesoria();
 
   }
   yaCargo() {

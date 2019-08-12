@@ -44,8 +44,8 @@ export class AgendarCitaService {
     return this.http.post(this.URL_API+`/disponibilidadesOcupadas`,disponibilidad);
   }
 
-  getAsesorias(){
-    return this.http.get(this.URL_API+"/getAsesorias");
+  getAsesoria(id_estudiante : number){
+    return this.http.get(this.URL_API+`/getAsesorias/${id_estudiante}`);
   }
   asesoriasLibres(disponibilidad:Disponibilidad2){
     return this.http.post(this.URL_API+`/asesoriasLibres`,disponibilidad);
