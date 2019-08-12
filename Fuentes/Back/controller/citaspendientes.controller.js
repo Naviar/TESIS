@@ -210,6 +210,7 @@ async function deleteCita(id_cita) {
 
 async function DevolverEtapa(correo) {
 
+
     var queryE = `UPDATE estudiante SET etapa = etapa-1 WHERE usuario_id_usuario = (select id_usuario from usuario where correo = '${correo}')`;
 
     ibmdb.open(connStr, (err, conn) => {
