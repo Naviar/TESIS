@@ -10,7 +10,7 @@ router.post('/agendarCita', agendarCitaCtrl.agendarCita);
 router.post('/disponibilidadesLibres', agendarCitaCtrl.disponibilidadesLibres);
 router.post('/disponibilidadesOcupadas', agendarCitaCtrl.disponibilidadesOcupadas);
 
-router.get('/getAsesorias', agendarCitaCtrl.getAsesorias);
+router.get('/getAsesorias/:id_estudiante', agendarCitaCtrl.getAsesorias);
 router.post('/asesoriasLibres', agendarCitaCtrl.asesoriasLibres);
 router.post('/asesoriasOcupadas', agendarCitaCtrl.asesoriasOcupadas);
 
