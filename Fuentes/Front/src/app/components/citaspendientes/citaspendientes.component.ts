@@ -48,7 +48,7 @@ export class CitaspendientesComponent implements OnInit {
   estudiante_id: number;
   rol: number;
   titulo: string;
-  cancelarCitaForm : FormGroup;
+  cancelarCitaForm: FormGroup;
   nombre: string;
   correo: string;
   celular: string;
@@ -57,7 +57,7 @@ export class CitaspendientesComponent implements OnInit {
   facultad: string;
 
   horarioSelect: Horario = {
-    ID_HORARIO: 1, 
+    ID_HORARIO: 1,
     DIA: this.Dias[1],
     HORA_INICIO: "",
     HORA_FIN: "",
@@ -69,12 +69,14 @@ export class CitaspendientesComponent implements OnInit {
   }
 
   // disponibilidades: { FECHA: string, ID_ESTUDIANTE: number, HORARIO_ID_HORARIO: number}[] = [{ FECHA: '', ID_ESTUDIANTE: 0, HORARIO_ID_HORARIO: 0}];
-  idDisponibilidadSelect : number =null;
-  idHorarioSelect : number = null;
+  idDisponibilidadSelect: number = null;
+  idHorarioSelect: number = null;
   disponibilidades: Disponibilidad2[] = [];
 
 
+
   constructor(private etapaService : EtapaService,private fb : FormBuilder,private agendarCitaService: AgendarCitaService, private citasPendientesService: CitasPendientes, private datePipe: DatePipe, private _horarioService: HorariosService,  public loginService: LoginService) {
+
 
   }
 
@@ -117,7 +119,7 @@ export class CitaspendientesComponent implements OnInit {
 
   calendario() {
     let cal = this.calendarComponent.getApi();
-    // cal.removeAllEvents();    
+    cal.removeAllEvents();
     if (this.disponibilidades.length < 1) {
       M.toast({
         html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
@@ -167,21 +169,21 @@ export class CitaspendientesComponent implements OnInit {
           this.titulo = this.tiposAsesoria.find(asesoria => asesoria.ID_TIPO_ASESORIA == this.agendarCitaService.horarioSelect[0].TIPO_ASESORIA_ID_TIPO_ASESORIA).NOMBRE_TIPO_ASESORIA;
         }
         this.agendarCitaService.getDisponibilidadId(this.idDisponibilidadSelect)
-        .subscribe(res=>{
-          this.agendarCitaService.disponibilidadSelect = res as Disponibilidad2;          
-          this.citasPendientesService.getEstudiante(this.agendarCitaService.disponibilidadSelect[0].ID_ESTUDIANTE)
-          .subscribe(res=>{
-            this.citasPendientesService.estudiante = res as estudiante;
-            this.nombre = this.citasPendientesService.estudiante[0].NOMBRE + " " + this.citasPendientesService.estudiante[0].APELLIDO;     
-            this.correo = this.citasPendientesService.estudiante[0].CORREO;
-            this.celular = this.citasPendientesService.estudiante[0].CELULAR;  
-            this.codigo = this.citasPendientesService.estudiante[0].CODIGO;    
-            this.facultad = this.loginService.facultades.filter(facultad => facultad.ID_FACULTAD == this.citasPendientesService.estudiante[0].FACULTAD_ID_FACULTAD)[0].NOMBRE_FACULTAD;   
-            this.semestre = this.citasPendientesService.estudiante[0].SEMESTRE;     
-            cargando = false;
-            this.openModal(true);
+          .subscribe(res => {
+            this.agendarCitaService.disponibilidadSelect = res as Disponibilidad2;
+            this.citasPendientesService.getEstudiante(this.agendarCitaService.disponibilidadSelect[0].ID_ESTUDIANTE)
+              .subscribe(res => {
+                this.citasPendientesService.estudiante = res as estudiante;
+                this.nombre = this.citasPendientesService.estudiante[0].NOMBRE + " " + this.citasPendientesService.estudiante[0].APELLIDO;
+                this.correo = this.citasPendientesService.estudiante[0].CORREO;
+                this.celular = this.citasPendientesService.estudiante[0].CELULAR;
+                this.codigo = this.citasPendientesService.estudiante[0].CODIGO;
+                this.facultad = this.loginService.facultades.filter(facultad => facultad.ID_FACULTAD == this.citasPendientesService.estudiante[0].FACULTAD_ID_FACULTAD)[0].NOMBRE_FACULTAD;
+                this.semestre = this.citasPendientesService.estudiante[0].SEMESTRE;
+                cargando = false;
+                this.openModal(true);
+              })
           })
-        })
       })
   }
 
@@ -196,7 +198,7 @@ export class CitaspendientesComponent implements OnInit {
     this.modalOpen = open;
   }
 
-  openModal2(open: boolean){
+  openModal2(open: boolean) {
     this.modalOpen2 = open;
     this.modalOpen = !open;
   }
@@ -241,6 +243,7 @@ export class CitaspendientesComponent implements OnInit {
     }
   }
 
+
   buildFormCancelar(){
     this.cancelarCitaForm = this.fb.group({      
       Asunto: [`Cancelacion de cita , consultorio empresarial`, Validators.compose([Validators.required]) ],
@@ -281,16 +284,17 @@ export class CitaspendientesComponent implements OnInit {
         }        
         );
     }
-    else{
-      var citaCancelada :object = {
-        Asunto : this.cancelarCitaForm.value.Asunto,
+    else {
+      var citaCancelada: object = {
+        Asunto: this.cancelarCitaForm.value.Asunto,
         Motivo: this.cancelarCitaForm.value.Motivo,
       }
-  }
-  this.citasPendientesService.cancelarCita(citaCancelada,this.idDisponibilidadSelect)
+    }
+    this.citasPendientesService.cancelarCita(citaCancelada, this.idDisponibilidadSelect)
       .subscribe(
-        async res => {console.log(res);
-          if(res['exito'] == true){
+        async res => {
+          console.log(res);
+          if (res['exito'] == true) {
             console.log(res['message']);
             M.toast({
               html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
@@ -298,28 +302,33 @@ export class CitaspendientesComponent implements OnInit {
                   <p>${res['message']}</p>
                   <hr>
               </div>`});
-              
+            await this.getCitasPendientes();
+            cargando = false;
           }
           else {
             console.log(res['message']);
             M.toast({
               html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-                  <h4 class="alert-heading">ocurrio un error, no se pudo cancelar la cita</h4>
+                  <h4 class="alert-heading">Ocurrio un error, no se pudo cancelar la cita</h4>
                   <p>${res['message']}</p>
                   <hr>
               </div>`});
+            cargando = false;
           }
         },
-        err => {console.log(err);
+        err => {
+          console.log(err);
           M.toast({
             html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-                <h4 class="alert-heading">ocurrio un error </h4>
+                <h4 class="alert-heading">Ocurrio un error </h4>
                 <p>${err['error']}</p>
                 <hr>
-            </div>`});},
+            </div>`});
+          cargando = false;
+        },
 
-        
-  
+
+
       )
   }
 
