@@ -3,9 +3,9 @@ var ibmdb = require("ibm_db");
 let connStr = require('../database');
 
 etapaCtrl.getEtapa = (req, res) => {
-    
+
     let id_estudiante = parseInt(req.params.id_estudiante);
-    
+
     // console.log(req.info);
     ibmdb.open(connStr, (err, conn) => {
 
@@ -14,8 +14,7 @@ etapaCtrl.getEtapa = (req, res) => {
             if (err) {
                 res.json({ error: err })
                 console.log("Hubo un error en la busqueda" + err);
-            }
-            else {
+            } else {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")
                 })
@@ -28,7 +27,7 @@ etapaCtrl.getEtapa = (req, res) => {
 etapaCtrl.putEtapa = (req, res) => {
 
     let etapa = req.body.etapa;
-    let id_estudiante = parseInt(req.params.id_estudiante);    
+    let id_estudiante = parseInt(req.params.id_estudiante);
     var query = `UPDATE estudiante SET etapa='${etapa}' WHERE id_estudiante='${id_estudiante}'`;
 
     ibmdb.open(connStr, (err, conn) => {
@@ -38,15 +37,14 @@ etapaCtrl.putEtapa = (req, res) => {
             if (err) {
                 res.json({ error: err })
                 console.log("Hubo un error en la actualizacion de la etapa" + err);
-            }
-            else {
+            } else {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos ")
                 })
                 res.json("Se actualizo la etapa")
             }
-        })
+        });
     })
 }
 
-module.exports = etapaCtrl; 
+module.exports = etapaCtrl;
