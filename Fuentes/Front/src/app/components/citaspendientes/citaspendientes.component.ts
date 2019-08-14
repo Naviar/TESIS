@@ -298,7 +298,7 @@ export class CitaspendientesComponent implements OnInit {
             console.log(res['message']);
             M.toast({
               html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-                  <h4 class="alert-heading">Cita cancenlada </h4>
+                  <h4 class="alert-heading">Cita cancelada</h4>
                   <p>${res['message']}</p>
                   <hr>
               </div>`});
@@ -320,7 +320,7 @@ export class CitaspendientesComponent implements OnInit {
           console.log(err);
           M.toast({
             html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-                <h4 class="alert-heading">Ocurrio un error </h4>
+                <h4 class="alert-heading">Ocurrio un error</h4>
                 <p>${err['error']}</p>
                 <hr>
             </div>`});
