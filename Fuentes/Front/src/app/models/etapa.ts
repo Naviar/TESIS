@@ -1,5 +1,5 @@
 export interface etapa {
-    ID_ETAPA: string;
+    ID_ETAPA: number;
     NOMBRE_ETAPA: string;
     ETAPA: number;
 }

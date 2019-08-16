@@ -267,6 +267,7 @@ export class CitaspendientesComponent implements OnInit {
   }
 
   cancelarCita(){
+    cargando=true;
     if(this.rol == 3){
       var citaCancelada :object = {
         Asunto : this.cancelarCitaForm.value.Asunto,

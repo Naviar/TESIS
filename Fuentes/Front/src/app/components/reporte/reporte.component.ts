@@ -16,6 +16,9 @@ import { AsesoriaService } from 'src/app/services/asesoria.service';
 import { asesoria } from 'src/app/models/asesoria';
 import { compromiso2 } from 'src/app/models/compromiso2';
 import { Evaluacion } from 'src/app/models/evaluacion';
+import { DiagnosticoService } from 'src/app/services/diagnostico.service';
+import { etapa } from 'src/app/models/etapa';
+import { sector } from 'src/app/models/sector';
 
 let cargando = false;
 let imprimir: any[] = [];
@@ -32,7 +35,7 @@ export class ReporteComponent implements OnInit {
   fin: number = 0;
   compromisos = [];
 
-  constructor(private reporteService: ReporteService, private fb: FormBuilder, public seguimientoService: SeguimientoService, public loginService: LoginService, public asesoriaService: AsesoriaService) {
+  constructor(public diagnosticoService: DiagnosticoService, private reporteService: ReporteService, private fb: FormBuilder, public seguimientoService: SeguimientoService, public loginService: LoginService, public asesoriaService: AsesoriaService) {
     this.buildForm();
   }
 
@@ -72,6 +75,18 @@ export class ReporteComponent implements OnInit {
         this.asesoriaService.asesorias = res as asesoria[];
       })
   }
+  getEtapas() {
+    this.diagnosticoService.getEtapas()
+      .subscribe(res => {
+        this.diagnosticoService.etapas = res as etapa[];
+      })
+  }
+  getSectores() {
+    this.diagnosticoService.getSectores()
+      .subscribe(res => {
+        this.diagnosticoService.sectores = res as sector[];
+      })
+  }
   getUsuarios() {
     cargando = true;
     this.reporteService.getReporte()
@@ -79,7 +94,7 @@ export class ReporteComponent implements OnInit {
         this.reporteService.usuarios = res as usuario[];
         imprimir.push(['ID', 'NOMBRE', 'APELLIDO', 'CORREO', 'CELULAR', 'ACTIVO', 'FECHA', 'ROL']);
         for (let usuario of this.reporteService.usuarios) {
-          imprimir.push([usuario.ID_USUARIO, usuario.NOMBRE, usuario.APELLIDO, usuario.CORREO, usuario.CELULAR, usuario.ACTIVO, usuario.FECHA,
+          imprimir.push([usuario.ID_USUARIO, usuario.NOMBRE, usuario.APELLIDO, usuario.CORREO, usuario.CELULAR, (usuario.ACTIVO==true)?"Activo":"Inactivo", usuario.FECHA,
           this.loginService.roles.filter(rol => rol.ID_ROL == usuario.ROL_ID_ROL)[0].NOMBRE_ROL]);
         }
         this.descargarExcel('Reporte_Usuarios');
@@ -108,7 +123,8 @@ export class ReporteComponent implements OnInit {
         this.seguimientoService.estudiantes = res as estudiante[];
         imprimir.push(['ID', 'NOMBRE', 'APELLIDO', 'ID_DIAGNOSTICO', 'AMBITO SOCIAL', 'DESCRIPCION DEL PROYECTO',
           'SOCIOS CLAVE', 'ACTIVIDADES CLAVE', 'RECURSOS CLAVE', 'PROPUESTA VALOR', 'RELACION CLIENTES', 'CANALES',
-          'SEGMENTOS CLIENTES', 'ESTRUCTURA DE COSTOS', 'FUENTE DE INGRESOS', 'ETAPA',
+          'SEGMENTOS CLIENTES', 'ESTRUCTURA DE COSTOS', 'FUENTE DE INGRESOS',
+          'ETAPA',
           'TIPO DE ASESORIA REQUERIDA',
           'SECTOR DEL PROYECTO']);
         for (let estudiante of this.seguimientoService.estudiantes) {
@@ -116,12 +132,13 @@ export class ReporteComponent implements OnInit {
             .subscribe(res => {
               this.seguimientoService.diagnosticos = res as Diagnostico[];
               this.fin=0;
-              for (let diagnostico of this.seguimientoService.diagnosticos) {
+              for (let diagnostico of this.seguimientoService.diagnosticos) { 
                 imprimir.push([estudiante.ID_ESTUDIANTE, estudiante.NOMBRE, estudiante.APELLIDO, diagnostico.ID_FORMATO_DIAGNOSTICO, diagnostico.AMBITO_SOCIAL, diagnostico.DESCRIPCION_PROYECTO,
                 diagnostico.SOCIOS_CLAVE, diagnostico.ACTIVIDADES_CLAVE, diagnostico.RECURSOS_CLAVE, diagnostico.PROPUESTA_VALOR, diagnostico.RELACION_CLIENTES, diagnostico.CANALES,
-                diagnostico.SEGMENTOS_CLIENTES, diagnostico.ESTRUCTURA_COSTOS, diagnostico.FUENTE_INGRESOS, diagnostico.ETAPA_ID_ETAPA,
+                diagnostico.SEGMENTOS_CLIENTES, diagnostico.ESTRUCTURA_COSTOS, diagnostico.FUENTE_INGRESOS,
+                this.diagnosticoService.etapas.filter(etapa => etapa.ID_ETAPA == diagnostico.ETAPA_ID_ETAPA)[0].NOMBRE_ETAPA,
                 this.asesoriaService.asesorias.filter(asesoria => asesoria.ID_TIPO_ASESORIA == diagnostico.TIPO_ASESORIA_ID_TIPO_ASESORIA)[0].NOMBRE_TIPO_ASESORIA,
-                diagnostico.SECTOR_ID_SECTOR]);
+                this.diagnosticoService.sectores.filter(sector => sector.ID_SECTOR == diagnostico.SECTOR_ID_SECTOR)[0].NOMBRE_SECTOR]);
                 if (diagnostico == this.seguimientoService.diagnosticos[this.seguimientoService.diagnosticos.length - 1]) {
                   this.fin=1;
                 }
@@ -135,7 +152,7 @@ export class ReporteComponent implements OnInit {
       })
   }
   getAsesorias() {
-    cargando = true;
+    cargando = true; 
     this.seguimientoService.getEstudiantes()
       .subscribe(res => {
         this.seguimientoService.estudiantes = res as estudiante[];
@@ -224,7 +241,7 @@ export class ReporteComponent implements OnInit {
                   evaluacion.EVAL_GENERAL_Q1, evaluacion.EVAL_GENERAL_Q2, evaluacion.EVAL_GENERAL_Q3, evaluacion.EVAL_GENERAL_Q4,
                   evaluacion.PERS_RESPONSABLE_Q1, evaluacion.PERS_RESPONSABLE_Q2, evaluacion.PERS_RESPONSABLE_Q3, evaluacion.PERS_RESPONSABLE_Q4, evaluacion.PERS_RESPONSABLE_Q5, evaluacion.PERS_RESPONSABLE_Q6,
                   evaluacion.INSTA_EQUIPOS_Q1, evaluacion.INSTA_EQUIPOS_Q2, evaluacion.INSTA_EQUIPOS_Q3,
-                  evaluacion.YESNO_Q1, evaluacion.YESNO_Q2, evaluacion.YESNO_Q3, evaluacion.YESNO_Q4, evaluacion.YESNO_Q5,
+                  (evaluacion.YESNO_Q1=='1')?"SI":"NO", (evaluacion.YESNO_Q2=='1')?"SI":"NO", (evaluacion.YESNO_Q3=='1')?"SI":"NO", (evaluacion.YESNO_Q4=='1')?"SI":"NO", (evaluacion.YESNO_Q5=='1')?"SI":"NO",
                   evaluacion.OBSERVACIONES, evaluacion.FECHA]);
                 if (evaluacion == this.seguimientoService.evaluaciones[this.seguimientoService.evaluaciones.length - 1]) {
                   this.fin=1;
@@ -238,75 +255,7 @@ export class ReporteComponent implements OnInit {
         }
       })
   }
-  getGeneral(){
-    cargando = true;
-    this.seguimientoService.getEstudiantes()
-      .subscribe(res => {
-        this.seguimientoService.estudiantes = res as estudiante[];
-        imprimir.push(['ID', 'NOMBRE', 'APELLIDO', 'ID_ASESORIA', 'REQUERIMIENTO', 'DESCRIPCIÓN', 'RESULTADO',
-          'ID_EVALUACIÓN',
-          'TIPO DE ASESORIA REQUERIDA',
-          'TIPO DE ASESORIA ACTUAL',
-          'ID_COMPROMISO', 'ACTIVIDAD', 'FECHA', 'OBSERVACION', 'NOMBRE DEL RESPONSABLE', 'APELLIDO DEL RESPONSABLE',
-          'ROL']);
-        for (let estudiante of this.seguimientoService.estudiantes) {
-          this.seguimientoService.getAsesorias(estudiante.ID_ESTUDIANTE)
-            .subscribe(res => {
-              this.seguimientoService.asesorias = res as asesoriaFormato[];
-              for (let asesoria of this.seguimientoService.asesorias) {
-                console.log("entro N veces");
-                this.seguimientoService.getCompromisosAsesoria(asesoria.ID_FORMATO_ASESORIA)
-                  .subscribe(res => {
-                    this.seguimientoService.compromisos = res as compromiso2[];
-                    
-                    if (this.seguimientoService.compromisos.length == 0) {
-                      this.fin = 1;
-                      imprimir.push([estudiante.ID_ESTUDIANTE, estudiante.NOMBRE, estudiante.APELLIDO, asesoria.ID_FORMATO_ASESORIA, asesoria.REQUERIMIENTO, asesoria.DESCRIPCION, asesoria.RESULTADO,
-                      asesoria.FORMATO_EVALUACION_ID_FORMATO_EVALUACION,
-                      (asesoria.TIPO_ASESORIA_ID_TIPO_ASESORIA != null) ? this.asesoriaService.asesorias.filter(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == asesoria.TIPO_ASESORIA_ID_TIPO_ASESORIA)[0].NOMBRE_TIPO_ASESORIA: 'N/A',
-                      (asesoria.TIPO_ASESORIA_ACTUAL!= null) ? this.asesoriaService.asesorias.filter(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == asesoria.TIPO_ASESORIA_ACTUAL)[0].NOMBRE_TIPO_ASESORIA: 'N/A',
-                        'N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A',
-                        'N/A']);
-                    }
-                    else {
-                      this.fin = 0;
-                      this.cont = 0;
-                      for (let compromiso of this.seguimientoService.compromisos) {                        
-                        if (this.cont == 0) {                          
-                          imprimir.push([estudiante.ID_ESTUDIANTE, estudiante.NOMBRE, estudiante.APELLIDO, asesoria.ID_FORMATO_ASESORIA, asesoria.REQUERIMIENTO, asesoria.DESCRIPCION, asesoria.RESULTADO,
-                          asesoria.FORMATO_EVALUACION_ID_FORMATO_EVALUACION,
-                          (asesoria.TIPO_ASESORIA_ID_TIPO_ASESORIA!= null) ? this.asesoriaService.asesorias.filter(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == asesoria.TIPO_ASESORIA_ID_TIPO_ASESORIA)[0].NOMBRE_TIPO_ASESORIA: 'N/A',
-                          (asesoria.TIPO_ASESORIA_ACTUAL!= null) ? this.asesoriaService.asesorias.filter(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == asesoria.TIPO_ASESORIA_ACTUAL)[0].NOMBRE_TIPO_ASESORIA: 'N/A',
-                          compromiso.ID_COMPROMISO, compromiso.ACTIVIDAD, compromiso.FECHA, compromiso.OBSERVACION, compromiso.NOMBRE, compromiso.APELLIDO,
-                          this.loginService.roles.filter(rol => rol.ID_ROL == compromiso.ROL_ID_ROL)[0].NOMBRE_ROL]);
-                          this.cont++;
-                        }
-                        else {
-                          imprimir.push([' ', ' ', ' ', ' ', ' ', ' ', ' ',
-                            ' ',
-                            ' ',
-                            ' ',
-                            compromiso.ID_COMPROMISO, compromiso.ACTIVIDAD, compromiso.FECHA, compromiso.OBSERVACION, compromiso.NOMBRE, compromiso.APELLIDO,
-                            this.loginService.roles.filter(rol => rol.ID_ROL == compromiso.ROL_ID_ROL)[0].NOMBRE_ROL]);
-                          this.cont++;
-                        }
-                        if (compromiso == this.seguimientoService.compromisos[this.seguimientoService.compromisos.length - 1]) {
-                          this.fin = 1;
-                        }
-                      }
-                    }
-                    if (estudiante == this.seguimientoService.estudiantes[this.seguimientoService.estudiantes.length - 1] &&
-                      asesoria == this.seguimientoService.asesorias[this.seguimientoService.asesorias.length - 1] &&
-                      this.fin == 1) {
-                      this.descargarExcel('Reporte_Asesorias');
-                      cargando = false;
-                    }
-                  })
-              }
-            })
-        }
-      })
-  }
+
 
   generarExcel(form?: NgForm) {
     imprimir = [];
@@ -317,6 +266,8 @@ export class ReporteComponent implements OnInit {
       this.getEstudiantes();
     }
     else if (form.value.tipoReporte == 3) { 
+      this.getEtapas();
+      this.getSectores();
       this.getDiagnosticos();
     }
     else if (form.value.tipoReporte == 4) {

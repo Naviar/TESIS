@@ -18,7 +18,7 @@ export class GuardScheduleAdvice {
     estudiante_id: number;
     rol: number;
     etapa: etapa ={
-     ID_ETAPA: "",
+     ID_ETAPA: undefined,
      NOMBRE_ETAPA: "",
      ETAPA: 9
     };

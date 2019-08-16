@@ -11,6 +11,8 @@ import { jornada } from 'src/app/models/jornada';
 import { asesor } from 'src/app/models/asesor';
 
 declare var M: any;
+let cargando = true;
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -31,7 +33,7 @@ export class RegisterComponent implements OnInit {
       nombre_usuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z A-Z ñ Ñ]*$/)])],
       apellido_usuario: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z A-Z ñ Ñ]*$/)])],
       celular: ['', Validators.compose([Validators.required, Validators.min(3000000000), Validators.max(3999999999), Validators.pattern(/^[0-9]*$/)])],
-      correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas).(edu).(co)$/)])],
+      correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas)[.](edu)[.](co)$/)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       rol: ['', Validators.compose([Validators.required])]
     });
@@ -44,6 +46,7 @@ export class RegisterComponent implements OnInit {
     this.asesorForm = this.fb.group({
       facultad: ['', Validators.compose([Validators.required])]
     });
+    cargando = false;
   }
   ngOnInit() {
     this.getRoles();
@@ -52,6 +55,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register(form?: NgForm) {
+    cargando=true;
     this.loginService.usuarioDuplicado(form.value)
       .subscribe((data) => {
         console.log("esto llegoooooooo", data);
@@ -64,6 +68,7 @@ export class RegisterComponent implements OnInit {
                         <p>El usuario se ha registrado correctamente y espera activacion</p>
                         <hr>
                     </div>`});
+                    cargando=false;
                     this.router.navigate(['login'])
             });
         }
@@ -74,10 +79,12 @@ export class RegisterComponent implements OnInit {
                     <p>El celular y/o correo que diligencio ya se encuentra registrado</p>
                     <hr>
                 </div>`});
+                cargando=false;
         }
       });
   }
   registerAsesor(form?: NgForm, form2?: NgForm) {
+    cargando=true;
     this.loginService.usuarioDuplicado(form.value)
       .subscribe((data) => {
         console.log("esto llegoooooooo", data);
@@ -96,6 +103,7 @@ export class RegisterComponent implements OnInit {
                                 <p>El usuario se ha registrado correctamente y espera activacion</p>
                                 <hr>
                             </div>`});
+                            cargando=false;
                       this.router.navigate(['login'])
                     });
                 });
@@ -109,10 +117,12 @@ export class RegisterComponent implements OnInit {
               <p>El celular y/o correo que diligencio ya se encuentra registrado</p>
               <hr>
           </div>`});
+          cargando=false;
         }
       });
   }
   registerEstudiante(form?: NgForm, form2?: NgForm) {
+    cargando=true;
     this.loginService.usuarioDuplicado(form.value)
       .subscribe((data) => {
         
@@ -136,6 +146,7 @@ export class RegisterComponent implements OnInit {
                                       <p>El usuario se ha registrado correctamente y espera activacion</p>
                                       <hr>
                                   </div>`});
+                                  cargando=false;
                             this.router.navigate(['login'])
                           });
                       });
@@ -148,6 +159,7 @@ export class RegisterComponent implements OnInit {
                     <p>El codigo que diligencio ya se encuentra registrado</p>
                     <hr>
                 </div>`});
+                cargando=false;
               }
             });
         }
@@ -158,6 +170,7 @@ export class RegisterComponent implements OnInit {
               <p>El celular y/o correo que diligencio ya se encuentra registrado</p>
               <hr>
           </div>`});
+          cargando=false;
         }
       });
   }
@@ -178,6 +191,13 @@ export class RegisterComponent implements OnInit {
       .subscribe(res => {
         this.loginService.jornadas = res as jornada[];
       })
+  }
+  yaCargo() {
+    if (cargando == false) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
 }
