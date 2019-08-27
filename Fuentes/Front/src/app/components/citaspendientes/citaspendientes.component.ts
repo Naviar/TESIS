@@ -231,8 +231,8 @@ export class CitaspendientesComponent implements OnInit {
 
     if(this.rol == 3){
 
-      this.etapaService.getEtapa(this.estudiante_id).subscribe((res) => {this.etapa = res as number;
-                                                                          console.log('etapa:',this.etapa);} );
+      this.etapaService.getEtapa(this.estudiante_id).subscribe((res) => {this.etapa = res['ETAPA'];
+                                                                          console.log('etapa:',res['ETAPA']);} );
     }
   }
   yaCargo() {
@@ -273,16 +273,14 @@ export class CitaspendientesComponent implements OnInit {
         Motivo: this.cancelarCitaForm.value.Motivo,
         id_horario: this.idHorarioSelect
       }
-      this.etapaService.getEtapa(this.estudiante_id).subscribe(
-        (res) => {
-          this.etapa = res as number;
+      
+          
           this.etapaService.putEtapa(this.estudiante_id,this.etapa-1)
           .subscribe(
             res => alert(`el estudiante puede agendar nuevamente una cita`),
             err =>console.log(err)
           )
-        }        
-        );
+        
     }
     else {
       var citaCancelada: object = {
