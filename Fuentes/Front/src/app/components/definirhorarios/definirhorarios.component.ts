@@ -14,7 +14,7 @@ import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 
 declare var M: any;
-
+let cargando = true;
 @Component({
   selector: 'app-definirhorarios',
   templateUrl: './definirhorarios.component.html',
@@ -93,12 +93,15 @@ export class DefinirhorariosComponent implements OnInit {
     this._horarioService.getHorarios(codigo)
       .subscribe(
         res => {
+          cargando = false;
           console.log("horarios guardados:", res);
           this.horarios = res as Horario[]
           console.log('horarios guardados en array:', this.horarios);
+          
         },
         err => { console.log("error obteniendo horarios:", err); },
         () => { }
+        
       );
 
 
@@ -144,6 +147,7 @@ export class DefinirhorariosComponent implements OnInit {
   sendHorario(form?: NgForm, form2?: NgForm) {
     // this.resetForm();
     //validar las horas
+    cargando = true;
     const h_i = parseInt(this.horarioSelect.HORA_INICIO.replace(':',''));
     const h_f = parseInt(this.horarioSelect.HORA_FIN.replace(':',''));
 
@@ -154,17 +158,18 @@ export class DefinirhorariosComponent implements OnInit {
     this.horarioSelect.LUGAR = form.value.lugar;
 
     if(h_i > h_f){
+      cargando = false;
       M.toast({
-        html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+        html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 10000;" role="alert">
             <h4 class="alert-heading">ERROR EN LA HORA</h4>
             <p>La hora final debe ser mayor a la hora de inicio de la reunion</p>
             <hr>
         </div>`});
     }
     else if (this.verificarCruce(h_i , this.horarioSelect.DIA , h_f)){
-        
+      cargando = false;  
       M.toast({
-        html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+        html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 10000;" role="alert">
             <h4 class="alert-heading">CRUCE DE HORARIO</h4>
             <p>El horario que esta intentando agregar se cruza con uno de sus horarios actuales</p>
             <hr>
@@ -183,9 +188,16 @@ export class DefinirhorariosComponent implements OnInit {
           this._horarioService.getHorarios(this.horarioSelect.USUARIO_ID_USUARIO)
           .subscribe(
             res => {
+              cargando = false;
               console.log(res);
               this.horarios = res as Horario[];
               this.resetForm();
+              M.toast({
+                html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 10000;" role="alert">
+                    <h4 class="alert-heading">HORARIO GUARDADO</h4>
+                    <p>El horario se almaceno con exito.</p>
+                    <hr>
+                </div>`});
             },
             err => { console.log(err); },
             // () => { this.postDisponibilidades(); }
@@ -202,23 +214,34 @@ export class DefinirhorariosComponent implements OnInit {
   }
 
   deleteHorario(id: string) {
+    cargando = true;
     console.log("Llegoo con estooo", id)
     this._horarioService.deleteHorario(id)
       .subscribe(
         res => { console.log('respuesta delete:',res);
                   if(res.hasOwnProperty('fallo')){
+                    cargando = false;
                     M.toast({
                       html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
                           <h4 class="alert-heading">ERROR BORRANDO EL HORARIO</h4>
                           <p>Es posible que ya tenga una cita agendada en este horario</p>
                           <hr>
                       </div>`});
-                  } },
+                  } 
+                
+                },
         err => { console.log('error en delete horario', err);
                   
                     
                    },
-        () => { this.getHorarios(this.horarioSelect.USUARIO_ID_USUARIO) }
+        () => {
+          M.toast({
+            html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                <h4 class="alert-heading">HORARIO BORRADO</h4>
+                <p>Horario borrado con exito.</p>
+                <hr>
+            </div>`}); 
+          this.getHorarios(this.horarioSelect.USUARIO_ID_USUARIO) }
       )
 
   }
@@ -274,6 +297,14 @@ export class DefinirhorariosComponent implements OnInit {
 
   nombreAsesoria(id_asesoria : number){
     return this.tiposAsesoria.find(tipoAsesoria => tipoAsesoria.ID_TIPO_ASESORIA == id_asesoria).NOMBRE_TIPO_ASESORIA;
+  }
+
+  yaCargo() {
+    if (cargando == false) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
 }

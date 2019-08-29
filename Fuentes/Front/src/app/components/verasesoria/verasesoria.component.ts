@@ -92,6 +92,7 @@ export class VerasesoriaComponent implements OnInit {
   }
 
   generarPDF() {
+    cargando = true;
     html2canvas(document.getElementById('contenido'), {
       // Opciones
       allowTaint: true,
@@ -99,6 +100,7 @@ export class VerasesoriaComponent implements OnInit {
       // Calidad del PDF
       scale: 2
     }).then(function (canvas) {
+      cargando = false;
       var img = canvas.toDataURL("image/png");
       var doc = new jsPDF();
       doc.addImage(img, 'PNG', 7, 20, 195, 255);

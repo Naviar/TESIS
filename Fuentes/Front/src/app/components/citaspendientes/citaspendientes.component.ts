@@ -84,9 +84,9 @@ export class CitaspendientesComponent implements OnInit {
     
     this.getFacultades();
     this.getValidRol();
-    this.getCitasPendientes();
+    // this.getCitasPendientes();
     this.getTiposAsesorias();
-    this.getTipoReunion();
+    // this.getTipoReunion();
     this.buildFormCancelar();
   }
 
@@ -118,6 +118,7 @@ export class CitaspendientesComponent implements OnInit {
   }
 
   calendario() {
+  
     let cal = this.calendarComponent.getApi();
     cal.removeAllEvents();
     if (this.disponibilidades.length < 1) {
@@ -208,6 +209,7 @@ export class CitaspendientesComponent implements OnInit {
       .subscribe(
         res => {
           this.tiposReunion = res as TipoReunion[]
+          this.getCitasPendientes();
         }
       )
   }
@@ -217,6 +219,7 @@ export class CitaspendientesComponent implements OnInit {
       .subscribe(
         res => {
           this.tiposAsesoria = res as TipoAsesoria[]
+          this.getTipoReunion();
         },
         err => { console.log("hubo un error obteniendo tipos asesorias", err); }
       )

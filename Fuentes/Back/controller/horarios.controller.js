@@ -70,7 +70,7 @@ horariosCtrl.getTipoReunion = async(req, res) => {
         conn.query(`SELECT * FROM tipo_reunion`, (err, data) => {
             if (err) {
                 res.json({ error: err })
-                console.log("Hubo un error buscando tipos de reunion en la BD" + err);
+                console.log("Hubo un error buscando tipos de reunion en la BD" + JSON.stringify(err));
             } else {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")

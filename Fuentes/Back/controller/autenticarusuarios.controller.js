@@ -47,7 +47,7 @@ AutenticarUsuariosCtrl.getUsuarios =  (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-       conn.query(`SELECT * FROM usuario WHERE rol_id_rol in ('${3}' , '${2}')`, (err, data) => {
+       conn.query(`SELECT * FROM usuario WHERE rol_id_rol in ('${3}' , '${2}' , '${1}')`, (err, data) => {
            if (err) {
                res.json({ error: err })
                console.log("Hubo un error en la busqueda DE USUARIOS" + err);

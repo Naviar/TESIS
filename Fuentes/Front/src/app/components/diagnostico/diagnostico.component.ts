@@ -16,7 +16,7 @@ import { EtapaService } from 'src/app/services/etapa.service';
 import decode from 'jwt-decode';
 
 declare var M: any;
-let cargando = false;
+let cargando = true;
 
 @Component({
   selector: 'app-diagnostico',
@@ -89,8 +89,10 @@ export class DiagnosticoComponent implements OnInit {
       })
   }
   getEstudiantes() {
+    cargando = true;
     this.diagnosticoService.getEstudiantes()
       .subscribe(res => {
+        cargando = false;
         this.diagnosticoService.estudiantes = res as estudiante[];
       })
   }
