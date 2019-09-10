@@ -16,4 +16,9 @@ export class ConvocatoriaService {
    {
       return this.http.post(this.URL_API+'/abrirConvocatoria',convocatoria_open);
    }
+
+   getAnnouncements()
+   {
+     return this.http.get(this.URL_API+'/obtenerConvocatorias');
+   }
 }
