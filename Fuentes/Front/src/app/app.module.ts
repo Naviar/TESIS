@@ -31,6 +31,7 @@ import { VerdiagnosticoComponent } from './components/verdiagnostico/verdiagnost
 import { VerasesoriaComponent } from './components/verasesoria/verasesoria.component';
 import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
  
 
 
@@ -50,7 +51,7 @@ import { ReporteComponent } from './components/reporte/reporte.component';
     CitadiagnosticoComponent, 
     CitaasesoriaComponent, 
     CitaspendientesComponent, 
-    AutenticarusuariosComponent, SeguimientoComponent, VerdiagnosticoComponent, VerasesoriaComponent, VerevaluacionComponent, ReporteComponent   
+    AutenticarusuariosComponent, SeguimientoComponent, VerdiagnosticoComponent, VerasesoriaComponent, VerevaluacionComponent, ReporteComponent, ConvocatoriaComponent   
   ],
   imports: [
     BrowserModule,

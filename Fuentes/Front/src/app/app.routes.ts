@@ -26,6 +26,7 @@ import { VerdiagnosticoComponent } from './components/verdiagnostico/verdiagnost
 import { VerasesoriaComponent } from './components/verasesoria/verasesoria.component';
 import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -45,7 +46,7 @@ const routes: Routes = [
     { path: 'see/advisory/:id', component: VerasesoriaComponent, canActivate:[GuardAuthenticateUsers] },
     { path: 'see/evaluation/:id', component: VerevaluacionComponent, canActivate:[GuardDiagnostic] },
     { path: 'report', component: ReporteComponent, canActivate:[GuardDiagnostic] },
- 
+    { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardDiagnostic] },
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
 
