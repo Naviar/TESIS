@@ -1,0 +1,30 @@
+<app-nav-bar></app-nav-bar>
+<br>
+
+<div class="text-center">
+  <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+    style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+
+<div class="contenedor">
+  <h1 class="is-size-1">Subir archivos a Cloud Storage</h1>
+  <p class="download">URL de descarga: <a href="{{ URLPublica }}" target="_blank">Descargar</a></p>
+  <form [formGroup]="archivoForm">
+    <label class="file-label">
+      <input class="file-input" type="file" name="archivo" formControlName="archivo" (change)="cambioArchivo($event)">
+      <div *ngIf="archivoForm.get('archivo').errors" class="alert alert-danger">
+        <div *ngIf="archivoForm.get('archivo').errors['required']">
+          Archivo requerido
+        </div>
+      </div>
+      <div class="file-name">
+        {{ mensajeArchivo }}
+      </div>
+    </label>
+    <hr>
+    <progress *ngIf="porcentaje >= 0 && porcentaje < 100" value="{{porcentaje}}" max="100">{{porcentaje}}%</progress>
+    <button [disabled]="!archivoForm.valid || (porcentaje > 0 && porcentaje < 100)" (click)="subirArchivo()">Subir archivo</button>
+  </form>
+</div>

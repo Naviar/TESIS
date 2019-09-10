@@ -31,8 +31,11 @@ import { VerdiagnosticoComponent } from './components/verdiagnostico/verdiagnost
 import { VerasesoriaComponent } from './components/verasesoria/verasesoria.component';
 import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { SubirarchivosComponent } from './components/subirarchivos/subirarchivos.component';
  
-
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -50,7 +53,13 @@ import { ReporteComponent } from './components/reporte/reporte.component';
     CitadiagnosticoComponent, 
     CitaasesoriaComponent, 
     CitaspendientesComponent, 
-    AutenticarusuariosComponent, SeguimientoComponent, VerdiagnosticoComponent, VerasesoriaComponent, VerevaluacionComponent, ReporteComponent   
+    AutenticarusuariosComponent, 
+    SeguimientoComponent, 
+    VerdiagnosticoComponent, 
+    VerasesoriaComponent, 
+    VerevaluacionComponent, 
+    ReporteComponent, 
+    SubirarchivosComponent   
   ],
   imports: [
     BrowserModule,
@@ -62,8 +71,9 @@ import { ReporteComponent } from './components/reporte/reporte.component';
     ToastrModule.forRoot(),
     AmazingTimePickerModule,
     FullCalendarModule ,
-    NgxPaginationModule
-
+    NgxPaginationModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

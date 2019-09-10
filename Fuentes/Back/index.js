@@ -36,6 +36,7 @@ app.use('/autenticarUsuarios', require('./routes/autenticarusuarios.routes'));
 app.use('/etapa', require('./routes/etapa.routes'));
 app.use('/seguimiento', require('./routes/seguimiento.routes'));
 app.use('/reporte', require('./routes/reporte.routes'));
+app.use('/subirarchivos', require('./routes/subirarchivos.routes'));
 
 
 //Archivos publicos
