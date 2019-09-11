@@ -30,14 +30,14 @@ export class LoginComponent implements OnInit {
 
   buildForm() {
     this.loginForm = this.fb.group({
-      correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas).(edu).(co)$/)])],
+      correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas)[.](edu)[.](co)$/)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
     });
     this.recovery = this.fb.group({
-      correoRecovery: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas).(edu).(co)$/)])]
+      correoRecovery: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas)[.](edu)[.](co)$/)])]
     });
     this.changePassword = this.fb.group({
-      correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas).(edu).(co)$/)])],
+      correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas)[.](edu)[.](co)$/)])],
       key: ['', Validators.compose([Validators.required])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
     });

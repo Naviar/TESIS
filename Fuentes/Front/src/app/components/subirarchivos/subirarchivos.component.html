@@ -8,23 +8,41 @@
   </div>
 </div>
 
-<div class="contenedor">
-  <h1 class="is-size-1">Subir archivos a Cloud Storage</h1>
-  <p class="download">URL de descarga: <a href="{{ URLPublica }}" target="_blank">Descargar</a></p>
-  <form [formGroup]="archivoForm">
-    <label class="file-label">
-      <input class="file-input" type="file" name="archivo" formControlName="archivo" (change)="cambioArchivo($event)">
-      <div *ngIf="archivoForm.get('archivo').errors" class="alert alert-danger">
-        <div *ngIf="archivoForm.get('archivo').errors['required']">
-          Archivo requerido
+<body>
+  <div class="container separador">
+    <div class="row justify-content-center">
+      <div class="card" style="width: 700px">
+        <div class="card-body">
+          <h2 class="row justify-content-center">Subir archivo de: {{TipoArchivo}}</h2>
+          <br>
+          <hr>
+          <p class="download">URL de descarga: <a href="{{ URLPublica }}" target="_blank">Descargar</a></p>
+          <form [formGroup]="archivoForm">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="customFileLang" lang="es" name="archivo"
+                formControlName="archivo" (change)="cambioArchivo($event)">
+              <label class="custom-file-label" for="customFileLang">{{mensajeArchivo}}</label>
+            </div>
+            <br>
+            <div *ngIf="archivoForm.get('archivo').errors" class="alert alert-danger">
+              <div *ngIf="archivoForm.get('archivo').errors['required']">
+                Archivo requerido
+              </div>
+            </div>
+            <div *ngIf="errorNombre && !archivoForm.get('archivo').errors" class="alert alert-danger">
+              Archivo incorrecto, solo se aceptan archivos de tipo Word (.docx, .doc)
+            </div>
+            <hr>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0"
+                aria-valuemin="0" aria-valuemax="100" style="width: pocentaje2" #progreso></div>
+            </div>
+            <br>
+            <button [disabled]="!archivoForm.valid || (porcentaje > 0 && porcentaje < 100) || errorNombre"
+              (click)="subirArchivo()" class="btn btn-block" id="btnLogin">Subir archivo</button>
+          </form>
         </div>
       </div>
-      <div class="file-name">
-        {{ mensajeArchivo }}
-      </div>
-    </label>
-    <hr>
-    <progress *ngIf="porcentaje >= 0 && porcentaje < 100" value="{{porcentaje}}" max="100">{{porcentaje}}%</progress>
-    <button [disabled]="!archivoForm.valid || (porcentaje > 0 && porcentaje < 100)" (click)="subirArchivo()">Subir archivo</button>
-  </form>
-</div>
+    </div>
+  </div>
+</body>

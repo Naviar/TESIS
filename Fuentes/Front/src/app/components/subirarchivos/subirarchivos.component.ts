@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SubirarchivosService } from 'src/app/services/subirarchivos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -15,10 +15,14 @@ declare var M: any;
 export class SubirarchivosComponent implements OnInit {
 
   archivoForm: FormGroup;
-  porcentaje: number;
+  porcentaje: number = 0;
+  porcentaje2: string = "0%";
   mensajeArchivo = 'No hay un archivo seleccionado';
   nombreArchivo : string;  
   URLPublica : string;
+  TipoArchivo : string = "acta";
+  errorNombre : boolean = false;
+  
   public datosFormulario = new FormData();
 
   constructor(public subirarchivosService:SubirarchivosService, private fb: FormBuilder) { 
@@ -26,13 +30,27 @@ export class SubirarchivosComponent implements OnInit {
   }
 
   ngOnInit() {
-    cargando=false;
+    cargando=false;    
   }
-  cambioArchivo(event) {
-    console.log("entramos");
+  
+  buildForm() {
+    this.archivoForm = this.fb.group({      
+      archivo: ['', Validators.compose([Validators.required])]
+    });
+  }
+  cambioArchivo(event) {   
+    var expresion = /[.](docx)|[.](doc)$/; 
+    var resultado;
     if (event.target.files.length == 1) {      
         this.mensajeArchivo = `Archivo preparado: ${event.target.files[0].name}`;
         this.nombreArchivo = event.target.files[0].name;
+        resultado= this.nombreArchivo.match(expresion);
+        if(resultado==null){
+         this.errorNombre=true;
+        }
+        else{
+          this.errorNombre=false;
+        }        
         this.datosFormulario.delete('archivo');
         this.datosFormulario.append('archivo', event.target.files[0], event.target.files[0].name)
     } 
@@ -40,18 +58,19 @@ export class SubirarchivosComponent implements OnInit {
       this.mensajeArchivo = 'Seleccione solo un archivo';
     }
     else if(event.target.files.length < 1){
-      this.mensajeArchivo = 'No hay un archivo seleccionado';
+      this.mensajeArchivo = 'Seleccione un archivo';
     }
   }
-
-  public subirArchivo() {
+  @ViewChild('progreso') progresbar;
+  subirArchivo() {
     cargando=true;
     console.log("entramo O_Os");
     let archivo = this.datosFormulario.get('archivo');
-    let tarea = this.subirarchivosService.SubirArchivo(this.nombreArchivo, archivo);
-    //Cambia el porcentaje
+    let tarea = this.subirarchivosService.SubirArchivo(this.nombreArchivo, archivo);    
     tarea.percentageChanges().subscribe((porcentaje) => {
       this.porcentaje = Math.round(porcentaje);
+      this.porcentaje2 = this.porcentaje.toString() + "%";
+      this.progresbar.nativeElement.style.width=this.porcentaje2;      
       if (this.porcentaje == 100) {
         M.toast({
           html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
@@ -69,11 +88,6 @@ export class SubirarchivosComponent implements OnInit {
     });
   }
 
-  buildForm() {
-    this.archivoForm = this.fb.group({      
-      archivo: ['', Validators.compose([Validators.required])]
-    });
-  }
   yaCargo() {
     if (cargando == false) {
       return false;
