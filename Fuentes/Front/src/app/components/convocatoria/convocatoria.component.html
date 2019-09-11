@@ -10,7 +10,7 @@
 </div>
 
 <div class="centered">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#openannouncement">Abrir convocatoria</button>&nbsp;
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#openannouncement" (click)="actualizando = false;titulo_modal='Abrir convocatoria'">Abrir convocatoria</button>&nbsp;
 </div>
 
 <!-- modal abrir convocatoria -->
@@ -19,7 +19,7 @@
         <div class="modal-content border-success">
             <div class="modal-header">
                 <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
-                    <Strong>Abrir Convocatoria</Strong>
+                    <Strong>{{titulo_modal}}</Strong>
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="this.announcementForm.reset()">
                   <span aria-hidden="true">&times;</span>
@@ -34,7 +34,7 @@
                             <div class="form-label-group">
                                 <label><Strong><label id="lbl">*</label>Fecha de inicio:</Strong>
                                 </label>
-                                <input type="date" class="form-control" name="fecha" required formControlName="start_date">
+                                <input type="date" class="form-control" name="fecha" required formControlName="start_date" value="announcementForm.start_date">
                                 <div *ngIf="announcementForm.get('start_date').errors" class="alert alert-danger">
                                     <div *ngIf="announcementForm.get('start_date').errors['required']">
                                         Fecha de inicio requerida.
@@ -88,8 +88,8 @@
                     </div>
 
                 </form>
-                <button class=" btn btn-outline-primary" [disabled]="!announcementForm.valid" (click)="openAnnouncement(announcementForm)">Abrir convocatoria</button>
-
+                <button *ngIf="!actualizando" class=" btn btn-outline-primary" [disabled]="!announcementForm.valid" (click)="openAnnouncement(announcementForm)">Abrir convocatoria</button>
+                <button *ngIf="actualizando" class=" btn btn-outline-info" [disabled]="!announcementForm.valid" (click)="openAnnouncement(announcementForm, id_convocatoria_update )">Modificar convocatoria</button>
             </div>
         </div>
     </div>
@@ -100,8 +100,8 @@
     <div class="card-group">
         <div class="container">
             <div class="row">
-                <div *ngFor="let convocatoria of convocatorias" class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="card border-dark">
+                <div *ngFor="let convocatoria of convocatorias; let idx = index" class="col-sm-12 col-md-6 col-lg-4">
+                    <div [ngClass]="{'active': idx == 0}" class="card border-dark">
                         <div class="card-header border-dark">
                             <h4 id="tituloCard">
                                 CONVOCATORIA </h4>
@@ -119,11 +119,11 @@
                             <h5 class="card-title"><strong>Fecha informe final:</strong> {{ convocatoria.FECHA_INFORME_FINAL }}</h5>
                         </div>
                         <div class="card-body text-dark">
-                            <h5 class="card-title"><strong>Abrio la convocatoria:</strong> {{ convocatoria.NOMBRE }}&nbsp;{{convocatoria.APELLIDO}} </h5>
+                            <h5 class="card-title"><strong>ultima modificacion a la convocatoria:</strong> {{ convocatoria.NOMBRE }}&nbsp;{{convocatoria.APELLIDO}} </h5>
                         </div>
 
-                        <button type="button" class="btn btn-outline-danger">
-                            <i class="material-icons">delete</i>Borrar
+                        <button *ngIf="idx == 0" type="button" class="btn btn-primary" (click)="modifyAnnouncement(convocatoria['ID_CONVOCATORIA'])" data-toggle="modal" data-target="#openannouncement">
+                            <i class="material-icons">update</i>Modificar Fechas
                         </button>
                     </div>
                 </div>

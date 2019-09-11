@@ -16,7 +16,10 @@ export class ConvocatoriaService {
    {
       return this.http.post(this.URL_API+'/abrirConvocatoria',convocatoria_open);
    }
-
+  
+   updateAnnouncement(convocatoria_open : convocatoria, id_convocatoria : number){
+     return this.http.put(this.URL_API+`/actualizarConvocatoria/${id_convocatoria}`, convocatoria_open);
+   }
    getAnnouncements()
    {
      return this.http.get(this.URL_API+'/obtenerConvocatorias');
