@@ -18,7 +18,7 @@ export class SubirarchivosService {
   }
 
   //Referencia del archivo
-  getUrlArchivo(nombreArchivo: string) {
+  getUrlArchivo(nombreArchivo: string) {    
     return this.storage.ref(nombreArchivo);
   }
 }
