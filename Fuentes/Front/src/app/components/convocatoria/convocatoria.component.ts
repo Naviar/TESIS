@@ -74,7 +74,7 @@ export class ConvocatoriaComponent implements OnInit {
               M.toast({
                 html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 100;" role="alert">
                     <h4 class="alert-heading">SE ABRIO LA CONVOCATORIA</h4>
-                    <p>${res['mensaje']}</p>
+                    <p>${res['message']}</p>
                     <hr>
                 </div>`});
               },
@@ -92,10 +92,11 @@ export class ConvocatoriaComponent implements OnInit {
             this.convocatoriaService.updateAnnouncement(announcement,this.id_convocatoria_update)
             .subscribe(
               res =>{
+                console.log(res);
                 M.toast({
                   html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 100;" role="alert">
                       <h4 class="alert-heading">SE ACTUALIZO LA CONVOCATORIA</h4>
-                      <p>${res['mensaje']}</p>
+                      <p>${res['message']}</p>
                       <hr>
                   </div>`});
               },

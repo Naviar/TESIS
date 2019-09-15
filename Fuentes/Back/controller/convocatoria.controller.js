@@ -7,15 +7,15 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../models/config');
-const nodemailer = require('nodemailer');
+// const nodemailer = require('nodemailer');
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'consultorio.usta.DRSU@gmail.com',
-        pass: 'consultoriousta123'
-    }
-});
+// var transporter = nodemailer.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'consultorio.usta.DRSU@gmail.com',
+//         pass: 'consultoriousta123'
+//     }
+// });
 
 ConvocatoriaCtrl.openAnnouncement = (req, res) => {
     const announcement = req.body;
@@ -24,17 +24,17 @@ ConvocatoriaCtrl.openAnnouncement = (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-        if (err) res.sendStatus(500).json({ error: err, mensaje: 'error abriendoconvocatoria' });
+        if (err) res.sendStatus(500).json({ error: err, message: 'error abriendoconvocatoria' });
 
         conn.query(`INSERT INTO CONVOCATORIAS (FECHA_INICIO, FECHA_FIN, FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL, ID_USUARIO) VALUES ('${announcement.FECHA_INICIO}', '${announcement.FECHA_FIN}', '${announcement.FECHA_INFORME_INICIAL}', '${announcement.FECHA_INFORME_FINAL}', ${announcement.ID_USUARIO});`, (err, data) => {
             if (err) {
-                res.sendStatus(500).json({ error: err, mensaje: 'error abriendo convocatoria' })
+                res.sendStatus(500).json({ error: err, message: 'error abriendo convocatoria' })
                 console.log("Hubo un error abriendo la convocatoria" + err);
             } else {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")
                 })
-                res.json({ mensaje: 'se abrio la convocatoria exitosamente.' });
+                res.json({ message: 'se abrio la convocatoria exitosamente.' });
             }
         });
     });
@@ -48,17 +48,42 @@ ConvocatoriaCtrl.getAnnouncements = (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-        if (err) res.sendStatus(500).json({ error: err, mensaje: 'error obteniendo convocatorias' });
+        if (err) res.sendStatus(500).json({ error: err, message: 'error obteniendo convocatorias' });
 
         conn.query(query, (err, data) => {
             if (err) {
-                res.sendStatus(500).json({ error: err, mensaje: 'error abriendo convocatoria' })
+                res.sendStatus(500).json({ error: err, message: 'error abriendo convocatoria' })
                 console.log("Hubo un error obteniendo las convocatorias" + err);
             } else {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")
                 })
-                res.json({ convocatorias: data, mensaje: 'se obtuvo las convocatorias exitosamente.' });
+                res.json({ convocatorias: data, message: 'se obtuvo las convocatorias exitosamente.' });
+            }
+        });
+    });
+}
+
+ConvocatoriaCtrl.updateAnnouncement = (req, res) => {
+
+    const ID_CONVOCATORIA = req.params.id_convocatoria;
+    const update = req.body;
+    console.log(`actualirzar${ID_CONVOCATORIA} id convocatoria con ${JSON.stringify(req.body)}`);
+
+    const query = `UPDATE CONVOCATORIAS SET  FECHA_INICIO = '${update.FECHA_INICIO}', FECHA_FIN = '${update.FECHA_FIN}', FECHA_INFORME_INICIAL = '${update.FECHA_INFORME_INICIAL}', FECHA_INFORME_FINAL = '${update.FECHA_INFORME_FINAL}', ID_USUARIO = '${update.ID_USUARIO}' WHERE ID_CONVOCATORIA = '${ID_CONVOCATORIA}';`;
+
+    ibmdb.open(connStr, (err, conn) => {
+
+        if (err) res.sendStatus(500).json({ error: err, message: 'error actualizando convocatoria, error en el servidor' });
+        conn.query(query, (err, data) => {
+            if (err) {
+                res.sendStatus(500).json({ error: err, message: 'error en el servidor actualizando la convocatoria' })
+                console.log("Hubo un error actualizando las convocatorias" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json({ message: 'se actualizo la convocatoria exitosamente.' });
             }
         });
     });
