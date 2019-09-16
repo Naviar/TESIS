@@ -3,8 +3,7 @@
 INSERT INTO Rol VALUES (1,'Lider');
 INSERT INTO Rol VALUES (2,'Asesor');
 INSERT INTO Rol VALUES (3,'Estudiante');
-INSERT INTO Rol VALUES (4,'Docente');
-INSERT INTO Rol VALUES (5,'Decano');
+INSERT INTO Rol VALUES (4,'Decano');
 SELECT * FROM Rol;
 
 --Para tabla Tipo_asesoria
@@ -106,4 +105,15 @@ INSERT INTO Horario (Dia, Hora_inicio, Hora_fin, Lugar, Usuario_id_usuario, Tipo
 INSERT INTO Horario (Dia, Hora_inicio, Hora_fin, Lugar, Usuario_id_usuario, Tipo_asesoria_id_tipo_asesoria, Tipo_reunion_id_tipo_reunion) VALUES ('Miercoles','14:00','16:00','ETM 6',2,4,2);
 INSERT INTO Horario (Dia, Hora_inicio, Hora_fin, Lugar, Usuario_id_usuario, Tipo_asesoria_id_tipo_asesoria, Tipo_reunion_id_tipo_reunion) VALUES ('Jueves','16:00','18:00','ETM 6',2,4,2);
 SELECT * FROM Horario;
+
+--Para tabla Documento
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (1, 'Acta reunion', 1);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (2, 'Formato proyecto', 1);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (3, 'Formato caracterizacion', 4);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (4, 'Formato linea base', 4);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (5, 'Acta inicio', 4);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (6, 'Informe inicial', 5);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (7, 'Informe final', 5);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (8, 'Acta final', 8);
+
 

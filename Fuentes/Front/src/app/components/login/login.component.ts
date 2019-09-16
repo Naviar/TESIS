@@ -31,7 +31,8 @@ export class LoginComponent implements OnInit {
   buildForm() {
     this.loginForm = this.fb.group({
       correo: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas)[.](edu)[.](co)$/)])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
+      password: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
+      plataforma: ['', Validators.compose([Validators.required])]
     });
     this.recovery = this.fb.group({
       correoRecovery: ['', Validators.compose([Validators.required, Validators.pattern(/^[a-z]*.[a-z]*@(usantotomas)[.](edu)[.](co)$/)])]
@@ -52,8 +53,10 @@ export class LoginComponent implements OnInit {
   }
 
 
-  login(form?: NgForm) {
-    Cargando = false;    
+  login(form?: NgForm) {    
+    if(form.value.plataforma!="")
+    { 
+    Cargando = false; 
     this.loginService.authentication(form.value)
       .subscribe((data) => {
         if (data['fail'] == 1) {
@@ -86,10 +89,11 @@ export class LoginComponent implements OnInit {
         else {
           localStorage.setItem('usuario', data['token']);
           this.router.navigate(['home']);
-          this.tokenPayload = decode(data['token']);
+          this.tokenPayload = decode(data['token']);          
         }
 
       });
+    }
   }
   recoveryCode() {
     Cargando2=true;

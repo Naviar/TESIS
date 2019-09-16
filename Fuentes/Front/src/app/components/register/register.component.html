@@ -159,7 +159,7 @@
                           </div>
                     </div>
             </form>
-            <form [formGroup]="asesorForm" novalidate *ngIf="selectRol.value==2 || selectRol.value==4 || selectRol.value==5">
+            <form [formGroup]="asesorForm" novalidate *ngIf="selectRol.value==2 || selectRol.value==4">
                 <div class="form-label-group">
                     <label><label id="lbl"></label>Facultad*</label>
                       <select id="select" class="form-control" name="facultad" formControlName="facultad"> 
@@ -180,7 +180,7 @@
                 <button [disabled]="!registerForm.valid" (click)="register(registerForm)" class="btn btn-block" id="btnRegister" type="button">Registrarse</button>
                 <button [routerLink]="['/login']" class="btn btn-block" id="btnBack" type="button">Volver</button>
               </div> 
-              <div class="form-label-group" *ngIf="selectRol.value==2 || selectRol.value==4 || selectRol.value==5">        
+              <div class="form-label-group" *ngIf="selectRol.value==2">        
                   <button [disabled]="!registerForm.valid || !asesorForm.valid" (click)="registerAsesor(registerForm, asesorForm)" class="btn btn-block" id="btnRegister" type="button">Registrarse</button>
                   <button [routerLink]="['/login']" class="btn btn-block" id="btnBack" type="button">Volver</button>
               </div> 
@@ -188,6 +188,10 @@
                   <button [disabled]="!registerForm.valid || !estudianteForm.valid" (click)="registerEstudiante(registerForm, estudianteForm)" class="btn btn-block" id="btnRegister" type="button">Registrarse</button>
                   <button [routerLink]="['/login']" class="btn btn-block" id="btnBack" type="button">Volver</button>
               </div> 
+              <div class="form-label-group" *ngIf="selectRol.value==4">        
+                <button [disabled]="!registerForm.valid || !asesorForm.valid" (click)="registerDecano(registerForm, asesorForm)" class="btn btn-block" id="btnRegister" type="button">Registrarse</button>
+                <button [routerLink]="['/login']" class="btn btn-block" id="btnBack" type="button">Volver</button>
+            </div> 
           </div>
         </div>
       </div>

@@ -55,6 +55,9 @@ export class LoginService {
   registerAsesor(asesor: asesor){        
     return this.http.post(this.URL_API + '/registerAsesor', asesor);
   }
+  registerDecano(decano: asesor){        
+    return this.http.post(this.URL_API + '/registerDecano', decano);
+  }
   registerEstudiante(estudiante: estudiante){        
     return this.http.post(this.URL_API + '/registerEstudiante', estudiante);
   }

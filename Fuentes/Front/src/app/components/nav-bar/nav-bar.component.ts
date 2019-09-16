@@ -14,6 +14,7 @@ import { etapa_estudiante } from 'src/app/models/etapa_estudiante';
 export class NavBarComponent implements OnInit {
 
   condition:number=0;
+  plataforma:number=0;
   etapa_estudiante:etapa_estudiante;
   etapa: number;
   nombre_Usuario: any;
@@ -37,6 +38,7 @@ export class NavBarComponent implements OnInit {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token); 
     this.condition = parseInt(tokenPayload.rol_usuario);
+    this.plataforma = parseInt(tokenPayload.plataforma);
     this.nombre_Usuario = tokenPayload.nombre_usuario;
     console.log("ESTE ES EL ROL",this.condition);
     if(this.condition==3)

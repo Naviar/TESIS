@@ -92,10 +92,48 @@ export class RegisterComponent implements OnInit {
           this.loginService.register(form.value)
             .subscribe((dataa) => {
               this.loginService.getIdUsuario(form.value.correo)
-                .subscribe((data) => {
+                .subscribe((data) => { 
                   console.log("esto responde", data[0].ID_USUARIO);
                   form2.value.id_usuario = data[0].ID_USUARIO;
                   this.loginService.registerAsesor(form2.value)
+                    .subscribe((data) => {
+                      M.toast({
+                        html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                                <h4 class="alert-heading">REGISTRO COMPLETADO</h4>
+                                <p>El usuario se ha registrado correctamente y espera activacion</p>
+                                <hr>
+                            </div>`});
+                            cargando=false;
+                      this.router.navigate(['login'])
+                    });
+                });
+            });
+
+        }
+        else {
+          M.toast({
+            html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+              <h4 class="alert-heading">FALLO REGISTRO</h4>
+              <p>El celular y/o correo que diligencio ya se encuentra registrado</p>
+              <hr>
+          </div>`});
+          cargando=false;
+        }
+      });
+  }
+  registerDecano(form?: NgForm, form2?: NgForm) {
+    cargando=true;
+    this.loginService.usuarioDuplicado(form.value)
+      .subscribe((data) => {
+        console.log("esto llegoooooooo", data);
+        if (data[0].DUPLICATE == 0) {
+          this.loginService.register(form.value)
+            .subscribe((dataa) => {
+              this.loginService.getIdUsuario(form.value.correo)
+                .subscribe((data) => { 
+                  console.log("esto responde", data[0].ID_USUARIO);
+                  form2.value.id_usuario = data[0].ID_USUARIO;
+                  this.loginService.registerDecano(form2.value)
                     .subscribe((data) => {
                       M.toast({
                         html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">

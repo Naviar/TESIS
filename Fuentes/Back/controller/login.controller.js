@@ -51,7 +51,7 @@ loginCtrl.authentication = (req, res) => {
 
     let correo = req.body.correo;
     let password = req.body.password;
-
+    let plataforma = req.body.plataforma;
     //info del usuario 
     let id_usuario;
     let rol_usuario;
@@ -84,7 +84,7 @@ loginCtrl.authentication = (req, res) => {
                             if (error) { res.send('Ocurrio un error en la busqueda' + error) } else {
                                 if (data[0].ROL_ID_ROL !== 3) {
 
-                                    token = jwt.sign({ id_usuario: id_usuario, rol_usuario: rol_usuario, nombre_usuario: nombre_usuario },
+                                    token = jwt.sign({ id_usuario: id_usuario, rol_usuario: rol_usuario, nombre_usuario: nombre_usuario, plataforma: plataforma },
                                         config.secret, { expiresIn: 86400 }
                                     )
                                     //Se responde con el token de autenticacion
@@ -97,7 +97,7 @@ loginCtrl.authentication = (req, res) => {
                                                 if (err) { res.send('Ocurrio un error en la busqueda' + err) } else {
 
                                                     console.log('id_estudiante :::::', data[0].ID_ESTUDIANTE);
-                                                    token = jwt.sign({ id_usuario: id_usuario, rol_usuario: rol_usuario, nombre_usuario: nombre_usuario, id_estudiante: data[0].ID_ESTUDIANTE },
+                                                    token = jwt.sign({ id_usuario: id_usuario, rol_usuario: rol_usuario, nombre_usuario: nombre_usuario, id_estudiante: data[0].ID_ESTUDIANTE, plataforma: plataforma },
                                                         config.secret, { expiresIn: 86400 }
                                                     )
                                                     //Se responde con el token de autenticacion
@@ -262,6 +262,30 @@ loginCtrl.registerAsesor = (req, res) => {
             //Metodo que hace el query
 
             conn.query(`INSERT INTO asesor (usuario_id_usuario, facultad_id_facultad)
+          VALUES ( '${id_usuario}', '${id_facultad}')`, (err, data) => {
+                    //Se cierra la conexion de la base de datos
+                    conn.close()
+                    if (err) {
+                        res.status(500).send('Hubo un problema registrando el usuario ' + err)
+                        console.log("Este es el error", err)
+                    } else res.json({ data: 'Se creo el asesor de manera satisfactoria!!!' })
+
+                })
+        }
+    })
+}
+loginCtrl.registerDecano = (req, res) => {
+    //datos pedidos para la solicitud
+    let id_usuario = req.body.id_usuario;
+    let id_facultad = req.body.facultad;
+    //Abriendo conexion a la base de datos
+
+    ibmdb.open(connStr, (err, conn) => {
+
+        if (err) { console.log("ERROR" + err); } else {
+            //Metodo que hace el query
+
+            conn.query(`INSERT INTO decano (usuario_id_usuario, facultad_id_facultad)
           VALUES ( '${id_usuario}', '${id_facultad}')`, (err, data) => {
                     //Se cierra la conexion de la base de datos
                     conn.close()

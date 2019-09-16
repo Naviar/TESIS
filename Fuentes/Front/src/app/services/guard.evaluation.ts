@@ -13,7 +13,7 @@ export class GuardEvaluation {
     constructor( public auth: LoginService, public etapaService: EtapaService, public router: Router ) {
     
     }
- 
+    plataforma:number;
     usuario_id: number;
     estudiante_id: number;
     rol: number;
@@ -43,6 +43,7 @@ export class GuardEvaluation {
      const token = localStorage.getItem('usuario');
      const tokenPayload = decode(token);
      this.usuario_id = parseInt(tokenPayload.id_usuario);
+     this.plataforma = parseInt(tokenPayload.plataforma);
      this.rol = parseInt(tokenPayload.rol_usuario);
      if (this.rol==3)
      {
@@ -53,7 +54,7 @@ export class GuardEvaluation {
              console.log('la respuesta de getetapa', res);
              this.etapa = res as etapa;            
              console.log('la respuesta de getetap WTFa', this.etapa.ETAPA);
-             if (this.etapa.ETAPA==2 || this.etapa.ETAPA==5){
+             if (this.plataforma == 1 && (this.etapa.ETAPA==2 || this.etapa.ETAPA==5)){
                  this.temp = true;                 
              }
              else

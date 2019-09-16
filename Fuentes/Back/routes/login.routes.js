@@ -7,6 +7,7 @@ router.get('/logout',loginCtrl.logout);
 router.post('/login',loginCtrl.authentication);
 router.post('/register',loginCtrl.register);
 router.post('/registerAsesor',loginCtrl.registerAsesor);
+router.post('/registerDecano',loginCtrl.registerDecano);
 router.post('/registerEstudiante',loginCtrl.registerEstudiante);
 router.get('/logout',loginCtrl.logout);
 router.get('/roles', loginCtrl.getRoles);
