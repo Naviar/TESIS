@@ -6,6 +6,15 @@ const path = require('path');
 //Inicializaciones
 const app = express();
 
+//notificaciones
+const notificaciones = require('../Back/controller/notificaciones.controller');
+
+
+
+
+
+
+
 //Configuraciones
 app.set('port', process.env.PORT || 3500)
 
