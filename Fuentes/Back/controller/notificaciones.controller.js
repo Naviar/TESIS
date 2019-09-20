@@ -85,7 +85,7 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
     const resta_fii = f_i_i - now;
     const resta_fif = f_i_f - now;
     // solo entra si la resta de fecha de informe inicial es mayor a la fecha actual
-    if ((resta_fii) > 0 && (resta_fii / 86400000 >= 15)) {
+    if ((resta_fii) > 0 && (resta_fii / 86400000 <= 15)) {
 
 
         ibmdb.open(connStr, (err, conn) => {
@@ -104,7 +104,7 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
             })
         });
 
-    } else if (resta_fii > 0) {
+    } else if ((resta_fif > 0) && (resta_fif / 86400000 <= 15)) {
 
     }
 }
