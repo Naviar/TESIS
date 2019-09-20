@@ -1,13 +1,22 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { proyecto } from '../models/proyecto';
+import { documento } from '../models/documento';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubirarchivosService {
-
+  proyectos: proyecto[];
+  proyectoNuevo: proyecto = {
+    ID_PROYECTO : 0,
+    NOMBRE_PROYECTO : "",
+    ETAPA : 0,
+    USUARIO_ID_USUARIO: 0
+    };
+  documentos: documento[];
   readonly URL_API = 'http://localhost:3500/subirarchivos';  
   
 
@@ -20,5 +29,21 @@ export class SubirarchivosService {
   //Referencia del archivo
   getUrlArchivo(nombreArchivo: string) {    
     return this.storage.ref(nombreArchivo);
+  }
+
+  getDocumentos(){
+    return this.http.get(this.URL_API+"/getDocumentos");
+  }
+  getProyectos(){
+    return this.http.get(this.URL_API+"/getProyectos");
+  }
+  getDocumentosEtapa(etapa:number){
+    return this.http.get(this.URL_API+"/getDocumentosEtapa/"+`${etapa}`);
+  }
+  crearProyecto(proyecto:proyecto){    
+    return this.http.post(this.URL_API + '/crearProyecto', proyecto);
+  }
+  proyectoDuplicado(proyecto:proyecto){
+    return this.http.post(this.URL_API + '/proyectoDuplicado', proyecto);
   }
 }

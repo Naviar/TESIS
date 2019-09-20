@@ -1,7 +1,7 @@
 
 --Para tabla Rol
 INSERT INTO Rol VALUES (1,'Lider');
-INSERT INTO Rol VALUES (2,'Asesor');
+INSERT INTO Rol VALUES (2,'Docente');
 INSERT INTO Rol VALUES (3,'Estudiante');
 INSERT INTO Rol VALUES (4,'Decano');
 SELECT * FROM Rol;
@@ -116,4 +116,6 @@ INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (6, 'Inform
 INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (7, 'Informe final', 5);
 INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (8, 'Acta final', 8);
 
+--Para tabla Proyecto
+INSERT INTO Proyecto (Nombre_proyecto, Etapa, Usuario_Id_usuario, Fecha) VALUES ('Proyecto desarrollo comunitario', 1, 1, CURRENT_DATE);
 

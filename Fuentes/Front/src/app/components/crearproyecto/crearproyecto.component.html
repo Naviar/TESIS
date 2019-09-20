@@ -13,12 +13,12 @@
     <div class="row justify-content-center">
       <div class="card" style="width: 700px">
         <div class="card-body">
-          <h2 class="row justify-content-center">Subir archivo {{TipoArchivo}}</h2>
+          <h2 class="row justify-content-center">Crear proyecto</h2>
           <br>
           <hr>
           <div *ngIf="existeOficial">
-            <p class="download">Para descargar el documento oficial en blanco haga click <a
-                href="{{URLOficial}}" target="_blank">aqui.</a></p>
+            <p class="download">Para descargar el documento oficial en blanco haga click <a href="{{URLOficial}}"
+                target="_blank">aqui.</a></p>
           </div>
           <hr>
           <div *ngIf="existe">
@@ -28,12 +28,9 @@
           <form [formGroup]="archivoForm">
             <div class="form-label-group">
               <label><label id="lbl"></label>Proyecto*</label>
-              <select id="select" class="form-control" name="proyecto" formControlName="proyecto" (change)="cambioNombre(documento.value, proyecto.value)" #proyecto>
-                <option value="" disabled>Seleccione un proyecto</option>
-                <option *ngFor="let proyecto of subirarchivosService.proyectos" value={{proyecto.NOMBRE_PROYECTO}}>
-                  {{proyecto.NOMBRE_PROYECTO}}
-                </option>
-              </select>
+              <input type="text" class="form-control" name="proyecto" placeholder="Ingrese el nombre del proyecto"
+                autofocus required formControlName="proyecto" maxlength="99" #proyecto
+                (keyup)="cambioNombre(documento.value, proyecto.value)">
               <div *ngIf="archivoForm.get('proyecto').errors" class="alert alert-danger">
                 <div *ngIf="archivoForm.get('proyecto').errors['required']">
                   Proyecto requerido
@@ -81,7 +78,7 @@
             </div>
             <br>
             <button [disabled]="!archivoForm.valid || (porcentaje > 0 && porcentaje < 100) || errorNombre"
-              (click)="confirmarArchivo()" class="btn btn-block" id="btnLogin">Subir archivo</button>
+              (click)="crearProyecto(archivoForm)" class="btn btn-block" id="btnLogin">Subir archivo</button>
           </form>
         </div>
       </div>

@@ -13,38 +13,19 @@
     <div class="row justify-content-center">
       <div class="card" style="width: 700px">
         <div class="card-body">
-          <h2 class="row justify-content-center">Subir archivo {{TipoArchivo}}</h2>
+          <h2 class="row justify-content-center">Gestionar archivo {{TipoArchivo}}</h2>
           <br>
           <hr>
           <div *ngIf="existeOficial">
-            <p class="download">Para descargar el documento oficial en blanco haga click <a
+            <p class="download">Para descargar el documento oficial que se encuentra actualmente en la plataforma haga click <a
                 href="{{URLOficial}}" target="_blank">aqui.</a></p>
           </div>
           <hr>
-          <div *ngIf="existe">
-            <p class="download">Ya existe un archivo de ese tipo para el proyecto seleccionado, si desea descargarlo
-              haga click <a href="{{URLPublica}}" target="_blank">aqui.</a></p>
-          </div>
           <form [formGroup]="archivoForm">
-            <div class="form-label-group">
-              <label><label id="lbl"></label>Proyecto*</label>
-              <select id="select" class="form-control" name="proyecto" formControlName="proyecto" (change)="cambioNombre(documento.value, proyecto.value)" #proyecto>
-                <option value="" disabled>Seleccione un proyecto</option>
-                <option *ngFor="let proyecto of subirarchivosService.proyectos" value={{proyecto.NOMBRE_PROYECTO}}>
-                  {{proyecto.NOMBRE_PROYECTO}}
-                </option>
-              </select>
-              <div *ngIf="archivoForm.get('proyecto').errors" class="alert alert-danger">
-                <div *ngIf="archivoForm.get('proyecto').errors['required']">
-                  Proyecto requerido
-                </div>
-              </div>
-              <br>
-            </div>
             <div class="form-label-group">
               <label><label id="lbl"></label>Documento*</label>
               <select id="select" class="form-control" name="documento" formControlName="documento"
-                (change)="cambioNombre(documento.value, proyecto.value)" #documento>
+                (change)="cambioNombre(documento.value)" #documento>
                 <option value="" disabled>Seleccione un documento</option>
                 <option *ngFor="let documento of subirarchivosService.documentos" value={{documento.NOMBRE_DOCUMENTO}}>
                   {{documento.NOMBRE_DOCUMENTO}}

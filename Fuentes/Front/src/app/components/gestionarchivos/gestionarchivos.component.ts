@@ -9,24 +9,22 @@ let cargando = true;
 declare var M: any;
 
 @Component({
-  selector: 'app-subirarchivos',
-  templateUrl: './subirarchivos.component.html',
-  styleUrls: ['./subirarchivos.component.css']
+  selector: 'app-gestionarchivos',
+  templateUrl: './gestionarchivos.component.html',
+  styleUrls: ['./gestionarchivos.component.css']
 })
 
-export class SubirarchivosComponent implements OnInit {
+export class GestionarchivosComponent implements OnInit {
 
   archivoForm: FormGroup;
   porcentaje: number = 0;
   porcentaje2: string = "0%";
-  mensajeArchivo = 'No hay un archivo seleccionado';
-  nombreArchivo: string = "";
+  mensajeArchivo = 'No hay un archivo seleccionado';  
   nombreArchivoOficial: string = "";
   URLPublica: string;
   URLOficial: string;
   TipoArchivo: string = "";
-  errorNombre: boolean = false;
-  existe: boolean = false;
+  errorNombre: boolean = false;  
   existeOficial: boolean = false;
   public datosFormulario = new FormData();
 
@@ -36,24 +34,9 @@ export class SubirarchivosComponent implements OnInit {
 
   ngOnInit() {
     cargando = false;
-    this.getDocumentos();
-    this.getProyectos();
+    this.getDocumentos();    
   }
 
-  buscarArchivo() {
-    cargando = true;
-    let referencia = this.subirarchivosService.getUrlArchivo(this.nombreArchivo);
-    referencia.getDownloadURL().subscribe((URL) => {
-      this.URLPublica = URL;
-      console.log("Esto nos trajo", this.URLPublica);
-      this.existe = true;
-      cargando = false;
-    },
-      (error) => {
-        this.existe = false;
-        cargando = false;
-      });
-  }
 
   buscarArchivoOficial(){
     cargando = true;
@@ -73,8 +56,7 @@ export class SubirarchivosComponent implements OnInit {
   buildForm() {
     this.archivoForm = this.fb.group({
       archivo: ['', Validators.compose([Validators.required])],
-      documento: ['', Validators.compose([Validators.required])],
-      proyecto: ['', Validators.compose([Validators.required])]
+      documento: ['', Validators.compose([Validators.required])]      
     });
   }
   cambioArchivo(event) {
@@ -104,7 +86,7 @@ export class SubirarchivosComponent implements OnInit {
     cargando = true;
     console.log("entramo O_Os");
     let archivo = this.datosFormulario.get('archivo');
-    let tarea = this.subirarchivosService.SubirArchivo(this.nombreArchivo, archivo);
+    let tarea = this.subirarchivosService.SubirArchivo(this.nombreArchivoOficial, archivo);
     tarea.percentageChanges().subscribe((porcentaje) => {
       this.cambioPorcentaje(porcentaje);
       if (this.porcentaje == 100) {
@@ -126,8 +108,8 @@ export class SubirarchivosComponent implements OnInit {
     this.progresbar.nativeElement.style.width = this.porcentaje2;
   }
   confirmarArchivo(){
-    if(this.existe==true){
-      if(confirm("¿Esta seguro que desea reemplazar el archivo?")){
+    if(this.existeOficial==true){
+      if(confirm("¿Esta seguro que desea reemplazar el archivo oficial?")){
         this.subirArchivo();
       }
     }
@@ -143,27 +125,17 @@ export class SubirarchivosComponent implements OnInit {
         cargando=false;        
       })
   }
-  getProyectos() {
-    cargando=true;
-    this.subirarchivosService.getProyectos()
-      .subscribe(res => {
-        this.subirarchivosService.proyectos = res as proyecto[];
-        cargando=false;
-      })
-  }
-  cambioNombre(documento:string, proyecto:string){
+  
+  cambioNombre(documento:string){
     this.progresbar.nativeElement.textContent = "";
     this.cambioPorcentaje(0);
-    this.TipoArchivo = documento; 
-    this.nombreArchivo = documento + "_" + proyecto + ".docx";
-    console.log(":D", this.nombreArchivo);
-    this.nombreArchivoOficial = documento + "_oficial.docx";
-    this.buscarArchivo();
+    this.TipoArchivo = documento;     
+    this.nombreArchivoOficial = documento + "_oficial.docx";    
     this.buscarArchivoOficial();
   }
 
   yaCargo() {
-    if (cargando == false) { 
+    if (cargando == false) {
       return false;
     } else {
       return true;

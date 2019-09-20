@@ -32,10 +32,14 @@ import { VerasesoriaComponent } from './components/verasesoria/verasesoria.compo
 import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
 import { SubirarchivosComponent } from './components/subirarchivos/subirarchivos.component';
- 
+import { GestionarchivosComponent } from './components/gestionarchivos/gestionarchivos.component';
+import { CrearproyectoComponent } from './components/crearproyecto/crearproyecto.component';
+
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
+
+
 
 
 @NgModule({
@@ -59,7 +63,9 @@ import { environment } from '../environments/environment';
     VerasesoriaComponent, 
     VerevaluacionComponent, 
     ReporteComponent, 
-    SubirarchivosComponent   
+    SubirarchivosComponent, 
+    GestionarchivosComponent, 
+    CrearproyectoComponent   
   ],
   imports: [
     BrowserModule,
