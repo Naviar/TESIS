@@ -77,6 +77,7 @@ export class ConvocatoriaComponent implements OnInit {
                     <p>${res['message']}</p>
                     <hr>
                 </div>`});
+                this.getAnnouncements();
               },
             err => {console.log('error:',err);
             M.toast({
@@ -99,6 +100,7 @@ export class ConvocatoriaComponent implements OnInit {
                       <p>${res['message']}</p>
                       <hr>
                   </div>`});
+                  this.getAnnouncements();
               },
 
               err =>{

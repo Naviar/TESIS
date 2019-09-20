@@ -4,7 +4,18 @@ const notificacionesCtrl = {}
 var ibmdb = require("ibm_db")
 
 let connStr = require("../database")
+const nodemailer = require('nodemailer');
+//autenticacion para enviar correo
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'consultorio.usta.DRSU@gmail.com',
+        pass: 'consultoriousta123'
+    }
+});
 
+var fecha_inicial;
+var fecha_final;
 
 //notificaciones
 var actual = new Date();
@@ -56,6 +67,9 @@ function getFechas() {
                         console.log("Se ha cerrado la base de datos")
                     })
 
+                    fecha_inicial = data[0]['FECHA_INFORME_INICIAL'];
+                    fecha_final = data[0]['FECHA_INFORME_FINAL'];
+
                     notificar(data[0]['FECHA_INFORME_INICIAL'], data[0]['FECHA_INFORME_FINAL']);
                 }
             })
@@ -90,22 +104,71 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
 
         ibmdb.open(connStr, (err, conn) => {
 
-            conn.query(``, (err, data) => {
+            conn.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 2;`, (err, data) => {
                 if (err) {
 
-                    console.log("Hubo un error en la busqueda DE HORARIOS" + err);
+                    console.log("Hubo un error en la busqueda DE CORREOS Y NOMBRES DE PROYECTOS" + err);
                 } else {
                     conn.close(() => {
                         console.log("Se ha cerrado la base de datos")
                     })
-                    console.log(data[0]);
-
+                    console.log(data);
+                    sendEmails(data);
                 }
             })
         });
 
     } else if ((resta_fif > 0) && (resta_fif / 86400000 <= 15)) {
 
+        ibmdb.open(connStr, (err, conn) => {
+
+            conn.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 3;`, (err, data) => {
+                if (err) {
+
+                    console.log("Hubo un error en la busqueda DE CORREOS Y NOMBRES DE PROYECTOS" + err);
+                } else {
+                    conn.close(() => {
+                        console.log("Se ha cerrado la base de datos")
+                    })
+                    console.log(data);
+
+                    sendEmails(data);
+                }
+            })
+        });
+
+    }
+}
+
+function sendEmails(datos, dias) {
+
+    try {
+
+        console.log('correos', datos);
+
+        for (i = 0; i < datos.length; i++) {
+
+
+            const mailOptions = {
+                from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
+                to: `${datos[0]['CORREO']}`, // lista de los destinatarios del 
+                subject: `RECORDATORIO: presentar informe inicial de proyecto , ${datos[i]['NOMBRE_PROYECTO']}`, // Línea del asunto 
+                html: `<h1>Quedan pocos dias para subir el primer informe del proyecto</h1>
+                    <p>Estimado ${datos[i]['NOMBRE']}, QUEDAN <b>${dias}</b> dias para subir el informe de su proyecto ${datos[i]['NOMBRE_PROYECTO']}</p>` // cuerpo de texto sin formato 
+            };
+            transporter.sendMail(mailOptions, function(err, info) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    console.log(info);
+
+
+                }
+
+            });
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
