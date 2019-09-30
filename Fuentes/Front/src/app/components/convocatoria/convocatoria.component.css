@@ -1,6 +1,7 @@
 .card {
     padding: 0%;
     margin-bottom: 1em;
+    width: 450px;
 }
 
 .card-body {
@@ -61,5 +62,5 @@
 }
 
 .active {
-    background-color: rgb(119, 243, 94);
+    background-color: rgb(40, 236, 73);
 }

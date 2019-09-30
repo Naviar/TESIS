@@ -17,12 +17,13 @@ var transporter = nodemailer.createTransport({
 var fecha_inicial;
 var fecha_final;
 
+var dias;
 //notificaciones
 var actual = new Date();
-var horaNotificaciones = new Date(actual.getFullYear(), actual.getMonth(), actual.getDate(), 17, 31, 0, 0);
+var horaNotificaciones = new Date(actual.getFullYear(), actual.getMonth(), actual.getDate(), 16, 46, 0, 0);
 var msHastaLaHora = horaNotificaciones - actual;
 
-EnviarNotificaciones();
+
 console.log(`fecha actual : ${actual}`);
 console.log(`hora para enviar las alertas: ${horaNotificaciones}`);
 console.log(`ms que faltan para llegar a la hora de notificaciones ${msHastaLaHora}`);
@@ -40,7 +41,7 @@ setTimeout(PrepararNotificaciones, msHastaLaHora);
 function PrepararNotificaciones() {
     console.log('entro');
     EnviarNotificaciones();
-    setInterval(EnviarNotificaciones, 10000); // cada dia 86400000 ms  = 24 hrs;
+    setInterval(EnviarNotificaciones, 86400000); // cada dia 86400000 ms  = 24 hrs;
 
 }
 
@@ -101,7 +102,7 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
     // solo entra si la resta de fecha de informe inicial es mayor a la fecha actual
     if ((resta_fii) > 0 && (resta_fii / 86400000 <= 15)) {
 
-
+        dias = resta_fii / 86400000;
         ibmdb.open(connStr, (err, conn) => {
 
             conn.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 2;`, (err, data) => {
@@ -113,13 +114,14 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
                         console.log("Se ha cerrado la base de datos")
                     })
                     console.log(data);
-                    sendEmails(data);
+                    sendEmails(data, dias, 'inicial', fecha_inicial);
                 }
             })
         });
 
     } else if ((resta_fif > 0) && (resta_fif / 86400000 <= 15)) {
 
+        dias = resta_fif / 86400000
         ibmdb.open(connStr, (err, conn) => {
 
             conn.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 3;`, (err, data) => {
@@ -132,7 +134,7 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
                     })
                     console.log(data);
 
-                    sendEmails(data);
+                    sendEmails(data, dias, 'final', fecha_final);
                 }
             })
         });
@@ -140,21 +142,22 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
     }
 }
 
-function sendEmails(datos, dias) {
+function sendEmails(datos, dias, informe, fecha) {
 
     try {
 
         console.log('correos', datos);
-
+        var i;
         for (i = 0; i < datos.length; i++) {
 
 
             const mailOptions = {
                 from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
-                to: `${datos[0]['CORREO']}`, // lista de los destinatarios del 
-                subject: `RECORDATORIO: presentar informe inicial de proyecto , ${datos[i]['NOMBRE_PROYECTO']}`, // Línea del asunto 
-                html: `<h1>Quedan pocos dias para subir el primer informe del proyecto</h1>
-                    <p>Estimado ${datos[i]['NOMBRE']}, QUEDAN <b>${dias}</b> dias para subir el informe de su proyecto ${datos[i]['NOMBRE_PROYECTO']}</p>` // cuerpo de texto sin formato 
+                to: `${datos[i]['CORREO']}`, // lista de los destinatarios del 
+                subject: `RECORDATORIO: presentar informe ${informe} del proyecto , ${datos[i]['NOMBRE_PROYECTO']}`, // Línea del asunto 
+                html: `<h1>SUBIR INFORME ${informe.toUpperCase()} <b>${datos[i]['NOMBRE_PROYECTO']}</b></h1>
+                    <p>Estimado ${datos[i]['NOMBRE']},quedan <b>${Math.trunc(dias)}</b> dia(s) para subir el informe ${informe} de su proyecto <b>${datos[i]['NOMBRE_PROYECTO']}</b></p>
+                    <p>recuerde que el informe debe ser subido antes de la fecha <b>${fecha}</b>.</p>` // cuerpo de texto sin formato 
             };
             transporter.sendMail(mailOptions, function(err, info) {
                 if (err) {
@@ -168,7 +171,7 @@ function sendEmails(datos, dias) {
             });
         }
     } catch (error) {
-        console.log(error);
+        console.log('fuckkkkkkkk', error);
     }
 }
 

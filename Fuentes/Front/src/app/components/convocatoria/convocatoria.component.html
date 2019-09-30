@@ -29,6 +29,18 @@
 
 
                 <form [formGroup]="announcementForm" novalidate>
+
+                    <div class="form-label-group">
+                        <label><Strong><label id="lbl">*</label>Nombre de convocatoria:</Strong>
+                        </label>
+                        <input maxlength="100" type="text" class="form-control" name="name" placeholder="ej: Sol de Aquino" formControlName="Name" value="announcementForm.Name" id='input'>
+                        <div *ngIf="announcementForm.get('Name').errors" class="alert alert-danger">
+                            <div *ngIf="announcementForm.get('Name').errors['required']">
+                                Nombre de convocatoria requerido.
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col">
                             <div class="form-label-group">
@@ -105,7 +117,10 @@
                         <div class="card-header border-dark">
                             <h4 id="tituloCard">
                                 CONVOCATORIA </h4>
+                            <br>
+                            <h5 id="tituloCard">{{convocatoria.NOMBRE_CONVOCATORIA}}</h5>
                         </div>
+
                         <div class="card-body text-dark">
                             <h5 class="card-title"><strong>Fecha inicio:</strong> {{ convocatoria.FECHA_INICIO }}</h5>
                         </div>
@@ -119,7 +134,7 @@
                             <h5 class="card-title"><strong>Fecha informe final:</strong> {{ convocatoria.FECHA_INFORME_FINAL }}</h5>
                         </div>
                         <div class="card-body text-dark">
-                            <h5 class="card-title"><strong>ultima modificacion a la convocatoria:</strong> {{ convocatoria.NOMBRE }}&nbsp;{{convocatoria.APELLIDO}} </h5>
+                            <h5 class="card-title"><strong>Abrió (modificó):</strong> {{ convocatoria.NOMBRE }}&nbsp;{{convocatoria.APELLIDO}} </h5>
                         </div>
 
                         <button *ngIf="idx == 0" type="button" class="btn btn-primary" (click)="modifyAnnouncement(convocatoria['ID_CONVOCATORIA'])" data-toggle="modal" data-target="#openannouncement">

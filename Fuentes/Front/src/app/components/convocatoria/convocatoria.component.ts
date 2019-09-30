@@ -31,6 +31,7 @@ export class ConvocatoriaComponent implements OnInit {
   buildForm() {
 
     this.announcementForm = this.fb.group({
+      Name: ['', Validators.compose([Validators.required]) ],
       start_date: ['', Validators.compose([Validators.required]) ],
       ending_date: ['', Validators.compose([Validators.required]) ],
       initial_report_date: ['', Validators.compose([Validators.required]) ],
@@ -42,6 +43,7 @@ export class ConvocatoriaComponent implements OnInit {
   openAnnouncement(form : NgForm ,id_convocatoria? : number) {
 
     const announcement : convocatoria = {
+      NAME: form.value.Name,
       FECHA_INICIO: form.value.start_date,
       FECHA_FIN: form.value.ending_date,
       FECHA_INFORME_INICIAL: form.value.initial_report_date,
@@ -150,6 +152,7 @@ export class ConvocatoriaComponent implements OnInit {
       const convocatoria = this.convocatorias.find((convocatoria) => convocatoria['ID_CONVOCATORIA'] === id_convocatoria);
 
       console.log(`encontro ${JSON.stringify(convocatoria)}`);
+      this.announcementForm.get('Name').setValue(convocatoria['NOMBRE_CONVOCATORIA'])
       this.announcementForm.get('start_date').setValue(convocatoria['FECHA_INICIO']);
       this.announcementForm.get('ending_date').setValue(convocatoria['FECHA_FIN']);
       this.announcementForm.get('initial_report_date').setValue(convocatoria['FECHA_INFORME_INICIAL']);
