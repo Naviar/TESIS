@@ -21,6 +21,7 @@ export class CrearproyectoComponent implements OnInit {
   porcentaje: number = 0;
   porcentaje2: string = "0%";
   mensajeArchivo = 'No hay un archivo seleccionado';
+  nombreDocumento: string = "Acta reunion";
   nombreArchivo: string = "";
   nombreArchivoOficial: string = "";
   URLPublica: string;
@@ -29,6 +30,7 @@ export class CrearproyectoComponent implements OnInit {
   errorNombre: boolean = false;
   existe: boolean = false;
   existeOficial: boolean = false;
+  vez: number = 1;
   public datosFormulario = new FormData();
 
   constructor(public subirarchivosService: SubirarchivosService, private fb: FormBuilder) {
@@ -41,7 +43,6 @@ export class CrearproyectoComponent implements OnInit {
     this.getDocumentos();
     this.getProyectos();
   }
-
   buscarArchivo() {
     cargando = true;
     let referencia = this.subirarchivosService.getUrlArchivo(this.nombreArchivo);
@@ -75,7 +76,6 @@ export class CrearproyectoComponent implements OnInit {
   buildForm() {
     this.archivoForm = this.fb.group({
       archivo: ['', Validators.compose([Validators.required])],
-      documento: ['', Validators.compose([Validators.required])],
       proyecto: ['', Validators.compose([Validators.required])]
     });
   }
@@ -102,37 +102,35 @@ export class CrearproyectoComponent implements OnInit {
     }
   }
   @ViewChild('progreso') progresbar;
+  @ViewChild('documento') documento;
+  @ViewChild('proyecto') proyecto;
+  @ViewChild('archivo') file;
+
   crearProyecto(form?: NgForm) {
-    cargando=true;
+    this.cambioNombre(this.documento.nativeElement.value, this.proyecto.nativeElement.value);
+    cargando = true;
     this.subirarchivosService.proyectoNuevo.NOMBRE_PROYECTO = form.value.proyecto;
     this.subirarchivosService.proyectoNuevo.ETAPA = 1;
     this.subirarchivosService.proyectoNuevo.USUARIO_ID_USUARIO = this.usuario_id;
     this.subirarchivosService.proyectoDuplicado(this.subirarchivosService.proyectoNuevo)
       .subscribe((data) => {
         if (data[0].DUPLICATE == 0) {
-          this.subirarchivosService.crearProyecto(this.subirarchivosService.proyectoNuevo)
-            .subscribe(res => {
-              M.toast({
-                html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-                       <h4 class="alert-heading">PROYECTO CREADOO</h4>
-                       <p>El proyecto se ha creado correctamente</p>
-                       <hr>
-                       </div>`});
-              this.subirArchivo();
-            })
+          this.subirArchivo();
         }
-        else{
+        else {
           M.toast({
             html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-                    <h4 class="alert-heading">FALLO La CREACION DEL PROYECTO</h4>
+                    <h4 class="alert-heading">FALLO LA CREACION DEL PROYECTO</h4>
                     <p>El nombre de proyecto que diligencio ya se encuentra registrado, intente con uno diferente.</p>
                     <hr>
                 </div>`});
-                cargando=false;
+          cargando = false;
         }
       })
   }
-  subirArchivo() {
+
+
+  async subirArchivo() {
     cargando = true;
     console.log("entramo O_Os");
     let archivo = this.datosFormulario.get('archivo');
@@ -140,17 +138,51 @@ export class CrearproyectoComponent implements OnInit {
     tarea.percentageChanges().subscribe((porcentaje) => {
       this.cambioPorcentaje(porcentaje);
       if (this.porcentaje == 100) {
-        // this.progresbar.nativeElement.style.background = '#5cb85c';
-        this.progresbar.nativeElement.textContent = "COMPLETADO";
-        M.toast({
-          html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-              <h4 class="alert-heading">ARCHIVO SUBIDO</h4>
-              <p>El archivo se ha subido correctamente</p>
-              <hr>
-          </div>`});
-        cargando = false;
+        this.archivoSubido();
       }
     });
+  }
+  delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+  async archivoSubido(){
+    this.progresbar.nativeElement.textContent = "COMPLETADO";
+    M.toast({
+      html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+          <h4 class="alert-heading">ARCHIVO SUBIDO</h4>
+          <p>El archivo se ha subido correctamente</p>
+          <hr>
+      </div>`});
+      await this.delay(2000); 
+    if (this.vez == 2) {
+      this.subirarchivosService.crearProyecto(this.subirarchivosService.proyectoNuevo)
+        .subscribe(res => {
+          M.toast({
+            html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                 <h4 class="alert-heading">PROYECTO CREADO</h4>
+                 <p>El proyecto se ha creado correctamente</p>
+                 <hr>
+                 </div>`}); 
+          cargando = false;
+        })
+    }
+    else if (this.vez == 1) {
+      this.nombreDocumento = "Formato proyecto";
+      this.cambioPorcentaje(0);
+      this.progresbar.nativeElement.textContent = "";
+      M.toast({
+        html: `<div class="alert alert-warning" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+            <h4 class="alert-heading">ARCHIVO REQUERIDO</h4>
+            <p>Por favor suba el formato proyecto para terminar con la creación</p>
+            <hr>
+        </div>`});
+      cargando = false;
+      this.vez++;
+      this.proyecto.nativeElement.disabled = true;
+      this.file.nativeElement.value = "";
+      this.mensajeArchivo = 'No hay un archivo seleccionado';
+      this.cambioNombre(this.nombreDocumento, this.proyecto.nativeElement.value);
+    }
   }
   cambioPorcentaje(porcentaje: number) {
     this.porcentaje = Math.round(porcentaje);

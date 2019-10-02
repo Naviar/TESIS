@@ -39,25 +39,14 @@
               <br>
             </div>
             <div class="form-label-group">
-              <label><label id="lbl"></label>Documento*</label>
-              <select id="select" class="form-control" name="documento" formControlName="documento"
-                (change)="cambioNombre(documento.value, proyecto.value)" #documento>
-                <option value="" disabled>Seleccione un documento</option>
-                <option *ngFor="let documento of subirarchivosService.documentos" value={{documento.NOMBRE_DOCUMENTO}}>
-                  {{documento.NOMBRE_DOCUMENTO}}
-                </option>
-              </select>
-              <div *ngIf="archivoForm.get('documento').errors" class="alert alert-danger">
-                <div *ngIf="archivoForm.get('documento').errors['required']">
-                  Documento requerido
-                </div>
-              </div>
+              <label><label id="lbl"></label>Documento que debe subir:</label>
+              <input type="text" class="form-control" name="documento" disabled required #documento value="{{nombreDocumento}}">
               <br>
             </div>
 
             <div class="form-label-group">
               <div class="custom-file">
-                <input type="file" class="custom-file-input" id="customFileLang" lang="es" name="archivo"
+                <input type="file" class="custom-file-input" id="customFileLang" lang="es" name="archivo" #archivo
                   accept=".docx, .doc" formControlName="archivo" (change)="cambioArchivo($event)">
                 <label class="custom-file-label" for="customFileLang">{{mensajeArchivo}}</label>
               </div>
