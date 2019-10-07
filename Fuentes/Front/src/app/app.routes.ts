@@ -52,7 +52,7 @@ const routes: Routes = [
     { path: 'upload/files', component: SubirarchivosComponent, canActivate:[GuardService] },
     { path: 'manage/files', component: GestionarchivosComponent, canActivate:[GuardService] },
     { path: 'create/project', component: CrearproyectoComponent, canActivate:[GuardService] },
-    { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardDiagnostic] },
+    { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardService] },
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
 
