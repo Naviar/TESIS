@@ -39,6 +39,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 
+import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
+ 
 
 
 
@@ -65,7 +67,8 @@ import { environment } from '../environments/environment';
     ReporteComponent, 
     SubirarchivosComponent, 
     GestionarchivosComponent, 
-    CrearproyectoComponent   
+    CrearproyectoComponent,   
+    ConvocatoriaComponent   
   ],
   imports: [
     BrowserModule,
