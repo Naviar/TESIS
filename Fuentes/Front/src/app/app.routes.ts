@@ -30,6 +30,7 @@ import { SubirarchivosComponent } from './components/subirarchivos/subirarchivos
 import { GestionarchivosComponent } from './components/gestionarchivos/gestionarchivos.component';
 import { CrearproyectoComponent } from './components/crearproyecto/crearproyecto.component';
 import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
+import { BuscarproyectoComponent } from './components/buscarproyecto/buscarproyecto.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -53,6 +54,7 @@ const routes: Routes = [
     { path: 'manage/files', component: GestionarchivosComponent, canActivate:[GuardService] },
     { path: 'create/project', component: CrearproyectoComponent, canActivate:[GuardService] },
     { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardService] },
+    { path: 'find/files', component: BuscarproyectoComponent, canActivate:[GuardService] },
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
 

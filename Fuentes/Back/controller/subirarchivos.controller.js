@@ -62,6 +62,48 @@ subirarchivosCtrl.getProyectos = (req, res) => {
     })
 }
 
+subirarchivosCtrl.getProyectosFacultad = (req, res) => {
+
+    console.log(req.info);
+    let id_facultad = req.params.facultad;
+
+    ibmdb.open(connStr, (err, conn) => {
+
+        conn.query(`SELECT * FROM proyecto AS p INNER JOIN asesor AS a ON p.usuario_id_usuario = a.usuario_id_usuario WHERE a.facultad_id_facultad = '${id_facultad}'`, (err, data) => {
+            if (err) {
+                res.json({ error: err })
+                console.log("Hubo un error en la busqueda" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json(data);
+            }
+        })
+    })
+}
+
+subirarchivosCtrl.getProyectosDocente = (req, res) => {
+
+    console.log("###",req.params.docente);
+    let id_usuario = req.params.docente;
+
+    ibmdb.open(connStr, (err, conn) => {
+
+        conn.query(`SELECT * FROM proyecto AS p INNER JOIN asesor AS a ON p.usuario_id_usuario = a.usuario_id_usuario WHERE a.usuario_id_usuario = '${id_usuario}'`, (err, data) => {
+            if (err) {
+                res.json({ error: err })
+                console.log("Hubo un error en la busqueda" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json(data);
+            }
+        })
+    })
+}
+
 subirarchivosCtrl.getDocumentosEtapa = (req, res) => {
 
     console.log(req.info);

@@ -1,0 +1,15 @@
+#select {
+    border-radius: .5rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.form-label-group input {
+    height: auto;
+    border-radius: 2rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
+pagination-controls{
+    text-align: center;
+  }

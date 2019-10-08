@@ -9,6 +9,7 @@ import { jornada } from '../models/jornada';
 import {asesor} from '../models/asesor';
 import {estudiante} from '../models/estudiante'
 import { Usuario } from '../classes/usuario';
+import { usuario } from '../models/usuario';
 
 
 @Injectable({
@@ -19,6 +20,7 @@ export class LoginService {
   roles: rol[];
   
   facultades: facultad[];
+  docentes: usuario[];
   jornadas: jornada[];
   readonly URL_API = 'http://localhost:3500/usuario';  
   helper = new JwtHelperService();
@@ -45,6 +47,9 @@ export class LoginService {
   }
   getFacultades(){
     return this.http.get(this.URL_API+"/facultades");
+  }
+  getDocentes(){
+    return this.http.get(this.URL_API+"/docentes");
   }
   getJornadas(){
     return this.http.get(this.URL_API+"/jornadas");

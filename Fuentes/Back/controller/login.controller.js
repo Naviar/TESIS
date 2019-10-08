@@ -226,6 +226,25 @@ loginCtrl.getFacultades = (req, res) => {
         })
     })
 }
+loginCtrl.getDocentes = (req, res) => {
+
+    // console.log(req.info);
+    ibmdb.open(connStr, (err, conn) => {
+
+        conn.query(`SELECT * FROM usuario WHERE rol_id_rol = '${2}'`, (err, data) => {
+
+            if (err) {
+                res.json({ error: err })
+                console.log("Hubo un error en la busqueda" + err);
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json(data);
+            }
+        })
+    })
+}
 
 loginCtrl.getIdUsuario = (req, res) => {
 

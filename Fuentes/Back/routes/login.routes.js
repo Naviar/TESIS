@@ -12,6 +12,7 @@ router.post('/registerEstudiante',loginCtrl.registerEstudiante);
 router.get('/logout',loginCtrl.logout);
 router.get('/roles', loginCtrl.getRoles);
 router.get('/facultades', loginCtrl.getFacultades);
+router.get('/docentes', loginCtrl.getDocentes);
 router.get('/jornadas', loginCtrl.getJornadas);
 router.get('/id/:correo', loginCtrl.getIdUsuario);
 router.post('/usuarioDuplicado', loginCtrl.usuarioDuplicado);

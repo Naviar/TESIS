@@ -1,0 +1,95 @@
+<app-nav-bar></app-nav-bar>
+<br>
+
+<body>
+
+  <div class="container-separador">
+    <div class="row justify-content-center">
+      <div class="card" style="width: 700px">
+        <div class="card-body">
+          <h2 class="row justify-content-center">Buscar proyectos</h2>
+          <hr>
+          <p>"Busque un proyecto especifico o filtre por docente o facultad, para ver sus documentos"
+          </p>
+          <hr>
+          <div class="text-center">
+            <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+              style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label><label id="lbl"></label>Filtrar:</label>
+              <select (change)='this.changeStatus(mySelect.value)' id="select" class="form-control" #mySelect>
+                <option value="" disabled>Seleccione un filtro</option>
+                <option value=1>Todos</option>
+                <option value=2>Facultad</option>
+                <option value=3>Docente</option>
+              </select>
+            </div>
+            <div *ngIf="mySelect.value==2" class="col">
+              <label><label id="lbl"></label>Facultad:</label>
+              <select (change)='this.changeFacultad(mySelectFacultad.value)' id="select" class="form-control" name="facultad" #mySelectFacultad>
+                <option value="" disabled>Seleccione una facultad</option>
+                <option *ngFor="let facultad of loginService.facultades" value={{facultad.ID_FACULTAD}}>
+                  {{facultad.NOMBRE_FACULTAD}}
+                </option>
+              </select>
+            </div>
+            <div *ngIf="mySelect.value==3" class="col">
+              <label><label id="lbl"></label>Docente:</label>
+              <select (change)='this.changeDocente(mySelectDocente.value)' id="select" class="form-control" name="docente" #mySelectDocente>
+                <option value="" disabled>Seleccione un docente</option>
+                <option *ngFor="let docente of docentes" value={{docente.ID_USUARIO}}>
+                  {{docente.NOMBRE}} {{docente.APELLIDO}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <br>
+          <div *ngIf="busqueda==1">
+            <input id="inputt" class="form-control" placeholder="Digite el criterio de busqueda..." #myInput
+              (keyup)="this.buscar(myInput.value)" style="border-radius: 0rem;"
+              title="Ingrese el campo para filtrar" aria-describedby="basic-addon2">
+            <br>
+            <div class="form-label-group">
+              <div *ngFor="let proyecto of proyectos | paginate: { itemsPerPage: 5, currentPage: p }" class="row">
+                <div class="col">
+                  <label class="name" for="ejemplo">{{proyecto.NOMBRE_PROYECTO}}</label>
+                </div>
+                <div class="col">
+                  <a data-toggle="modal" data-target="#addhorario" href=""
+                    (click)="detalles(proyecto.NOMBRE_PROYECTO)"><i class="fa fa-eye"></i></a>
+                </div>
+              </div>
+            </div>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="addhorario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content border-success">
+        <div class="modal-header">
+          <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+            <Strong>Documentos del proyecto</Strong>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="resetModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
