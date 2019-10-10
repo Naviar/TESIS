@@ -37,8 +37,14 @@ export class SubirarchivosService {
   getProyectos(){
     return this.http.get(this.URL_API+"/getProyectos");
   }
+  getProyectosByEtapa(etapa:number){
+    return this.http.get(this.URL_API+"/getProyectosByEtapa/"+etapa);
+  }
   getDocumentosEtapa(etapa:number){
     return this.http.get(this.URL_API+"/getDocumentosEtapa/"+`${etapa}`);
+  }
+  getDocumentosByEtapa(etapa:number){
+    return this.http.get(this.URL_API+"/getDocumentosByEtapa/"+`${etapa}`);
   }
   crearProyecto(proyecto:proyecto){    
     return this.http.post(this.URL_API + '/crearProyecto', proyecto);
