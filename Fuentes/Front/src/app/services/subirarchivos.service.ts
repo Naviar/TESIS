@@ -37,6 +37,12 @@ export class SubirarchivosService {
   getProyectos(){
     return this.http.get(this.URL_API+"/getProyectos");
   }
+
+  sendFixesToProject(id_proyecto : number , stateFixes : boolean){
+    
+    return this.http.put(this.URL_API+`/updateFixes/${id_proyecto}`,{stateFixes});
+
+  }
   getProyectosByEtapa(etapa:number){
     return this.http.get(this.URL_API+"/getProyectosByEtapa/"+etapa);
   }

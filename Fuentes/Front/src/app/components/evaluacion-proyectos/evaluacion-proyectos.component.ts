@@ -3,6 +3,7 @@ import { SubirarchivosService } from '../../services/subirarchivos.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 
+
 let cargando = true;
 declare var M: any;
 @Component({
@@ -13,7 +14,7 @@ declare var M: any;
 export class EvaluacionProyectosComponent implements OnInit {
 
   selectionProject : string  = '';
-  
+  ID_Proyecto : number;
   documentos: any [];
   proyectos : any [];
 
@@ -76,6 +77,13 @@ export class EvaluacionProyectosComponent implements OnInit {
   @ViewChild('progreso') progresbar;
 
   cambioNombre(documento:string, proyecto:string){
+
+    const Proyecto = this.proyectos.find((proyectofind)=>{
+      return proyectofind.NOMBRE_PROYECTO === proyecto;
+    });
+
+    this.ID_Proyecto = Proyecto.ID_PROYECTO;
+    console.log(this.ID_Proyecto);
     if(documento !== '' && proyecto !== ''){
       
       this.progresbar.nativeElement.textContent = "";
@@ -147,8 +155,35 @@ export class EvaluacionProyectosComponent implements OnInit {
               <hr>
           </div>`});
         cargando = false;
+        this.sendCorrecionesToProject();
       }
+
     });
+  }
+
+  sendCorrecionesToProject(){
+    this.subirArchivosService.sendFixesToProject(this.ID_Proyecto,true)
+    .subscribe(
+      res => {
+        M.toast({
+          html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+              <h4 class="alert-heading">ESTADO DE CORRECIONES ACTUALIZADO</h4>
+              <p>se ha actualizado el estado para las correciones del proyecto</p>
+              <hr>
+          </div>`});
+          this.getProyectos();
+      },
+
+      err => {
+        M.toast({
+          html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+              <h4 class="alert-heading">ERROR ACTUALIZANDO CORRECIONES</h4>
+              <p>Error actualizando el estado para las correciones del proyecto</p>
+              <hr>
+          </div>`});
+
+      }
+    );
   }
   cambioPorcentaje(porcentaje: number){
     this.porcentaje = Math.round(porcentaje);
@@ -172,9 +207,17 @@ export class EvaluacionProyectosComponent implements OnInit {
     .subscribe(
       res => {
         this.proyectos = res as any [];
-        console.log(`proyectos : ${this.proyectos}`);
+        console.log(`proyectos : ${JSON.stringify(this.proyectos)}`);
       }
     )
+  }
+
+  mostrarEstado(estado : any){
+    
+    if(estado == 1)
+    return ' (correcciones)';
+    else
+    return '';
   }
 
 }

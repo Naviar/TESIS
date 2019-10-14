@@ -16,7 +16,7 @@
                             <select id="selectproject" class="form-control" name="proyecto" formControlName="proyecto" (change)="cambioNombre(documento.value, proyecto.value)" #proyecto>
                       <option value='' disabled>Seleccione un proyecto</option>
                       <option *ngFor="let proyecto of proyectos" value={{proyecto.NOMBRE_PROYECTO}}>
-                        {{proyecto.NOMBRE_PROYECTO}}
+                        {{proyecto.NOMBRE_PROYECTO}}{{mostrarEstado(proyecto.CORRECCIONES)}}
                       </option>
                     </select>
                             <div *ngIf="archivoForm.get('proyecto').errors" class="alert alert-danger">
@@ -42,8 +42,12 @@
                             <br>
                         </div>
 
-                        <div *ngIf="URLPublica != ''">
+                        <div *ngIf="existe != false">
                             <p class="download ">Para descargar el Archivo <b>{{documento.value}}</b> subido para el proyecto <b>{{proyecto.value}}</b> haga click <a href="{{URLPublica}} " target="_blank ">aqui.</a></p>
+                        </div>
+
+                        <div *ngIf="existeCorrecciones != false">
+                            <p class="download ">el Archivo <b>{{documento.value}}</b> para el proyecto <b>{{proyecto.value}} ya tiene una sugerencia de correcciones</b> haga click <a href="{{URLCorrecciones}} " target="_blank ">aqui</a>&nbsp; para descargar.</p>
                         </div>
 
                         <div *ngIf="URLPublica != ''" class="form-label-group ">

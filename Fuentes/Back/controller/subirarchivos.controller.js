@@ -62,6 +62,29 @@ subirarchivosCtrl.getProyectosByEtapa = (req, res) => {
         })
     })
 }
+subirarchivosCtrl.updateFixes = (req, res) => {
+
+    try {
+        const { ID_PROYECTO } = req.params;
+        const state = req.body.stateFixes;
+
+        ibmdb.open(connStr, (err, conn) => {
+
+            conn.query(`UPDATE PROYECTO SET CORRECCIONES = '${state}'   WHERE ID_PROYECTO = '${ID_PROYECTO}' `, (err, data) => {
+
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json(data);
+
+            })
+        })
+
+    } catch (error) {
+        res.state(404).json({ error });
+    }
+
+}
 
 subirarchivosCtrl.getProyectos = (req, res) => {
 
