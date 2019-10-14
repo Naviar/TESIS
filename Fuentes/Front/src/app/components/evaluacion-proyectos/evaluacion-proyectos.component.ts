@@ -1,16 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewChild } from '@angular/core';
 import { SubirarchivosService } from '../../services/subirarchivos.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
+
+let cargando = true;
+declare var M: any;
 @Component({
   selector: 'app-evaluacion-proyectos',
   templateUrl: './evaluacion-proyectos.component.html',
   styleUrls: ['./evaluacion-proyectos.component.css']
 })
 export class EvaluacionProyectosComponent implements OnInit {
+
+  selectionProject : string  = '';
   
   documentos: any [];
   proyectos : any [];
+
+  porcentaje: number = 0;
+  porcentaje2: string = "0%";
+  nombreArchivo: string = "";
+  nombreArchivoCorreciones: string = "";
+  URLPublica: string = '';
+  existe: boolean = false;
+  URLCorrecciones : string;
+  existeCorrecciones : boolean = false;
 
   TipoArchivo: string = "";
   errorNombre: boolean = false;
@@ -22,10 +36,10 @@ export class EvaluacionProyectosComponent implements OnInit {
 
   constructor(private subirArchivosService : SubirarchivosService ,  private fb: FormBuilder) { }
 
-  ngOnInit() {
-this.getDocumentos();
-this.getProyectos();
-this.buildForm();
+  async ngOnInit() {
+  this.buildForm();
+  await this.getDocumentos();
+  await this.getProyectos();
   }
 
   cambioArchivo(event) {
@@ -59,9 +73,91 @@ this.buildForm();
       proyecto: ['', Validators.compose([Validators.required])]
     });
   }
+  @ViewChild('progreso') progresbar;
 
-  getDocumentos(){
-    this.subirArchivosService.getDocumentosByEtapa(1)
+  cambioNombre(documento:string, proyecto:string){
+    if(documento !== '' && proyecto !== ''){
+      
+      this.progresbar.nativeElement.textContent = "";
+      this.cambioPorcentaje(0);
+      this.TipoArchivo = documento; 
+      this.nombreArchivo = documento + "_" + proyecto+".docx";
+      console.log(":D", this.nombreArchivo);
+      this.nombreArchivoCorreciones = documento+"_"+proyecto+ "_correcciones.docx";
+      this.buscarArchivo();
+      this.buscarArchivoCorreciones();
+    }
+
+  }
+
+  buscarArchivoCorreciones(){
+    cargando = true;
+    let referencia = this.subirArchivosService.getUrlArchivo(this.nombreArchivoCorreciones);
+    referencia.getDownloadURL().subscribe((URL) => {
+      this.URLCorrecciones = URL;
+      console.log("Esto nos trajobuscando correciones", this.URLCorrecciones);
+      this.existeCorrecciones = true;
+      cargando = false;
+    },
+      (error) => {
+        this.existeCorrecciones = false;
+        cargando = false;
+      });
+  }
+
+  async buscarArchivo() {
+    cargando = true;
+    const referencia = await this.subirArchivosService.getUrlArchivo(this.nombreArchivo);
+    referencia.getDownloadURL().subscribe((URL) => {
+      this.URLPublica = URL;
+      console.log("Esto nos trajo", this.URLPublica);
+      this.existe = true;
+      cargando = false;
+    },
+      (error) => {
+        this.existe = false;
+        cargando = false;
+      });
+  }
+
+  confirmarArchivo(){
+    if(this.existeCorrecciones==true){
+      if(confirm("¿Esta seguro que desea reemplazar el archivo?")){
+        this.subirArchivo();
+      }
+    }
+    else{
+      this.subirArchivo();
+    }
+  }
+  subirArchivo() {
+    cargando = true;
+    console.log("entramo O_Os");
+    let archivo = this.datosFormulario.get('archivo');
+    let tarea = this.subirArchivosService.SubirArchivo(this.nombreArchivoCorreciones, archivo);
+    tarea.percentageChanges().subscribe((porcentaje) => {
+      this.cambioPorcentaje(porcentaje);
+      if (this.porcentaje == 100) {
+        // this.progresbar.nativeElement.style.background = '#5cb85c';
+        this.progresbar.nativeElement.textContent = "COMPLETADO";
+        M.toast({
+          html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+              <h4 class="alert-heading">ARCHIVO SUBIDO</h4>
+              <p>El archivo  se ha subido correctamente</p>
+              <hr>
+          </div>`});
+        cargando = false;
+      }
+    });
+  }
+  cambioPorcentaje(porcentaje: number){
+    this.porcentaje = Math.round(porcentaje);
+    this.porcentaje2 = this.porcentaje.toString() + "%";
+    this.progresbar.nativeElement.style.width = this.porcentaje2;
+  }
+
+  async getDocumentos(){
+    await this.subirArchivosService.getDocumentosByEtapa(1)
     .subscribe(
 
       res =>{
@@ -71,8 +167,8 @@ this.buildForm();
     )
   }
 
-  getProyectos(){
-    this.subirArchivosService.getProyectosByEtapa(1)
+  async getProyectos(){
+    await this.subirArchivosService.getProyectosByEtapa(1)
     .subscribe(
       res => {
         this.proyectos = res as any [];
