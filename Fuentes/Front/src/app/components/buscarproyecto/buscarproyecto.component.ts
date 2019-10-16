@@ -4,6 +4,8 @@ import { facultad } from 'src/app/models/facultad';
 import { usuario } from 'src/app/models/usuario';
 import { SubirarchivosService } from 'src/app/services/subirarchivos.service';
 import { proyecto } from 'src/app/models/proyecto';
+import { documento } from 'src/app/models/documento';
+import { stringify } from '@angular/core/src/util';
 
 let cargando = true;
 
@@ -13,17 +15,31 @@ let cargando = true;
   styleUrls: ['./buscarproyecto.component.css']
 })
 export class BuscarproyectoComponent implements OnInit {
+
   proyectos: proyecto[] = [];
   inicio: proyecto[] = [];
   docentes: usuario[] = [];
   busqueda: number = 0;
+  URL_ActaReunion: string;
+  URL_FormatoProyecto: string;
+  URL_Caracterizacion: string;
+  URL_LineaBase: string;
+  URL_ActaInicio: string;
+  URL_InformeInicial: string;
+  URL_InformeFinal: string;
+  URL_ActaFinal: string;
+  URLS: string[] = [];
+  existe: boolean[] = [];
+  index: number = 0; 
+
   constructor(private loginService: LoginService, private subirarchivosService: SubirarchivosService) { }
 
   ngOnInit() {
     this.getProyectos();
     this.getFacultades();
+    this.getDocumentos();
     this.getDocentes();
-  }
+  } 
   getFacultades() {
     cargando = true;
     this.loginService.getFacultades()
@@ -36,8 +52,8 @@ export class BuscarproyectoComponent implements OnInit {
     cargando = true;
     this.loginService.getDocentes()
       .subscribe(res => {
-        this.docentes = res as usuario[];   
-        cargando = false;     
+        this.docentes = res as usuario[];
+        cargando = false;
       })
   }
   getProyectos() {
@@ -45,11 +61,11 @@ export class BuscarproyectoComponent implements OnInit {
     this.subirarchivosService.getProyectos()
       .subscribe(res => {
         this.proyectos = res as proyecto[];
-        this.inicio = res as proyecto[]; 
+        this.inicio = res as proyecto[];
         cargando = false;
       })
   }
-  getProyectosFacultad(id_facultad:number) {
+  getProyectosFacultad(id_facultad: number) {
     cargando = true;
     this.subirarchivosService.getProyectosFacultad(id_facultad)
       .subscribe(res => {
@@ -58,7 +74,7 @@ export class BuscarproyectoComponent implements OnInit {
         cargando = false;
       })
   }
-  getProyectosDocente(id_usuario:number) {
+  getProyectosDocente(id_usuario: number) {
     cargando = true;
     this.subirarchivosService.getProyectosDocente(id_usuario)
       .subscribe(res => {
@@ -74,34 +90,69 @@ export class BuscarproyectoComponent implements OnInit {
     }
     else if (filtro == 1) {
       this.busqueda = 1;
-      this.getProyectos();
     }
   }
   changeFacultad(id_facultad: number) {
-    if(id_facultad != 0){
+    if (id_facultad != 0) {
       this.getProyectosFacultad(id_facultad);
       this.busqueda = 1;
     }
   }
   changeDocente(id_usuario: number) {
-    if(id_usuario != 0){
+    if (id_usuario != 0) {
       this.getProyectosDocente(id_usuario);
       this.busqueda = 1;
     }
   }
-  buscar(input) {    
+  getDocumentos() {
+    cargando = true;
+    this.subirarchivosService.getDocumentos()
+      .subscribe(res => {
+        this.subirarchivosService.documentos = res as documento[];
+        cargando = false;
+      })
+  }
+  buscar(input) {
     var busqueda: proyecto[] = [], i;
     var look = 0;
-    for (i = 0; i < this.inicio.length; i++) {    
-        if (this.inicio[i].NOMBRE_PROYECTO.toUpperCase().indexOf(input.toUpperCase()) > -1) {
-          busqueda.push(this.inicio[i]);
-          this.proyectos = busqueda;          
-          look++;
-        }
-        if (look < 1) {
-          this.proyectos = [];
-        }
+    for (i = 0; i < this.inicio.length; i++) {
+      if (this.inicio[i].NOMBRE_PROYECTO.toUpperCase().indexOf(input.toUpperCase()) > -1) {
+        busqueda.push(this.inicio[i]);
+        this.proyectos = busqueda;
+        look++;
+      }
+      if (look < 1) {
+        this.proyectos = [];
+      }
     }
+  }
+  buscarArchivo(nombreArchivo: string, i:number) {
+    cargando = true;
+    let referencia = this.subirarchivosService.getUrlArchivo(nombreArchivo);
+    referencia.getDownloadURL().subscribe((URL) => {
+      cargando = false;      
+      this.URLS[i] = URL;
+      this.existe[i]=true;      
+    },
+      (error) => {
+        cargando = false;
+        this.URLS[i] = "error";    
+        this.existe[i]=false;    
+      });  
+  }
+  
+  detalles(nombre: string) {
+    cargando=true;
+    for(this.index=0; this.index < this.subirarchivosService.documentos.length; this.index++){
+      this.buscarArchivo(this.subirarchivosService.documentos[this.index].NOMBRE_DOCUMENTO + "_" + nombre + ".docx", this.index);      
+      if(this.index==this.subirarchivosService.documentos.length-1){
+        cargando=false;
+      }
+    }
+  }
+  resetModal(){
+    this.URLS=[];
+    this.existe=[];
   }
   yaCargo() {
     if (cargando == false) {

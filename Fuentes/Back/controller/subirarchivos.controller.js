@@ -51,7 +51,7 @@ subirarchivosCtrl.getProyectos = (req, res) => {
         conn.query("SELECT * FROM proyecto", (err, data) => {
             if (err) {
                 res.json({ error: err })
-                console.log("Hubo un error en la busqueda" + err);
+                console.log("Hubo un error en la busqueda de proyectos" + err);
             } else {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")

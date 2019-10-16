@@ -30,7 +30,8 @@
             </div>
             <div *ngIf="mySelect.value==2" class="col">
               <label><label id="lbl"></label>Facultad:</label>
-              <select (change)='this.changeFacultad(mySelectFacultad.value)' id="select" class="form-control" name="facultad" #mySelectFacultad>
+              <select (change)='this.changeFacultad(mySelectFacultad.value)' id="select" class="form-control"
+                name="facultad" #mySelectFacultad>
                 <option value="" disabled>Seleccione una facultad</option>
                 <option *ngFor="let facultad of loginService.facultades" value={{facultad.ID_FACULTAD}}>
                   {{facultad.NOMBRE_FACULTAD}}
@@ -39,7 +40,8 @@
             </div>
             <div *ngIf="mySelect.value==3" class="col">
               <label><label id="lbl"></label>Docente:</label>
-              <select (change)='this.changeDocente(mySelectDocente.value)' id="select" class="form-control" name="docente" #mySelectDocente>
+              <select (change)='this.changeDocente(mySelectDocente.value)' id="select" class="form-control"
+                name="docente" #mySelectDocente>
                 <option value="" disabled>Seleccione un docente</option>
                 <option *ngFor="let docente of docentes" value={{docente.ID_USUARIO}}>
                   {{docente.NOMBRE}} {{docente.APELLIDO}}
@@ -50,8 +52,8 @@
           <br>
           <div *ngIf="busqueda==1">
             <input id="inputt" class="form-control" placeholder="Digite el criterio de busqueda..." #myInput
-              (keyup)="this.buscar(myInput.value)" style="border-radius: 0rem;"
-              title="Ingrese el campo para filtrar" aria-describedby="basic-addon2">
+              (keyup)="this.buscar(myInput.value)" style="border-radius: 0rem;" title="Ingrese el campo para filtrar"
+              aria-describedby="basic-addon2">
             <br>
             <div class="form-label-group">
               <div *ngFor="let proyecto of proyectos | paginate: { itemsPerPage: 5, currentPage: p }" class="row">
@@ -84,8 +86,75 @@
           </button>
         </div>
         <div class="modal-body">
-
-
+          <div class="row">
+            <div class="col">
+              <h6>Acta de reunion</h6>
+              <a *ngIf="existe[0]" target="_blank" href="{{URLS[0]}}">
+                <i class="fa fa-download"></i> Descargar
+                <span class="sr-only"></span>
+              </a>
+              <p *ngIf="existe[0] == false"> No existe</p>
+            </div>
+            <div class="col">
+              <h6>Formato proyecto</h6>
+              <a *ngIf="existe[1]" target="_blank" href="{{URLS[1]}}">
+                <i class="fa fa-download"></i> Descargar
+                <span class="sr-only"></span>
+              </a>
+              <p *ngIf="existe[1] == false"> No existe</p>
+            </div>
+            <div class="col">
+              <h6>Formato caracterización</h6>
+              <a *ngIf="existe[2]" target="_blank" href="{{URLS[2]}}">
+                <i class="fa fa-download"></i> Descargar
+                <span class="sr-only"></span>
+              </a>
+              <p *ngIf="existe[2] == false"> No existe</p>
+            </div>
+            <div class="col">
+              <h6>Formato linea base</h6>
+              <a *ngIf="existe[3]" target="_blank" href="{{URLS[3]}}">
+                <i class="fa fa-download"></i> Descargar
+                <span class="sr-only"></span>
+              </a>
+              <p *ngIf="existe[3] == false"> No existe</p>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <h6>Acta de reunion</h6>
+              <a *ngIf="existe[4]" target="_blank" href="{{URLS[4]}}">
+                <i class="fa fa-download"></i> Descargar
+                <span class="sr-only"></span>
+              </a>
+              <p *ngIf="existe[4] == false"> No existe</p>
+            </div>
+            <div class="col">
+              <h6>Formato proyecto</h6>
+              <a *ngIf="existe[5]" target="_blank" href="{{URLS[5]}}">
+                <i class="fa fa-download"></i> Descargar
+                <span class="sr-only"></span>
+              </a>
+              <p *ngIf="existe[5] == false"> No existe</p>
+            </div>
+            <div class="col">
+              <h6>Formato caracterización</h6>
+              <a *ngIf="existe[6]" target="_blank" href="{{URLS[6]}}">
+                <i class="fa fa-download"></i> Descargar
+                <span class="sr-only"></span>
+              </a>
+              <p *ngIf="existe[6] == false"> No existe</p>
+            </div>
+            <div class="col">
+              <h6>Formato linea base</h6>
+              <a *ngIf="existe[7]" target="_blank" href="{{URLS[7]}}">
+                <i class="fa fa-download"></i> Descargar
+                <span class="sr-only"></span>
+              </a>
+              <p *ngIf="existe[7] == false"> No existe</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
