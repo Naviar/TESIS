@@ -164,6 +164,7 @@ export class EvaluacionProyectosComponent implements OnInit {
   }
 
   sendCorrecionesToProject(){
+    cargando = true;
     this.subirArchivosService.sendFixesToProject(this.ID_Proyecto,true)
     .subscribe(
       res => {
@@ -174,6 +175,7 @@ export class EvaluacionProyectosComponent implements OnInit {
               <hr>
           </div>`});
           this.getProyectos();
+          cargando =false;
       },
 
       err => {
@@ -183,7 +185,7 @@ export class EvaluacionProyectosComponent implements OnInit {
               <p>Error actualizando el estado para las correciones del proyecto</p>
               <hr>
           </div>`});
-
+          cargando =false;
       }
     );
   }
@@ -194,6 +196,7 @@ export class EvaluacionProyectosComponent implements OnInit {
   }
 
   async getDocumentos(){
+    cargando = true;
     await this.subirArchivosService.getDocumentosByEtapa(1)
     .subscribe(
 
@@ -201,17 +204,21 @@ export class EvaluacionProyectosComponent implements OnInit {
         this.documentos = res as any [];
         console.log(this.documentos);
       }
-    )
+    );
+    cargando =false;
   }
 
   async getProyectos(){
+    cargando = true;
     await this.subirArchivosService.getProyectosByEtapa(1)
     .subscribe(
       res => {
         this.proyectos = res as any [];
         console.log(`proyectos : ${JSON.stringify(this.proyectos)}`);
+        
       }
-    )
+    );
+    cargando =false;
   }
 
   mostrarEstado(estado : any){
@@ -223,7 +230,7 @@ export class EvaluacionProyectosComponent implements OnInit {
   }
 
  updateStageProject(){
-
+  cargando = true;
   this.subirArchivosService.updateStageProject(this.ID_Proyecto,2)
   .subscribe(
     res => {
@@ -234,6 +241,7 @@ export class EvaluacionProyectosComponent implements OnInit {
             <hr>
         </div>`});
         this.getProyectos();
+        cargando = false;
     },
     err => {
       M.toast({
@@ -242,10 +250,19 @@ export class EvaluacionProyectosComponent implements OnInit {
             <p>ocurrio un error en el servidor intentando actualizar la etapa del proyecto</p>
             <hr>
         </div>`});
+        cargando =false;
     }
 
   );
 
  }
+
+ yaCargo() {
+  if (cargando == false) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 }
