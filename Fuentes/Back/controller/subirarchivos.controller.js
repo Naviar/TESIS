@@ -49,7 +49,7 @@ subirarchivosCtrl.getProyectosByEtapa = (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-        conn.query(`SELECT * FROM proyecto where ETAPA = '${etapa}'`, (err, data) => {
+        conn.query(`SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO where ETAPA = '${etapa}'`, (err, data) => {
             if (err) {
                 res.json({ error: err })
                 console.log("Hubo un error en la busqueda" + err);
@@ -194,6 +194,31 @@ subirarchivosCtrl.proyectoDuplicado = (req, res) => {
             });
         });
     });
+}
+
+subirarchivosCtrl.updateStageProjects = (req, res) => {
+
+    try {
+
+        const { ID_PROYECTO } = req.params;
+        const etapa = req.body.etapa;
+
+        ibmdb.open(connStr, (err, conn) => {
+
+            conn.query(`UPDATE PROYECTO SET ETAPA = '${etapa}'   WHERE ID_PROYECTO = '${ID_PROYECTO}' `, (err, data) => {
+
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos")
+                })
+                res.json(data);
+
+            })
+        })
+
+    } catch (error) {
+        res.state(404).json({ error });
+    }
+
 }
 
 module.exports = subirarchivosCtrl;

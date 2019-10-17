@@ -43,6 +43,10 @@ export class SubirarchivosService {
     return this.http.put(this.URL_API+`/updateFixes/${id_proyecto}`,{stateFixes});
 
   }
+
+  updateStageProject(ID_Proyecto : number , etapa : number){
+    return this.http.put(this.URL_API+`/updateProjectStage/${ID_Proyecto}`,{etapa});
+  }
   getProyectosByEtapa(etapa:number){
     return this.http.get(this.URL_API+"/getProyectosByEtapa/"+etapa);
   }

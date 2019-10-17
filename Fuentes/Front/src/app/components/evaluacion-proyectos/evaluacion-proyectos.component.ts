@@ -18,6 +18,8 @@ export class EvaluacionProyectosComponent implements OnInit {
   documentos: any [];
   proyectos : any [];
 
+  proyectoSelected : any= {};
+
   porcentaje: number = 0;
   porcentaje2: string = "0%";
   nombreArchivo: string = "";
@@ -81,7 +83,7 @@ export class EvaluacionProyectosComponent implements OnInit {
     const Proyecto = this.proyectos.find((proyectofind)=>{
       return proyectofind.NOMBRE_PROYECTO === proyecto;
     });
-
+    this.proyectoSelected = Proyecto;
     this.ID_Proyecto = Proyecto.ID_PROYECTO;
     console.log(this.ID_Proyecto);
     if(documento !== '' && proyecto !== ''){
@@ -215,9 +217,35 @@ export class EvaluacionProyectosComponent implements OnInit {
   mostrarEstado(estado : any){
     
     if(estado == 1)
-    return ' (correcciones)';
+    return ' (correcciones pendientes)';
     else
     return '';
   }
+
+ updateStageProject(){
+
+  this.subirArchivosService.updateStageProject(this.ID_Proyecto,2)
+  .subscribe(
+    res => {
+      M.toast({
+        html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+            <h4 class="alert-heading">SE AVALO EL PROYECTO</h4>
+            <p>Se avalo el proyecto ${this.archivoForm.get('proyecto').value} sin correciones</p>
+            <hr>
+        </div>`});
+        this.getProyectos();
+    },
+    err => {
+      M.toast({
+        html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+            <h4 class="alert-heading">ERROR AVALANDO EL PROYECTO</h4>
+            <p>ocurrio un error en el servidor intentando actualizar la etapa del proyecto</p>
+            <hr>
+        </div>`});
+    }
+
+  );
+
+ }
 
 }

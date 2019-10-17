@@ -10,6 +10,7 @@ router.get('/getDocumentosEtapa/:etapa', subirarchivosCtrl.getDocumentosEtapa);
 router.get('/getDocumentosByEtapa/:etapa', subirarchivosCtrl.getDocumentosByEtapa);
 router.post('/crearProyecto', subirarchivosCtrl.crearProyecto);
 router.post('/proyectoDuplicado', subirarchivosCtrl.proyectoDuplicado);
+router.put('/updateProjectStage/:ID_PROYECTO', subirarchivosCtrl.updateStageProjects);
 router.put('/updateFixes/:ID_PROYECTO', subirarchivosCtrl.updateFixes);
 
 
