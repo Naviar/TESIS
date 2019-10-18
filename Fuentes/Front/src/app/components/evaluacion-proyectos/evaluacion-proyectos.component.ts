@@ -165,7 +165,7 @@ export class EvaluacionProyectosComponent implements OnInit {
 
   sendCorrecionesToProject(){
     cargando = true;
-    this.subirArchivosService.sendFixesToProject(this.ID_Proyecto,true)
+    this.subirArchivosService.sendFixesToProject(this.ID_Proyecto,true,this.proyectoSelected.CORREO,this.proyectoSelected.NOMBRE_PROYECTO,this.archivoForm.get('documento').value)
     .subscribe(
       res => {
         M.toast({
@@ -231,7 +231,7 @@ export class EvaluacionProyectosComponent implements OnInit {
 
  updateStageProject(){
   cargando = true;
-  this.subirArchivosService.updateStageProject(this.ID_Proyecto,2)
+  this.subirArchivosService.updateStageProject(this.ID_Proyecto,2 , this.proyectoSelected.CORREO)
   .subscribe(
     res => {
       M.toast({

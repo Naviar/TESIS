@@ -38,14 +38,14 @@ export class SubirarchivosService {
     return this.http.get(this.URL_API+"/getProyectos");
   }
 
-  sendFixesToProject(id_proyecto : number , stateFixes : boolean){
+  sendFixesToProject(id_proyecto : number , stateFixes : boolean, correo :string,nombreProyecto:string,documento:string){
     
-    return this.http.put(this.URL_API+`/updateFixes/${id_proyecto}`,{stateFixes});
+    return this.http.put(this.URL_API+`/updateFixes/${id_proyecto}`,{stateFixes,correo,nombreProyecto,documento});
 
   }
 
-  updateStageProject(ID_Proyecto : number , etapa : number){
-    return this.http.put(this.URL_API+`/updateProjectStage/${ID_Proyecto}`,{etapa});
+  updateStageProject(ID_Proyecto : number , etapa : number , correo:string , nombreProyecto:string){
+    return this.http.put(this.URL_API+`/updateProjectStage/${ID_Proyecto}`,{etapa,correo,nombreProyecto});
   }
   getProyectosByEtapa(etapa:number){
     return this.http.get(this.URL_API+"/getProyectosByEtapa/"+etapa);
