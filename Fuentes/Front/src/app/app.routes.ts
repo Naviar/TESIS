@@ -31,6 +31,7 @@ import { GestionarchivosComponent } from './components/gestionarchivos/gestionar
 import { CrearproyectoComponent } from './components/crearproyecto/crearproyecto.component';
 import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
 import { BuscarproyectoComponent } from './components/buscarproyecto/buscarproyecto.component';
+import {EvaluacionProyectosComponent} from './components/evaluacion-proyectos/evaluacion-proyectos.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -55,6 +56,7 @@ const routes: Routes = [
     { path: 'create/project', component: CrearproyectoComponent, canActivate:[GuardService] },
     { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardService] },
     { path: 'find/files', component: BuscarproyectoComponent, canActivate:[GuardService] },
+    { path: 'evaluation-projects', component: EvaluacionProyectosComponent, canActivate:[GuardService] },
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
 

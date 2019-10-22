@@ -1,0 +1,147 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="text-center">
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<br>
+
+<body>
+    <!-- modal abrir convocatoria -->
+    <div class="modal fade" id="avalarproyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content border-success">
+                <div class="modal-header">
+                    <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+                        <Strong>Avalar Proyecto {{this.archivoForm.get('proyecto').value}}</Strong>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="form-label-group">
+                        <label><Strong><label id="lbl">*</label>Nombre del proyecto:</Strong>
+                        </label>
+                        <input disabled=true; maxlength="100" type="text" class="form-control" name="name" value="{{this.archivoForm.get('proyecto').value}}" id='input'>
+
+                    </div>
+
+
+                    <hr>
+                    <h4>DATOS DEL ENCARGADO DEL PROYECTO</h4>
+                    <br>
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Nombre:</Strong>
+                                </label>
+                                <input disabled=true; maxlength="100" type="text" class="form-control" name="name" value="{{proyectoSelected.NOMBRE}}" id='input'>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Apellido:</Strong>
+                                </label>
+                                <input disabled=true; maxlength="100" type="text" class="form-control" name="name" value="{{proyectoSelected.APELLIDO}}" id='input'>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Correo:</Strong>
+                                </label>
+                                <input disabled=true; maxlength="100" type="text" class="form-control" name="name" value="{{proyectoSelected.CORREO}}" id='input'>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Celular:</Strong>
+                                </label>
+                                <input disabled=true; maxlength="100" type="text" class="form-control" name="name" value="{{proyectoSelected.CELULAR}}" id='input'>
+                            </div>
+                        </div>
+                    </div>
+                    <button class=" btn btn-success" (click)="updateStageProject()">Avalar proyecto</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container separador">
+        <div class="row justify-content-center">
+            <div class="card" style="width: 700px">
+                <div class="card-body">
+                    <h2 class="row justify-content-center">Evaluar Proyectos</h2>
+                    <br>
+
+
+                    <form [formGroup]="archivoForm">
+                        <div class="form-label-group">
+                            <label><label id="lbl"></label>Proyecto*</label>
+                            <select id="selectproject" class="form-control" name="proyecto" formControlName="proyecto" (change)="cambioNombre(documento.value, proyecto.value)" #proyecto>
+                      <option value='' disabled>Seleccione un proyecto</option>
+                      <option *ngFor="let proyecto of proyectos" value={{proyecto.NOMBRE_PROYECTO}}>
+                        {{proyecto.NOMBRE_PROYECTO}}{{mostrarEstado(proyecto.CORRECCIONES)}}
+                      </option>
+                    </select>
+                            <div *ngIf="archivoForm.get('proyecto').errors" class="alert alert-danger">
+                                <div *ngIf="archivoForm.get('proyecto').errors['required']">
+                                    Proyecto requerido
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="form-label-group">
+                            <label><label id="lbl"></label>Documento*</label>
+                            <select id="selectdocument" class="form-control" name="documento" formControlName="documento" (change)="cambioNombre(documento.value, proyecto.value)" #documento>
+                      <option value="" disabled>Seleccione un documento</option>
+                      <option *ngFor="let documento of documentos " value={{documento.NOMBRE_DOCUMENTO}}>
+                        {{documento.NOMBRE_DOCUMENTO}}
+                      </option>
+                    </select>
+                            <div *ngIf="archivoForm.get('documento').errors" class="alert alert-danger">
+                                <div *ngIf="archivoForm.get('documento').errors['required']">
+                                    documento requerido
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+
+                        <div *ngIf="existe != false">
+                            <p class="download ">Para descargar el Archivo <b>{{documento.value}}</b> subido para el proyecto <b>{{proyecto.value}}</b> haga click <a href="{{URLPublica}} " target="_blank ">aqui.</a></p>
+                        </div>
+
+                        <div *ngIf="existeCorrecciones != false">
+                            <p class="download ">el Archivo <b>{{documento.value}}</b> para el proyecto <b>{{proyecto.value}} ya tiene una sugerencia de correcciones</b> haga click <a href="{{URLCorrecciones}} " target="_blank ">aqui</a>&nbsp; para descargar.</p>
+                        </div>
+
+                        <div *ngIf="URLPublica != ''" class="form-label-group ">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFileLang" lang="es" name="archivo" #archivo accept=".docx, .doc" formControlName="archivo" (change)="cambioArchivo($event)">
+                                <label class="custom-file-label" for="customFileLang">{{mensajeArchivo}}</label>
+                            </div>
+                            <br>
+
+
+                        </div>
+                        <hr>
+                        <div class="progress ">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar " aria-valuenow="0 " aria-valuemin="0 " aria-valuemax="100 " style="width: 0% " #progreso></div>
+                        </div>
+                        <br>
+                        <button [disabled]="!archivoForm.valid || (porcentaje > 0 && porcentaje < 100) || errorNombre" (click)="confirmarArchivo()" class="btn btn-block" id="btnCorreciones">Subir archivo con correciones</button>
+                        <button [disabled]="!ID_Proyecto" data-toggle="modal" data-target="#avalarproyecto" class="btn btn-block" id="btnAvalar">Avalar Proyecto</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

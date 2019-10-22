@@ -41,6 +41,7 @@ import { environment } from '../environments/environment';
 
 import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
 import { BuscarproyectoComponent } from './components/buscarproyecto/buscarproyecto.component';
+import { EvaluacionProyectosComponent } from './components/evaluacion-proyectos/evaluacion-proyectos.component';
  
 
 
@@ -70,7 +71,8 @@ import { BuscarproyectoComponent } from './components/buscarproyecto/buscarproye
     GestionarchivosComponent, 
     CrearproyectoComponent,   
     ConvocatoriaComponent, 
-    BuscarproyectoComponent   
+    BuscarproyectoComponent,   
+    EvaluacionProyectosComponent   
   ],
   imports: [
     BrowserModule,

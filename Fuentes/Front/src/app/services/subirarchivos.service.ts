@@ -43,8 +43,23 @@ export class SubirarchivosService {
   getProyectosDocente(docente:number){
     return this.http.get(this.URL_API+"/getProyectosDocente/"+`${docente}`);
   }
+  sendFixesToProject(id_proyecto : number , stateFixes : boolean, correo :string,nombreProyecto:string,documento:string){
+    
+    return this.http.put(this.URL_API+`/updateFixes/${id_proyecto}`,{stateFixes,correo,nombreProyecto,documento});
+
+  }
+
+  updateStageProject(ID_Proyecto : number , etapa : number , correo:string , nombreProyecto:string){
+    return this.http.put(this.URL_API+`/updateProjectStage/${ID_Proyecto}`,{etapa,correo,nombreProyecto});
+  }
+  getProyectosByEtapa(etapa:number){
+    return this.http.get(this.URL_API+"/getProyectosByEtapa/"+etapa);
+  }
   getDocumentosEtapa(etapa:number){
     return this.http.get(this.URL_API+"/getDocumentosEtapa/"+`${etapa}`);
+  }
+  getDocumentosByEtapa(etapa:number){
+    return this.http.get(this.URL_API+"/getDocumentosByEtapa/"+`${etapa}`);
   }
   crearProyecto(proyecto:proyecto){    
     return this.http.post(this.URL_API + '/crearProyecto', proyecto);
