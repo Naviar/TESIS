@@ -231,7 +231,7 @@ export class EvaluacionProyectosComponent implements OnInit {
 
  updateStageProject(){
   cargando = true;
-  this.subirArchivosService.updateStageProject(this.ID_Proyecto,2 , this.proyectoSelected.CORREO)
+  this.subirArchivosService.updateStageProject(this.ID_Proyecto, 2, this.proyectoSelected.CORREO, this.archivoForm.get('proyecto').value)
   .subscribe(
     res => {
       M.toast({
