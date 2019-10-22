@@ -432,6 +432,8 @@ CREATE TABLE Proyecto (
   Etapa INT NOT NULL,
   Usuario_Id_usuario INT NOT NULL,
   Fecha DATE NOT NULL,
+  Correcciones BOOLEAN NULL,
+  Corregido BOOLEAN NULL,
   PRIMARY KEY (Id_proyecto),  
   CONSTRAINT fk_Proyecto_Usuario1
     FOREIGN KEY (Usuario_Id_usuario)
