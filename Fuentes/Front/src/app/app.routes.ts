@@ -56,7 +56,7 @@ const routes: Routes = [
     { path: 'create/project', component: CrearproyectoComponent, canActivate:[GuardService] },
     { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardService] },
     { path: 'find/files', component: BuscarproyectoComponent, canActivate:[GuardService] },
-    { path: 'evaluation-projects', component: EvaluacionProyectosComponent, canActivate:[GuardService] },
+    { path: 'evaluation/projects', component: EvaluacionProyectosComponent, canActivate:[GuardService] },
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
 

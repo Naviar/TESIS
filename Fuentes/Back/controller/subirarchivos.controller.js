@@ -81,7 +81,7 @@ subirarchivosCtrl.updateFixes = (req, res) => {
         const documento = req.body.documento;
         ibmdb.open(connStr, (err, conn) => {
 
-            conn.query(`UPDATE PROYECTO SET CORRECCIONES = '${state}'   WHERE ID_PROYECTO = '${ID_PROYECTO}' `, (err, data) => {
+            conn.query(`UPDATE PROYECTO SET CORRECCIONES = '${state}', CORREGIDO = '${!state}'   WHERE ID_PROYECTO = '${ID_PROYECTO}' `, (err, data) => {
 
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")
@@ -116,17 +116,17 @@ subirarchivosCtrl.updateFixes = (req, res) => {
 
 subirarchivosCtrl.getProyectos = (req, res) => {
 
-    console.log(req.info);
+    c
 
     ibmdb.open(connStr, (err, conn) => {
 
         conn.query("SELECT * FROM proyecto", (err, data) => {
             if (err) {
                 res.json({ error: err })
-                console.log("Hubo un error en la busqueda de proyectos" + err);
+                console.log("Hubo un error en la busqueda de proyectos" + JSON.stringify(err));
             } else {
                 conn.close(() => {
-                    console.log("Se ha cerrado la base de datos")
+                    console.log("Se ha cerrado la base de datos");
                 })
                 res.json(data);
             }

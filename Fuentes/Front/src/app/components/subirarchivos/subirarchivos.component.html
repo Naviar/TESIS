@@ -21,6 +21,11 @@
                 href="{{URLOficial}}" target="_blank">aqui.</a></p>
           </div>
           <hr>
+          <div *ngIf="existeCorrecciones">
+            <p class="download">Para descargar el documento con correcciones click <a
+                href="{{URLCorrecciones}}" target="_blank">aqui.</a></p>
+          </div>
+          <hr>
           <div *ngIf="existe">
             <p class="download">Ya existe un archivo de ese tipo para el proyecto seleccionado, si desea descargarlo
               haga click <a href="{{URLPublica}}" target="_blank">aqui.</a></p>

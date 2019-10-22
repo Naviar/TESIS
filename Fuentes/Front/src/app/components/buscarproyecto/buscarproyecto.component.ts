@@ -34,49 +34,46 @@ export class BuscarproyectoComponent implements OnInit {
 
   constructor(private loginService: LoginService, private subirarchivosService: SubirarchivosService) { }
 
-  ngOnInit() {
-    this.getProyectos();
-    this.getFacultades();
-    this.getDocumentos();
-    this.getDocentes();
+  async ngOnInit() {
+    await this.getProyectos();
+    await this.getFacultades();
+    await this.getDocumentos();
+    await this.getDocentes();
   } 
-  getFacultades() {
-    cargando = true;
-    this.loginService.getFacultades()
+  async getFacultades() {
+    await this.loginService.getFacultades()
       .subscribe(res => {
-        this.loginService.facultades = res as facultad[];
-        cargando = false;
+        this.loginService.facultades = res as facultad[];        
       })
   }
-  getDocentes() {
-    cargando = true;
-    this.loginService.getDocentes()
+  async getDocentes() {    
+    await this.loginService.getDocentes()
       .subscribe(res => {
         this.docentes = res as usuario[];
         cargando = false;
       })
   }
-  getProyectos() {
+  async getProyectos() {
     cargando = true;
-    this.subirarchivosService.getProyectos()
+    await this.subirarchivosService.getProyectos()
+      .subscribe(res => {
+        this.proyectos = res as proyecto[];
+        console.log(`proyectos ${JSON.stringify(this.proyectos)}`);
+        this.inicio = res as proyecto[];        
+      })
+  }
+  async getProyectosFacultad(id_facultad: number) {
+    cargando = true;
+    await this.subirarchivosService.getProyectosFacultad(id_facultad)
       .subscribe(res => {
         this.proyectos = res as proyecto[];
         this.inicio = res as proyecto[];
         cargando = false;
       })
   }
-  getProyectosFacultad(id_facultad: number) {
+  async getProyectosDocente(id_usuario: number) {
     cargando = true;
-    this.subirarchivosService.getProyectosFacultad(id_facultad)
-      .subscribe(res => {
-        this.proyectos = res as proyecto[];
-        this.inicio = res as proyecto[];
-        cargando = false;
-      })
-  }
-  getProyectosDocente(id_usuario: number) {
-    cargando = true;
-    this.subirarchivosService.getProyectosDocente(id_usuario)
+    await this.subirarchivosService.getProyectosDocente(id_usuario)
       .subscribe(res => {
         this.proyectos = res as proyecto[];
         this.inicio = res as proyecto[];
@@ -104,12 +101,10 @@ export class BuscarproyectoComponent implements OnInit {
       this.busqueda = 1;
     }
   }
-  getDocumentos() {
-    cargando = true;
-    this.subirarchivosService.getDocumentos()
+  async getDocumentos() {    
+    await this.subirarchivosService.getDocumentos()
       .subscribe(res => {
-        this.subirarchivosService.documentos = res as documento[];
-        cargando = false;
+        this.subirarchivosService.documentos = res as documento[];        
       })
   }
   buscar(input) {

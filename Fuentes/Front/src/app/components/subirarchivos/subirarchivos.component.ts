@@ -22,12 +22,15 @@ export class SubirarchivosComponent implements OnInit {
   mensajeArchivo = 'No hay un archivo seleccionado';
   nombreArchivo: string = "";
   nombreArchivoOficial: string = "";
+  nombreArchivoCorrecciones: string = "";
   URLPublica: string;
   URLOficial: string;
+  URLCorrecciones: string;
   TipoArchivo: string = "";
   errorNombre: boolean = false;
   existe: boolean = false;
   existeOficial: boolean = false;
+  existeCorrecciones: boolean = false;
   public datosFormulario = new FormData();
 
   constructor(public subirarchivosService: SubirarchivosService, private fb: FormBuilder) {
@@ -66,6 +69,20 @@ export class SubirarchivosComponent implements OnInit {
     },
       (error) => {
         this.existeOficial = false;
+        cargando = false;
+      });
+  }
+  buscarArchivoCorreciones(){
+    cargando = true;
+    let referencia = this.subirarchivosService.getUrlArchivo(this.nombreArchivoCorrecciones);
+    referencia.getDownloadURL().subscribe((URL) => {
+      this.URLCorrecciones = URL;
+      console.log("Esto nos trajobuscando correciones", this.URLCorrecciones);
+      this.existeCorrecciones = true;
+      cargando = false;
+    },
+      (error) => {
+        this.existeCorrecciones = false;
         cargando = false;
       });
   }
@@ -160,6 +177,10 @@ export class SubirarchivosComponent implements OnInit {
     this.nombreArchivoOficial = documento + "_oficial.docx";
     this.buscarArchivo();
     this.buscarArchivoOficial();
+    if(this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA == 1){
+      this.nombreArchivoCorrecciones = documento + "_" + proyecto + "_correcciones.docx";
+      this.buscarArchivoCorreciones();
+    }
   }
 
   yaCargo() {
