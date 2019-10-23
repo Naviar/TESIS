@@ -34,16 +34,14 @@ export class BuscarproyectoComponent implements OnInit {
 
   constructor(private loginService: LoginService, private subirarchivosService: SubirarchivosService) { }
 
-  async ngOnInit() {
-    await this.getProyectos();
-    await this.getFacultades();
-    await this.getDocumentos();
-    await this.getDocentes();
+  ngOnInit() {
+     this.getProyectos();
   } 
   async getFacultades() {
     await this.loginService.getFacultades()
       .subscribe(res => {
-        this.loginService.facultades = res as facultad[];        
+        this.loginService.facultades = res as facultad[];   
+        this.getDocumentos();     
       })
   }
   async getDocentes() {    
@@ -59,7 +57,8 @@ export class BuscarproyectoComponent implements OnInit {
       .subscribe(res => {
         this.proyectos = res as proyecto[];
         console.log(`proyectos ${JSON.stringify(this.proyectos)}`);
-        // this.inicio = res as proyecto[];        
+        this.inicio = res as proyecto[];    
+        this.getFacultades();    
       })
   }
   async getProyectosFacultad(id_facultad: number) {
@@ -104,7 +103,8 @@ export class BuscarproyectoComponent implements OnInit {
   async getDocumentos() {    
     await this.subirarchivosService.getDocumentos()
       .subscribe(res => {
-        this.subirarchivosService.documentos = res as documento[];        
+        this.subirarchivosService.documentos = res as documento[]; 
+        this.getDocentes();       
       })
   }
   buscar(input) {
