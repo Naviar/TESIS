@@ -59,7 +59,7 @@ export class BuscarproyectoComponent implements OnInit {
       .subscribe(res => {
         this.proyectos = res as proyecto[];
         console.log(`proyectos ${JSON.stringify(this.proyectos)}`);
-        this.inicio = res as proyecto[];        
+        // this.inicio = res as proyecto[];        
       })
   }
   async getProyectosFacultad(id_facultad: number) {

@@ -115,9 +115,6 @@ subirarchivosCtrl.updateFixes = (req, res) => {
 }
 
 subirarchivosCtrl.getProyectos = (req, res) => {
-
-    c
-
     ibmdb.open(connStr, (err, conn) => {
 
         conn.query("SELECT * FROM proyecto", (err, data) => {
