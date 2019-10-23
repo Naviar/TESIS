@@ -3,7 +3,7 @@ import { SubirarchivosService } from 'src/app/services/subirarchivos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { documento } from 'src/app/models/documento';
 import { proyecto } from 'src/app/models/proyecto';
-
+import decode from 'jwt-decode'
 
 let cargando = true;
 declare var M: any;
@@ -31,6 +31,8 @@ export class SubirarchivosComponent implements OnInit {
   existe: boolean = false;
   existeOficial: boolean = false;
   existeCorrecciones: boolean = false;
+  usuario_id: number;  
+  rol: number;
   public datosFormulario = new FormData();
 
   constructor(public subirarchivosService: SubirarchivosService, private fb: FormBuilder) {
@@ -39,6 +41,7 @@ export class SubirarchivosComponent implements OnInit {
 
   ngOnInit() {
     cargando = false;
+    this.getValidRol();
     this.getDocumentos();
     this.getProyectos();
   }
@@ -162,7 +165,7 @@ export class SubirarchivosComponent implements OnInit {
   }
   getProyectos() {
     cargando=true;
-    this.subirarchivosService.getProyectos()
+    this.subirarchivosService.getProyectosById(this.usuario_id)
       .subscribe(res => {
         this.subirarchivosService.proyectos = res as proyecto[];
         cargando=false;
@@ -181,6 +184,12 @@ export class SubirarchivosComponent implements OnInit {
       this.nombreArchivoCorrecciones = documento + "_" + proyecto + "_correcciones.docx";
       this.buscarArchivoCorreciones();
     }
+  }
+  getValidRol() {
+    const token = localStorage.getItem('usuario');
+    const tokenPayload = decode(token);
+    this.usuario_id = parseInt(tokenPayload.id_usuario);    
+    this.rol = parseInt(tokenPayload.rol_usuario);
   }
 
   yaCargo() {

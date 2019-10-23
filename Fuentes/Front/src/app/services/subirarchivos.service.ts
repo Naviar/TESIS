@@ -13,7 +13,7 @@ export class SubirarchivosService {
   proyectoNuevo: proyecto = {
     ID_PROYECTO : 0,
     NOMBRE_PROYECTO : "",
-    ETAPA : 0,
+    ETAPA : 0, 
     USUARIO_ID_USUARIO: 0
     };
   documentos: documento[];
@@ -36,6 +36,9 @@ export class SubirarchivosService {
   }
   getProyectos(){
     return this.http.get(this.URL_API+"/getProyectos");
+  }
+  getProyectosById(id_usuario:number){
+    return this.http.get(this.URL_API+"/getProyectosById/"+id_usuario);
   }
   getProyectosFacultad(facultad:number){
     return this.http.get(this.URL_API+"/getProyectosFacultad/"+`${facultad}`);

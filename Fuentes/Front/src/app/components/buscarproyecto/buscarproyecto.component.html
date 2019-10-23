@@ -55,7 +55,7 @@
               (keyup)="this.buscar(myInput.value)" style="border-radius: 0rem;" title="Ingrese el campo para filtrar"
               aria-describedby="basic-addon2">
             <br>
-            <div *ngIf="proyectos.lenght > 0" class="form-label-group">
+            <div class="form-label-group">
               <div *ngFor="let proyecto of proyectos | paginate: { itemsPerPage: 5, currentPage: p }" class="row">
                 <div class="col">
                   <label class="name" for="ejemplo">{{proyecto.NOMBRE_PROYECTO}}</label>

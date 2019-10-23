@@ -131,6 +131,25 @@ subirarchivosCtrl.getProyectos = (req, res) => {
     })
 }
 
+subirarchivosCtrl.getProyectosById = (req, res) => {
+    let id_usuario = req.params.id_usuario;
+
+    ibmdb.open(connStr, (err, conn) => {
+
+        conn.query(`SELECT * FROM proyecto WHERE usuario_id_usuario= '${id_usuario}'`, (err, data) => {
+            if (err) {
+                res.json({ error: err })
+                console.log("Hubo un error en la busqueda de proyectos" + JSON.stringify(err));
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos");
+                })
+                res.json(data);
+            }
+        })
+    })
+}
+
 subirarchivosCtrl.getProyectosFacultad = (req, res) => {
 
     console.log(req.info);
