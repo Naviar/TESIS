@@ -84,10 +84,10 @@ subirarchivosCtrl.getProyectosByEtapa = (req, res) => {
 
     ibmdb.open(connStr, (err, conn) => {
 
-        conn.query(`SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO where ETAPA = '${etapa}'`, (err, data) => {
+        conn.query(`SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO where p.ETAPA = '${etapa}' AND p.ID_CONVOCATORIA_ID = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIAS)`, (err, data) => {
             if (err) {
                 res.json({ error: err })
-                console.log("Hubo un error en la busqueda" + err);
+                console.log("Hubo un error en la busqueda" + JSON.stringify(err));
             } else {
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")
@@ -267,8 +267,8 @@ subirarchivosCtrl.crearProyecto = (req, res) => {
     let nombre = req.body.NOMBRE_PROYECTO;
     let etapa = parseInt(req.body.ETAPA);
     let id_usuario = req.body.USUARIO_ID_USUARIO;
-    let id_convocatoria = req.body.ID_CONVOCATORIA_ID;
-
+    let id_convocatoria = parseInt(req.body.ID_CONVOCATORIA_ID);
+    console.log(`llego ${JSON.stringify(req.body)}`);
     var query = `INSERT INTO proyecto (nombre_proyecto, etapa, usuario_id_usuario, fecha , ID_CONVOCATORIA_ID)
     VALUES  ('${nombre}', '${etapa}', '${id_usuario}', CURRENT_DATE , '${id_convocatoria}')`;
 

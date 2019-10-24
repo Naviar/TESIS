@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {NavBarComponent} from '../nav-bar/nav-bar.component';
 import decode from 'jwt-decode'
 import { SubirarchivosService } from '../../services/subirarchivos.service';
+import { convocatoria } from '../../models/convocatoria';
 
 @Component({
   selector: 'app-home',
@@ -25,8 +26,9 @@ export class HomeComponent implements OnInit {
       this.subirArchivoService.getCurrentAnnouncement()
       .subscribe(
         res => {
-          this.subirArchivoService.convocatoria = res as {};
+          this.subirArchivoService.convocatoria = res as convocatoria;
           console.log(`convocatoria actual ${JSON.stringify(this.subirArchivoService.convocatoria)}`);
+          localStorage.setItem('convocatoria',JSON.stringify(this.subirArchivoService.convocatoria));
         }
       )
     }     

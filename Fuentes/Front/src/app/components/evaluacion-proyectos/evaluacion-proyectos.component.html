@@ -82,6 +82,36 @@
                     <h2 class="row justify-content-center">Evaluar Proyectos</h2>
                     <br>
 
+                    <div class="row">
+                        <div class="col">
+                            <label><label id="lbl"></label>Filtrar:</label>
+                            <select (change)='this.changeStatus(mySelect.value)' id="select" class="form-control" #mySelect>
+                            <option value="" disabled>Seleccione un filtro</option>
+                            <option value=1>Todos</option>
+                            <option value=2>Facultad</option>
+                            <option value=3>Docente</option>
+                          </select>
+                        </div>
+                        <div *ngIf="mySelect.value==2" class="col">
+                            <label><label id="lbl"></label>Facultad:</label>
+                            <select (change)='this.changeFacultad(mySelectFacultad.value)' id="select" class="form-control" name="facultad" #mySelectFacultad>
+                            <option value="" disabled>Seleccione una facultad</option>
+                            <option *ngFor="let facultad of loginService.facultades" value={{facultad.ID_FACULTAD}}>
+                              {{facultad.NOMBRE_FACULTAD}}
+                            </option>
+                          </select>
+                        </div>
+                        <div *ngIf="mySelect.value==3" class="col">
+                            <label><label id="lbl"></label>Docente:</label>
+                            <select (change)='this.changeDocente(mySelectDocente.value)' id="select" class="form-control" name="docente" #mySelectDocente>
+                            <option value="" disabled>Seleccione un docente</option>
+                            <option *ngFor="let docente of docentes" value={{docente.ID_USUARIO}}>
+                              {{docente.NOMBRE}} {{docente.APELLIDO}}
+                            </option>
+                          </select>
+                        </div>
+                    </div>
+
 
                     <form [formGroup]="archivoForm">
                         <div class="form-label-group">

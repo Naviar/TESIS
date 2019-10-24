@@ -1,6 +1,10 @@
 import { Component, OnInit ,ViewChild } from '@angular/core';
 import { SubirarchivosService } from '../../services/subirarchivos.service';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { proyecto } from '../../models/proyecto';
+import { LoginService } from '../../services/login.service';
+import { facultad } from '../../models/facultad';
+import { usuario } from '../../models/usuario';
 
 
 
@@ -16,8 +20,8 @@ export class EvaluacionProyectosComponent implements OnInit {
   selectionProject : string  = '';
   ID_Proyecto : number;
   documentos: any [];
-  proyectos : any [];
-
+  proyectos : proyecto [];
+  docentes: usuario[] = [];
   proyectoSelected : any= {};
 
   porcentaje: number = 0;
@@ -28,6 +32,7 @@ export class EvaluacionProyectosComponent implements OnInit {
   existe: boolean = false;
   URLCorrecciones : string;
   existeCorrecciones : boolean = false;
+  inicio: proyecto[] = [];
 
   TipoArchivo: string = "";
   errorNombre: boolean = false;
@@ -36,12 +41,13 @@ export class EvaluacionProyectosComponent implements OnInit {
   archivoForm: FormGroup;
 
   mensajeArchivo = 'Subir archivo con correciones';
+  busqueda: number;
 
-  constructor(private subirArchivosService : SubirarchivosService ,  private fb: FormBuilder) { }
+  constructor(public loginService : LoginService,private subirArchivosService : SubirarchivosService ,  private fb: FormBuilder) { }
 
   async ngOnInit() {
   this.buildForm();
-  await this.getDocumentos();
+  
   await this.getProyectos();
   }
 
@@ -203,9 +209,17 @@ export class EvaluacionProyectosComponent implements OnInit {
       res =>{
         this.documentos = res as any [];
         console.log(this.documentos);
+        this.getDocentes();
       }
     );
     cargando =false;
+  }
+  async getDocentes() {    
+    await this.loginService.getDocentes()
+      .subscribe(res => {
+        this.docentes = res as usuario[];
+        cargando = false;
+      })
   }
 
   async getProyectos(){
@@ -215,7 +229,7 @@ export class EvaluacionProyectosComponent implements OnInit {
       res => {
         this.proyectos = res as any [];
         console.log(`proyectos : ${JSON.stringify(this.proyectos)}`);
-        
+        this.getFacultades();
       }
     );
     cargando =false;
@@ -256,6 +270,59 @@ export class EvaluacionProyectosComponent implements OnInit {
   );
 
  }
+
+ changeStatus(filtro: number) {
+  if (filtro == 2 || filtro == 3) {
+    this.busqueda = 0;
+    this.proyectos = [];
+  }
+  else if (filtro == 1) {
+    this.busqueda = 1;
+    this.getProyectos();
+  }
+}
+changeFacultad(id_facultad: number) {
+  if (id_facultad != 0) {
+    this.getProyectosFacultad(id_facultad);
+    this.busqueda = 1;
+  }
+}
+changeDocente(id_usuario: number) {
+  if (id_usuario != 0) {
+    this.getProyectosDocente(id_usuario);
+    this.busqueda = 1;
+  }
+}
+
+async getFacultades() {
+  await this.loginService.getFacultades()
+    .subscribe(res => {
+      this.loginService.facultades = res as facultad[];   
+      this.getDocumentos();     
+    })
+}
+async getProyectosFacultad(id_facultad: number) {
+  cargando = true;
+  await this.subirArchivosService.getProyectosFacultad(id_facultad)
+    .subscribe(res => {
+      this.proyectos = res as proyecto[];
+      
+      this.inicio = res as proyecto[];
+      this.proyectos.filter(proyecto =>{
+        return proyecto.ETAPA = 1;
+      })
+      cargando = false;
+    })
+}
+async getProyectosDocente(id_usuario: number) {
+  cargando = true;
+  await this.subirArchivosService.getProyectosDocente(id_usuario)
+    .subscribe(res => {
+      this.proyectos = res as proyecto[];
+      this.inicio = res as proyecto[];
+      cargando = false;
+    })
+}
 
  yaCargo() {
   if (cargando == false) {
