@@ -25,7 +25,7 @@ export class GuardCreateProject {
       this.router.navigate(['login']);      
       return false; 
     }
-    else if (this.plataforma == 2 && this.rol==2 && this.fecha_now >= new Date(this.subirarchivosService.convocatoria.FECHA_INICIO).getTime() && this.fecha_now <= new Date(this.subirarchivosService.convocatoria.FECHA_FIN).getTime() ) 
+    else if (this.plataforma == 2 && this.rol==2 && this.fecha_now >= new Date(JSON.parse(localStorage.getItem('convocatoria')).FECHA_INICIO).getTime() && this.fecha_now <= new Date(JSON.parse(localStorage.getItem('convocatoria')).FECHA_FIN).getTime() ) 
     {        
       return true; 
     }
