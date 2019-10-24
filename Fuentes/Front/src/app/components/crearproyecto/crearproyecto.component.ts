@@ -157,8 +157,10 @@ export class CrearproyectoComponent implements OnInit {
           <p>El archivo se ha subido correctamente</p>
           <hr>
       </div>`});
-      await this.delay(2000); 
+      await this.delay(2000);
+
     if (this.vez == 2) {
+      
       this.subirarchivosService.crearProyecto(this.subirarchivosService.proyectoNuevo)
         .subscribe(res => {
           M.toast({
@@ -166,7 +168,7 @@ export class CrearproyectoComponent implements OnInit {
                  <h4 class="alert-heading">PROYECTO CREADO</h4>
                  <p>El proyecto se ha creado correctamente</p>
                  <hr>
-                 </div>`}); 
+                 </div>`});
           cargando = false;
         })
     }

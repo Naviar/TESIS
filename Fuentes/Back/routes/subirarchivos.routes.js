@@ -11,6 +11,7 @@ router.get('/getProyectosDocente/:docente', subirarchivosCtrl.getProyectosDocent
 router.get('/getProyectosByEtapa/:etapa', subirarchivosCtrl.getProyectosByEtapa);
 router.get('/getDocumentosEtapa/:etapa', subirarchivosCtrl.getDocumentosEtapa);
 router.get('/getDocumentosByEtapa/:etapa', subirarchivosCtrl.getDocumentosByEtapa);
+router.get('/getAnnouncementCurrent', subirarchivosCtrl.getAnnouncementCurrent);
 router.post('/crearProyecto', subirarchivosCtrl.crearProyecto);
 router.post('/proyectoDuplicado', subirarchivosCtrl.proyectoDuplicado);
 router.put('/updateProjectStage/:ID_PROYECTO', subirarchivosCtrl.updateStageProjects);
