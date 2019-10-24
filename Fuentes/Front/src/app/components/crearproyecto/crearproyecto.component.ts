@@ -37,11 +37,15 @@ export class CrearproyectoComponent implements OnInit {
     this.buildForm();
   }
 
+  
+
   ngOnInit() {
     cargando = false;
+    this.nombreArchivoOficial = this.nombreDocumento + "_oficial.docx";
     this.getValidRol();
     this.getDocumentos();
     this.getProyectos();
+    this.buscarArchivoOficial();
   }
   buscarArchivo() {
     cargando = true;
@@ -168,6 +172,7 @@ export class CrearproyectoComponent implements OnInit {
     }
     else if (this.vez == 1) {
       this.nombreDocumento = "Formato proyecto";
+      this.buscarArchivoOficial();
       this.cambioPorcentaje(0);
       this.progresbar.nativeElement.textContent = "";
       M.toast({
@@ -213,8 +218,6 @@ export class CrearproyectoComponent implements OnInit {
     this.nombreArchivo = documento + "_" + proyecto + ".docx";
     console.log(":D", this.nombreArchivo);
     this.nombreArchivoOficial = documento + "_oficial.docx";
-    this.buscarArchivo();
-    this.buscarArchivoOficial();
   }
   getValidRol() {
     const token = localStorage.getItem('usuario');
