@@ -26,6 +26,8 @@ export class SubirarchivosService {
     ETAPA : 0, 
     USUARIO_ID_USUARIO: 0,
     ID_CONVOCATORIA_ID : 0,
+    CORREGIDO : 0,
+    CORRECCIONES : 0,
     };
   documentos: documento[];
   

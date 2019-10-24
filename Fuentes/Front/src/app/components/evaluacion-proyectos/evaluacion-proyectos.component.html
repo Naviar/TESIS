@@ -85,16 +85,16 @@
                     <div class="row">
                         <div class="col">
                             <label><label id="lbl"></label>Filtrar:</label>
-                            <select (change)='this.changeStatus(mySelect.value)' id="select" class="form-control" #mySelect>
-                            <option value="" disabled>Seleccione un filtro</option>
+                            <select (change)='filtro = mySelect.value;this.changeStatus(mySelect.value)' id="select" class="form-control" #mySelect>
                             <option value=1>Todos</option>
                             <option value=2>Facultad</option>
                             <option value=3>Docente</option>
                           </select>
                         </div>
+
                         <div *ngIf="mySelect.value==2" class="col">
                             <label><label id="lbl"></label>Facultad:</label>
-                            <select (change)='this.changeFacultad(mySelectFacultad.value)' id="select" class="form-control" name="facultad" #mySelectFacultad>
+                            <select (change)='this.selectFacultad = mySelectFacultad.value;this.changeFacultad(mySelectFacultad.value)' id="select" class="form-control" name="facultad" #mySelectFacultad>
                             <option value="" disabled>Seleccione una facultad</option>
                             <option *ngFor="let facultad of loginService.facultades" value={{facultad.ID_FACULTAD}}>
                               {{facultad.NOMBRE_FACULTAD}}
@@ -103,11 +103,19 @@
                         </div>
                         <div *ngIf="mySelect.value==3" class="col">
                             <label><label id="lbl"></label>Docente:</label>
-                            <select (change)='this.changeDocente(mySelectDocente.value)' id="select" class="form-control" name="docente" #mySelectDocente>
+                            <select (change)='this.selectDocente = mySelectDocente.value;this.changeDocente(mySelectDocente.value)' id="select" class="form-control" name="docente" #mySelectDocente>
                             <option value="" disabled>Seleccione un docente</option>
                             <option *ngFor="let docente of docentes" value={{docente.ID_USUARIO}}>
                               {{docente.NOMBRE}} {{docente.APELLIDO}}
                             </option>
+                          </select>
+                        </div>
+                        <div class="col">
+                            <label><label id="lbl"></label>Estado:</label>
+                            <select (change)='this.mySelectStatus = mySelectCorrecciones.value;this.changeStatusProject() ; this.changeStatusProject()' id="select" class="form-control" #mySelectCorrecciones>
+                            <option value=1>sin revisar</option>
+                            <option value=2>con correcciones pendientes</option>
+                            <option value=3>con correcciones atendidas</option>
                           </select>
                         </div>
                     </div>
@@ -119,7 +127,7 @@
                             <select id="selectproject" class="form-control" name="proyecto" formControlName="proyecto" (change)="cambioNombre(documento.value, proyecto.value)" #proyecto>
                       <option value='' disabled>Seleccione un proyecto</option>
                       <option *ngFor="let proyecto of proyectos" value={{proyecto.NOMBRE_PROYECTO}}>
-                        {{proyecto.NOMBRE_PROYECTO}}{{mostrarEstado(proyecto.CORRECCIONES)}}
+                        {{proyecto.NOMBRE_PROYECTO}}{{mostrarEstado(proyecto['CORRECCIONES'],proyecto['CORREGIDO'])}}
                       </option>
                     </select>
                             <div *ngIf="archivoForm.get('proyecto').errors" class="alert alert-danger">

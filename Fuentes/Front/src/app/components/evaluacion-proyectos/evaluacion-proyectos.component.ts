@@ -16,11 +16,15 @@ declare var M: any;
   styleUrls: ['./evaluacion-proyectos.component.css']
 })
 export class EvaluacionProyectosComponent implements OnInit {
-
+  mySelectStatus : number =1 ;
+  selectFacultad : number;
+  selectDocente : number;
+  filtro : number;
   selectionProject : string  = '';
   ID_Proyecto : number;
   documentos: any [];
   proyectos : proyecto [];
+  proyectosView : proyecto[];
   docentes: usuario[] = [];
   proyectoSelected : any= {};
 
@@ -227,20 +231,24 @@ export class EvaluacionProyectosComponent implements OnInit {
     await this.subirArchivosService.getProyectosByEtapa(1)
     .subscribe(
       res => {
-        this.proyectos = res as any [];
+        this.proyectos = res as proyecto [];
+        this.inicio = res as proyecto []
         console.log(`proyectos : ${JSON.stringify(this.proyectos)}`);
         this.getFacultades();
+        this.changeStatusProject();
       }
     );
     cargando =false;
   }
 
-  mostrarEstado(estado : any){
+  mostrarEstado(correcciones : any,corregido : any){
     
-    if(estado == 1)
+    if(correcciones == 1)
     return ' (correcciones pendientes)';
-    else
-    return '';
+    else if (corregido == 1)
+    return ' (correcciones atendidas)';
+    else if(correcciones == 0)
+    return  ' (sin revisar)'
   }
 
  updateStageProject(){
@@ -271,15 +279,43 @@ export class EvaluacionProyectosComponent implements OnInit {
 
  }
 
- changeStatus(filtro: number) {
+ async changeStatus(filtro: number) {
   if (filtro == 2 || filtro == 3) {
     this.busqueda = 0;
     this.proyectos = [];
   }
   else if (filtro == 1) {
     this.busqueda = 1;
-    this.getProyectos();
+    await this.getProyectos();
   }
+}
+
+async changeStatusProject() {
+  console.log(`filtro ${JSON.stringify(this.mySelectStatus)}`);
+  
+ if(this.mySelectStatus == 1)
+ {
+   console.log(`entro a 1`);
+  
+  this.proyectos = this.inicio.filter(proyecto =>{
+    return proyecto.CORRECCIONES === 0;
+  });
+ }
+ else if(this.mySelectStatus == 2)
+ {
+  console.log('entro a 2');
+  this.proyectos =  this.inicio.filter(proyecto =>{
+        return proyecto.CORRECCIONES===1;
+      });
+ }
+ else if(this.mySelectStatus == 3)
+ {
+   console.log(`entro a 3`);
+  this.proyectos = this.inicio.filter(proyecto =>{
+    return proyecto.CORREGIDO===1;
+  });
+ }
+
 }
 changeFacultad(id_facultad: number) {
   if (id_facultad != 0) {
@@ -308,9 +344,10 @@ async getProyectosFacultad(id_facultad: number) {
       this.proyectos = res as proyecto[];
       
       this.inicio = res as proyecto[];
-      this.proyectos.filter(proyecto =>{
-        return proyecto.ETAPA = 1;
-      })
+      this.proyectos = this.proyectos.filter(proyecto =>{
+        return proyecto.ETAPA == 1;
+      });
+      this.changeStatusProject();
       cargando = false;
     })
 }
@@ -319,7 +356,14 @@ async getProyectosDocente(id_usuario: number) {
   await this.subirArchivosService.getProyectosDocente(id_usuario)
     .subscribe(res => {
       this.proyectos = res as proyecto[];
+      
       this.inicio = res as proyecto[];
+      this.proyectos = this.proyectos.filter(proyecto =>{
+        return proyecto.ETAPA == 1;
+        
+      });
+      this.changeStatusProject();
+      
       cargando = false;
     })
 }
