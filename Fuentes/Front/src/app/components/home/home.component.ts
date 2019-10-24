@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
           this.subirArchivoService.convocatoria = res as convocatoria;
           console.log(`convocatoria actual ${JSON.stringify(this.subirArchivoService.convocatoria)}`);
           cargando=false;
+          localStorage.setItem('convocatoria',JSON.stringify(this.subirArchivoService.convocatoria));
         }
       )
     }     
