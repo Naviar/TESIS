@@ -7,7 +7,7 @@ import { EtapaService } from './etapa.service';
 @Injectable({
   providedIn: 'root'
 })
-export class GuardAuthenticateUsers {
+export class GuardSee { 
 
   constructor( public auth: LoginService, public etapaService: EtapaService, public router: Router ) {
     this.getValidRol();
@@ -23,7 +23,7 @@ export class GuardAuthenticateUsers {
       this.router.navigate(['login']);      
       return false; 
     }
-    else if (this.rol==1) 
+    else if (this.plataforma == 1 &&(this.rol==1 || this.rol==2)) 
     {        
       return true; 
     }

@@ -227,8 +227,7 @@ export class EvaluacionProyectosComponent implements OnInit {
     await this.subirArchivosService.getProyectosByEtapa(1)
     .subscribe(
       res => {
-        this.proyectos = res as any [];
-        console.log(`proyectos : ${JSON.stringify(this.proyectos)}`);
+        this.proyectos = res as any [];        
         this.getFacultades();
       }
     );

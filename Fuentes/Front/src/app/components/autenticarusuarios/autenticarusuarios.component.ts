@@ -51,22 +51,6 @@ export class AutenticarusuariosComponent implements OnInit {
 
   getUsuarios() {
     cargando = true;
-    // if (this.rol == 1) {            //LIDER      
-    //   this.autenticarUsuarioService.getAsesores()
-    //     .subscribe(res => {
-    //       this.usuarios = res as usuario[]; 
-    //       this.inicio = res as usuario[];   
-    //       cargando=false;      
-    //     })
-    // }
-    // else if (this.rol == 2) {       //ASESOR    
-    //   this.autenticarUsuarioService.getEstudiantes()
-    //     .subscribe(res => {
-    //       this.usuarios = res as usuario[];    
-    //       this.inicio = res as usuario[];
-    //       cargando=false;      
-    //     })
-    // }
     this.autenticarUsuarioService.geUsuarios()
       .subscribe(res => {
         this.usuarios = res as usuario[];

@@ -138,11 +138,15 @@ export class SubirarchivosComponent implements OnInit {
               <p>El archivo se ha subido correctamente</p>
               <hr>
           </div>`});
+
           if(this.proyectoSeleccionado.ETAPA==1 && this.proyectoSeleccionado.CORRECCIONES==true){
             this.subirarchivosService.updateProject(this.proyectoSeleccionado.ID_PROYECTO, true, false)
             .subscribe(res=>{
               cargando=false;
             })
+          }
+          else{
+            cargando=false;
           }        
       }
     });
@@ -197,7 +201,8 @@ export class SubirarchivosComponent implements OnInit {
   cambioProyecto(proyecto:string){
     this.subirarchivosService.getProyectosByNombre(proyecto)
       .subscribe(res=>{
-        this.proyectoSeleccionado = res as proyecto;        
+        this.proyectoSeleccionado = res[0] as proyecto; 
+        console.log("correcciones", this.proyectoSeleccionado.CORRECCIONES);       
       })
   }
   getValidRol() {
