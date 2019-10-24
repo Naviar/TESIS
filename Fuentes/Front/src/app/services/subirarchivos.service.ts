@@ -14,14 +14,22 @@ export class SubirarchivosService {
     ID_PROYECTO : 0,
     NOMBRE_PROYECTO : "",
     ETAPA : 0, 
-    USUARIO_ID_USUARIO: 0
+    USUARIO_ID_USUARIO: 0,
+    ID_CONVOCATORIA_ID : null,
     };
   documentos: documento[];
+  convocatoria : any = {};
   readonly URL_API = 'http://localhost:3500/subirarchivos';  
   
 
-  constructor(private http: HttpClient, private storage: AngularFireStorage) { }
+  constructor(private http: HttpClient, private storage: AngularFireStorage) {
 
+   }
+
+
+  getCurrentAnnouncement(){
+    return this.http.get(this.URL_API+`/getAnnouncementCurrent`);
+  }
   SubirArchivo(nombreArchivo: string, datos: any) {
     return this.storage.upload(nombreArchivo, datos);
   }
@@ -64,7 +72,9 @@ export class SubirarchivosService {
   getDocumentosByEtapa(etapa:number){
     return this.http.get(this.URL_API+"/getDocumentosByEtapa/"+`${etapa}`);
   }
-  crearProyecto(proyecto:proyecto){    
+  crearProyecto(proyecto:proyecto){   
+    proyecto.ID_CONVOCATORIA_ID = this.convocatoria.ID_CONVOCATORIA;
+     
     return this.http.post(this.URL_API + '/crearProyecto', proyecto);
   }
   proyectoDuplicado(proyecto:proyecto){

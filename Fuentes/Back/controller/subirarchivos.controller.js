@@ -31,6 +31,32 @@ subirarchivosCtrl.upload = (req, res) => {
     })
 }
 
+subirarchivosCtrl.getAnnouncementCurrent = (req, res) => {
+
+    try {
+        query = `select * from convocatorias where id_convocatoria = (select max(id_convocatoria) from convocatorias)`;
+        ibmdb.open(connStr, (err, conn) => {
+
+            conn.query(query, (err, data) => {
+                if (err) {
+                    res.json({ error: err })
+                    console.log("Hubo un error en la busqueda" + err);
+                } else {
+                    conn.close(() => {
+                        console.log("Se ha cerrado la base de datos")
+                    })
+                    res.json(data[0]);
+                }
+            })
+        });
+    } catch (error) {
+
+        res.state(500).json({ error });
+
+    }
+
+}
+
 subirarchivosCtrl.getDocumentos = (req, res) => {
 
 
@@ -49,7 +75,7 @@ subirarchivosCtrl.getDocumentos = (req, res) => {
                 res.json(data);
             }
         })
-    })
+    });
 }
 
 subirarchivosCtrl.getProyectosByEtapa = (req, res) => {
@@ -173,7 +199,7 @@ subirarchivosCtrl.getProyectosFacultad = (req, res) => {
 
 subirarchivosCtrl.getProyectosDocente = (req, res) => {
 
-    console.log("###",req.params.docente);
+    console.log("###", req.params.docente);
     let id_usuario = req.params.docente;
 
     ibmdb.open(connStr, (err, conn) => {
@@ -241,9 +267,10 @@ subirarchivosCtrl.crearProyecto = (req, res) => {
     let nombre = req.body.NOMBRE_PROYECTO;
     let etapa = parseInt(req.body.ETAPA);
     let id_usuario = req.body.USUARIO_ID_USUARIO;
+    let id_convocatoria = req.body.ID_CONVOCATORIA_ID;
 
-    var query = `INSERT INTO proyecto (nombre_proyecto, etapa, usuario_id_usuario, fecha)
-    VALUES  ('${nombre}', '${etapa}', '${id_usuario}', CURRENT_DATE)`;
+    var query = `INSERT INTO proyecto (nombre_proyecto, etapa, usuario_id_usuario, fecha , ID_CONVOCATORIA_ID)
+    VALUES  ('${nombre}', '${etapa}', '${id_usuario}', CURRENT_DATE , '${id_convocatoria}')`;
 
     ibmdb.open(connStr, (err, conn) => {
 

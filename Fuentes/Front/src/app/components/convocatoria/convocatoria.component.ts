@@ -4,7 +4,7 @@ import { convocatoria } from '../../models/convocatoria';
 import { ConvocatoriaService } from '../../services/convocatoria.service';
 import decode from 'jwt-decode';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-
+let cargando = true;
 declare var M: any;
 @Component({
   selector: 'app-convocatoria',
@@ -69,7 +69,7 @@ export class ConvocatoriaComponent implements OnInit {
 
         if(id_convocatoria === undefined){
 
-
+          cargando = true;
           this.convocatoriaService.openAnnouncement(announcement)
           .subscribe(
             res => {console.log(res);
@@ -79,6 +79,7 @@ export class ConvocatoriaComponent implements OnInit {
                     <p>${res['message']}</p>
                     <hr>
                 </div>`});
+                cargando = false;
                 this.getAnnouncements();
               },
             err => {console.log('error:',err);
@@ -87,11 +88,13 @@ export class ConvocatoriaComponent implements OnInit {
                   <h4 class="alert-heading">ERROR ABRIENDO CONVOCATORIA</h4>
                   <p>ocurrio un error en el servidor no es posible abrir convocatoria.</p>
                   <hr>
-              </div>`});}
+              </div>`});
+            cargando =false;
+          }
           );
         }
         else if(id_convocatoria !== undefined){
-          
+            cargando = true;
             this.convocatoriaService.updateAnnouncement(announcement,this.id_convocatoria_update)
             .subscribe(
               res =>{
@@ -102,6 +105,7 @@ export class ConvocatoriaComponent implements OnInit {
                       <p>${res['message']}</p>
                       <hr>
                   </div>`});
+                  cargando =false;
                   this.getAnnouncements();
               },
 
@@ -112,6 +116,7 @@ export class ConvocatoriaComponent implements OnInit {
                       <p>ocurrio un error en el servidor no es posible abrir convocatoria.</p>
                       <hr>
                   </div>`});
+                  cargando =false;
               }
             )
         }
@@ -129,11 +134,13 @@ export class ConvocatoriaComponent implements OnInit {
     }
 
     getAnnouncements() {
+      cargando = true;
       this.convocatoriaService.getAnnouncements()
       .subscribe(
         res => {console.log(`llegaron estas convocatorias ${res}`);
             this.convocatorias = res['convocatorias'] as [];
             console.log(this.convocatorias);
+            cargando = false;
       },
 
       err => {
@@ -143,6 +150,7 @@ export class ConvocatoriaComponent implements OnInit {
               <p>ocurrio un error en el servidor no es posible obtener convocatorias.</p>
               <hr>
           </div>`});
+          cargando =false;
       }
       )
     }
@@ -161,6 +169,14 @@ export class ConvocatoriaComponent implements OnInit {
       this.id_convocatoria_update = id_convocatoria;
       this.actualizando = true;
       this.titulo_modal = 'Actualizar fechas de convocatoria';
+    }
+
+    yaCargo() {
+      if (cargando == false) {
+        return false;
+      } else {
+        return true;
+      }
     }
 
   
