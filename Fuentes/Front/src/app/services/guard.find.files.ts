@@ -18,12 +18,12 @@ export class GuardFindFiles {
    rol: number;
    etapa: number;
 
-  canActivate(): boolean {
+  canActivate(): boolean {    
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['login']);      
       return false; 
     }
-    else if (this.plataforma == 1 && this.rol==1) 
+    else if (this.plataforma == 2) 
     {        
       return true; 
     }

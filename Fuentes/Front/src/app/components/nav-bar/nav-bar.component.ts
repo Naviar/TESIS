@@ -5,6 +5,8 @@ import { Router } from '@angular/router'
 import decode from 'jwt-decode';
 import { EtapaService } from 'src/app/services/etapa.service';
 import { etapa_estudiante } from 'src/app/models/etapa_estudiante';
+import { SubirarchivosService } from 'src/app/services/subirarchivos.service';
+import { convocatoria } from 'src/app/models/convocatoria';
 
 @Component({
   selector: 'app-nav-bar',
@@ -19,11 +21,13 @@ export class NavBarComponent implements OnInit {
   etapa: number;
   nombre_Usuario: any;
   rol: any;
-  
+  convocatoria:boolean=false;
+  fecha_now : number = new Date().getTime();
 
-  constructor(private loginService : LoginService, private etapaService : EtapaService,private router:Router) { }
+  constructor(private loginService : LoginService, public subirarchivosService: SubirarchivosService, private etapaService : EtapaService,private router:Router) { }
 
   ngOnInit() {
+    console.log("entroofffffo");
     this.getValidRol();
   }
   logout(){
@@ -49,6 +53,17 @@ export class NavBarComponent implements OnInit {
         this.etapa = this.etapa_estudiante.ETAPA;
       })
     }
+    if(this.plataforma == 2){
+      this.subirarchivosService.getCurrentAnnouncement()
+      .subscribe(
+        res => {
+          this.subirarchivosService.convocatoria = res as convocatoria;
+          if (this.fecha_now >= new Date(this.subirarchivosService.convocatoria.FECHA_INICIO).getTime() && this.fecha_now <= new Date(this.subirarchivosService.convocatoria.FECHA_FIN).getTime()){            
+            this.convocatoria = true;            
+          }      
+        }
+      )
+    } 
   }
 
 }

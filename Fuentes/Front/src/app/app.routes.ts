@@ -32,6 +32,12 @@ import { CrearproyectoComponent } from './components/crearproyecto/crearproyecto
 import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
 import { BuscarproyectoComponent } from './components/buscarproyecto/buscarproyecto.component';
 import {EvaluacionProyectosComponent} from './components/evaluacion-proyectos/evaluacion-proyectos.component';
+import { GuardCreateProject } from './services/guard.create.project';
+import { GuardAnnouncement } from './services/guard.announcement';
+import { GuardUploadFiles } from './services/guard.upload.files';
+import { GuardManageFiles } from './services/guard.manage.files';
+import { GuardFindFiles } from './services/guard.find.files';
+import { GuardEvaluationProjects } from './services/guard.evaluation.projects';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -51,13 +57,13 @@ const routes: Routes = [
     { path: 'see/advisory/:id', component: VerasesoriaComponent, canActivate:[GuardAuthenticateUsers] },
     { path: 'see/evaluation/:id', component: VerevaluacionComponent, canActivate:[GuardDiagnostic] },
     { path: 'report', component: ReporteComponent, canActivate:[GuardDiagnostic] },
-    
-    { path: 'upload/files', component: SubirarchivosComponent, canActivate:[GuardService] },
-    { path: 'manage/files', component: GestionarchivosComponent, canActivate:[GuardService] },
-    { path: 'create/project', component: CrearproyectoComponent, canActivate:[GuardService] },
-    { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardService] },
-    { path: 'find/files', component: BuscarproyectoComponent, canActivate:[GuardService] },
-    { path: 'evaluation/projects', component: EvaluacionProyectosComponent, canActivate:[GuardService] },
+
+    { path: 'upload/files', component: SubirarchivosComponent, canActivate:[GuardUploadFiles] },
+    { path: 'manage/files', component: GestionarchivosComponent, canActivate:[GuardManageFiles] },
+    { path: 'create/project', component: CrearproyectoComponent, canActivate:[GuardCreateProject] },
+    { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardAnnouncement] }, 
+    { path: 'find/files', component: BuscarproyectoComponent, canActivate:[GuardFindFiles] },
+    { path: 'evaluation/projects', component: EvaluacionProyectosComponent, canActivate:[GuardEvaluationProjects] },
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
 

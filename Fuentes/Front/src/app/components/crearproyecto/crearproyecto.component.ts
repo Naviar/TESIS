@@ -116,6 +116,7 @@ export class CrearproyectoComponent implements OnInit {
     this.subirarchivosService.proyectoNuevo.NOMBRE_PROYECTO = form.value.proyecto;
     this.subirarchivosService.proyectoNuevo.ETAPA = 1;
     this.subirarchivosService.proyectoNuevo.USUARIO_ID_USUARIO = this.usuario_id;
+    this.subirarchivosService.proyectoNuevo.ID_CONVOCATORIA_ID = this.subirarchivosService.convocatoria.ID_CONVOCATORIA;
     this.subirarchivosService.proyectoDuplicado(this.subirarchivosService.proyectoNuevo)
       .subscribe((data) => {
         if (data[0].DUPLICATE == 0) {

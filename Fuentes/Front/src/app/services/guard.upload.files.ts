@@ -23,7 +23,7 @@ export class GuardUploadFiles {
       this.router.navigate(['login']);      
       return false; 
     }
-    else if (this.plataforma == 1 && this.rol==1) 
+    else if (this.plataforma == 2 && this.rol==2) 
     {        
       return true; 
     }

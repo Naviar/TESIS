@@ -3,13 +3,14 @@ import { Router, CanActivate } from '@angular/router';
 import { LoginService } from './login.service';
 import decode from 'jwt-decode';
 import { EtapaService } from './etapa.service';
+import { SubirarchivosService } from './subirarchivos.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GuardCreateProject {
 
-  constructor( public auth: LoginService, public etapaService: EtapaService, public router: Router ) {
+  constructor( public auth: LoginService, public etapaService: EtapaService, public subirarchivosService: SubirarchivosService, public router: Router ) {
     this.getValidRol();
    }
    plataforma:number;
@@ -17,13 +18,14 @@ export class GuardCreateProject {
    estudiante_id: number;
    rol: number;
    etapa: number;
+   fecha_now : number = new Date().getTime();
 
-  canActivate(): boolean {
+  canActivate(): boolean { 
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['login']);      
       return false; 
     }
-    else if (this.plataforma == 1 && this.rol==1) 
+    else if (this.plataforma == 2 && this.rol==2 && this.fecha_now >= new Date(this.subirarchivosService.convocatoria.FECHA_INICIO).getTime() && this.fecha_now <= new Date(this.subirarchivosService.convocatoria.FECHA_FIN).getTime() ) 
     {        
       return true; 
     }

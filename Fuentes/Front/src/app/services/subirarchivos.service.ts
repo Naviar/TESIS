@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { proyecto } from '../models/proyecto';
 import { documento } from '../models/documento';
+import { convocatoria } from '../models/convocatoria';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class SubirarchivosService {
     ID_CONVOCATORIA_ID : null,
     };
   documentos: documento[];
-  convocatoria : any = {};
+  convocatoria : convocatoria;
   readonly URL_API = 'http://localhost:3500/subirarchivos';  
   
 
@@ -26,8 +27,7 @@ export class SubirarchivosService {
 
    }
 
-
-  getCurrentAnnouncement(){
+  getCurrentAnnouncement(){    
     return this.http.get(this.URL_API+`/getAnnouncementCurrent`);
   }
   SubirArchivo(nombreArchivo: string, datos: any) {
@@ -74,9 +74,9 @@ export class SubirarchivosService {
   }
   crearProyecto(proyecto:proyecto){   
     proyecto.ID_CONVOCATORIA_ID = this.convocatoria.ID_CONVOCATORIA;
-     
+    
     return this.http.post(this.URL_API + '/crearProyecto', proyecto);
-  }
+  } 
   proyectoDuplicado(proyecto:proyecto){
     return this.http.post(this.URL_API + '/proyectoDuplicado', proyecto);
   }

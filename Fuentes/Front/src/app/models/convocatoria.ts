@@ -1,6 +1,6 @@
 export interface convocatoria {
-    
-    NAME : String;
+    ID_CONVOCATORIA : number;
+    NOMBRE : String;
     FECHA_INICIO: Date;
     FECHA_FIN: Date;
     FECHA_INFORME_INICIAL:Date;

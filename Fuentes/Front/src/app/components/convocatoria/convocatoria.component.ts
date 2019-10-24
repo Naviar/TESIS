@@ -4,6 +4,7 @@ import { convocatoria } from '../../models/convocatoria';
 import { ConvocatoriaService } from '../../services/convocatoria.service';
 import decode from 'jwt-decode';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 let cargando = true;
 declare var M: any;
 @Component({
@@ -43,7 +44,8 @@ export class ConvocatoriaComponent implements OnInit {
   openAnnouncement(form : NgForm ,id_convocatoria? : number) {
 
     const announcement : convocatoria = {
-      NAME: form.value.Name,
+      ID_CONVOCATORIA : undefined,
+      NOMBRE: form.value.Name,
       FECHA_INICIO: form.value.start_date,
       FECHA_FIN: form.value.ending_date,
       FECHA_INFORME_INICIAL: form.value.initial_report_date,

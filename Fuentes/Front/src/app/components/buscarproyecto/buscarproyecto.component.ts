@@ -86,6 +86,7 @@ export class BuscarproyectoComponent implements OnInit {
     }
     else if (filtro == 1) {
       this.busqueda = 1;
+      this.getProyectos();
     }
   }
   changeFacultad(id_facultad: number) {
