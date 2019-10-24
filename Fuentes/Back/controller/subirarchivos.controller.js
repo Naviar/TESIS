@@ -59,12 +59,9 @@ subirarchivosCtrl.getAnnouncementCurrent = (req, res) => {
 
 subirarchivosCtrl.getDocumentos = (req, res) => {
 
-
-    query = `SELECT * FROM documento`;
-
     ibmdb.open(connStr, (err, conn) => {
 
-        conn.query(query, (err, data) => {
+        conn.query("SELECT * FROM documento", (err, data) => {
             if (err) {
                 res.json({ error: err })
                 console.log("Hubo un error en la busqueda" + err);
@@ -121,7 +118,7 @@ subirarchivosCtrl.updateFixes = (req, res) => {
                         <p>por favor entrar a la plataforma y subir el documento atendiendo las correciones , gracias.</p>` // cuerpo de texto sin formato 
                 };
 
-                transporter.sendMail(mailOptions, function(err, info) {
+                transporter.sendMail(mailOptions, function (err, info) {
 
 
                     console.log(info);
@@ -163,6 +160,24 @@ subirarchivosCtrl.getProyectosById = (req, res) => {
     ibmdb.open(connStr, (err, conn) => {
 
         conn.query(`SELECT * FROM proyecto WHERE usuario_id_usuario= '${id_usuario}'`, (err, data) => {
+            if (err) {
+                res.json({ error: err })
+                console.log("Hubo un error en la busqueda de proyectos" + JSON.stringify(err));
+            } else {
+                conn.close(() => {
+                    console.log("Se ha cerrado la base de datos");
+                })
+                res.json(data);
+            }
+        })
+    })
+}
+subirarchivosCtrl.getProyectosByNombre = (req, res) => {
+    let nombre_proyecto = req.params.nombre_proyecto;
+
+    ibmdb.open(connStr, (err, conn) => {
+
+        conn.query(`SELECT * FROM proyecto WHERE nombre_proyecto= '${nombre_proyecto}'`, (err, data) => {
             if (err) {
                 res.json({ error: err })
                 console.log("Hubo un error en la busqueda de proyectos" + JSON.stringify(err));
@@ -295,18 +310,43 @@ subirarchivosCtrl.proyectoDuplicado = (req, res) => {
 
     var query = `SELECT COUNT(*) AS duplicate from proyecto where nombre_proyecto='${nombre}'`;
 
-    ibmdb.open(connStr, function(err, conn) {
+    ibmdb.open(connStr, function (err, conn) {
         if (err) return console.log(err);
 
-        conn.query(query, function(err, data) {
+        conn.query(query, function (err, data) {
 
             if (err) res.json({ error: err })
             else res.json(data)
-            conn.close(function() {
+            conn.close(function () {
                 console.log('termino de buscar');
             });
         });
     });
+}
+
+subirarchivosCtrl.updateProject = (req, res) => {
+
+    const { ID_PROYECTO } = req.params;
+    const correciones = req.body.correciones;
+    const corregido = req.body.corregido;
+    try {
+        ibmdb.open(connStr, (err, conn) => {
+
+            conn.query(`UPDATE proyecto SET correcciones = '${correciones}', SET corregido = '${corregido}' WHERE id_proyecto = '${ID_PROYECTO}'`, (err, data) => {
+                if (err) {
+                    res.json({ error: err })
+                    console.log("Hubo un error en la busqueda" + err);
+                } else {
+                    conn.close(() => {
+                        console.log("Se ha cerrado la base de datos")
+                    })
+                    res.json(data);
+                }
+            })
+        })
+    } catch (error) {
+        res.state(404).json({ error });
+    }
 }
 
 subirarchivosCtrl.updateStageProjects = (req, res) => {
@@ -335,7 +375,7 @@ subirarchivosCtrl.updateStageProjects = (req, res) => {
                             <p>puedes entrar a la plataforma para seguir con el proceso del proyecto</p> ` // cuerpo de texto sin formato 
                 };
 
-                transporter.sendMail(mailOptions, function(err, info) {
+                transporter.sendMail(mailOptions, function (err, info) {
 
 
                     console.log(info);

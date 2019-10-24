@@ -21,6 +21,9 @@ export class GuardCreateProject {
    fecha_now : number = new Date().getTime();
 
   canActivate(): boolean { 
+    console.log("now", this.fecha_now);
+    console.log("inicio", new Date(JSON.parse(localStorage.getItem('convocatoria')).FECHA_INICIO).getTime());
+    console.log("fin", new Date(JSON.parse(localStorage.getItem('convocatoria')).FECHA_FIN).getTime());
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['login']);      
       return false; 

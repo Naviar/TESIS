@@ -26,8 +26,7 @@ export class NavBarComponent implements OnInit {
 
   constructor(private loginService : LoginService, public subirarchivosService: SubirarchivosService, private etapaService : EtapaService,private router:Router) { }
 
-  ngOnInit() {
-    console.log("entroofffffo");
+  ngOnInit() {    
     this.getValidRol();
   }
   logout(){

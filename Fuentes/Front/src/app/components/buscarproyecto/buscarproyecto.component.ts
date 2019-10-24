@@ -55,8 +55,7 @@ export class BuscarproyectoComponent implements OnInit {
     cargando = true;
     await this.subirarchivosService.getProyectos()
       .subscribe(res => {
-        this.proyectos = res as proyecto[];
-        console.log(`proyectos ${JSON.stringify(this.proyectos)}`);
+        this.proyectos = res as proyecto[];        
         this.inicio = res as proyecto[];    
         this.getFacultades();    
       })

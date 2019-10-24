@@ -33,6 +33,8 @@ export class SubirarchivosComponent implements OnInit {
   existeCorrecciones: boolean = false;
   usuario_id: number;  
   rol: number;
+  proyectoSeleccionado: proyecto;
+
   public datosFormulario = new FormData();
 
   constructor(public subirarchivosService: SubirarchivosService, private fb: FormBuilder) {
@@ -136,7 +138,12 @@ export class SubirarchivosComponent implements OnInit {
               <p>El archivo se ha subido correctamente</p>
               <hr>
           </div>`});
-        cargando = false;
+          if(this.proyectoSeleccionado.ETAPA==1 && this.proyectoSeleccionado.CORRECCIONES==true){
+            this.subirarchivosService.updateProject(this.proyectoSeleccionado.ID_PROYECTO, true, false)
+            .subscribe(res=>{
+              cargando=false;
+            })
+          }        
       }
     });
   }
@@ -152,14 +159,14 @@ export class SubirarchivosComponent implements OnInit {
       }
     }
     else{
-      this.subirArchivo();
+      this.subirArchivo(); 
     }
   }
   getDocumentos() {
     cargando=true;
     this.subirarchivosService.getDocumentos()
       .subscribe(res => {
-        this.subirarchivosService.documentos = res as documento[];
+        this.subirarchivosService.documentos = res as documento[];        
         cargando=false;        
       })
   }
@@ -180,10 +187,18 @@ export class SubirarchivosComponent implements OnInit {
     this.nombreArchivoOficial = documento + "_oficial.docx";
     this.buscarArchivo();
     this.buscarArchivoOficial();
+  }
+  cambioDocumento(documento:string, proyecto:string){    
     if(this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA == 1){
       this.nombreArchivoCorrecciones = documento + "_" + proyecto + "_correcciones.docx";
       this.buscarArchivoCorreciones();
     }
+  }
+  cambioProyecto(proyecto:string){
+    this.subirarchivosService.getProyectosByNombre(proyecto)
+      .subscribe(res=>{
+        this.proyectoSeleccionado = res as proyecto;        
+      })
   }
   getValidRol() {
     const token = localStorage.getItem('usuario');

@@ -33,7 +33,7 @@
           <form [formGroup]="archivoForm">
             <div class="form-label-group">
               <label><label id="lbl"></label>Proyecto*</label>
-              <select id="select" class="form-control" name="proyecto" formControlName="proyecto" (change)="cambioNombre(documento.value, proyecto.value)" #proyecto>
+              <select id="select" class="form-control" name="proyecto" formControlName="proyecto" (change)="cambioNombre(documento.value, proyecto.value); cambioProyecto(proyecto.value);" #proyecto>
                 <option value="" disabled>Seleccione un proyecto</option>
                 <option *ngFor="let proyecto of subirarchivosService.proyectos" value={{proyecto.NOMBRE_PROYECTO}}>
                   {{proyecto.NOMBRE_PROYECTO}}
@@ -49,7 +49,7 @@
             <div class="form-label-group">
               <label><label id="lbl"></label>Documento*</label>
               <select id="select" class="form-control" name="documento" formControlName="documento"
-                (change)="cambioNombre(documento.value, proyecto.value)" #documento>
+                (change)="cambioNombre(documento.value, proyecto.value); cambioDocumento(documento.value, proyecto.value);" #documento>
                 <option value="" disabled>Seleccione un documento</option>
                 <option *ngFor="let documento of subirarchivosService.documentos" value={{documento.NOMBRE_DOCUMENTO}}>
                   {{documento.NOMBRE_DOCUMENTO}}
