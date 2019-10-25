@@ -296,23 +296,23 @@ async changeStatusProject() {
  if(this.mySelectStatus == 1)
  {
    console.log(`entro a 1`);
-  
+  console.log('fuckkkkkkkk');
   this.proyectos = this.inicio.filter(proyecto =>{
-    return proyecto.CORRECCIONES === false;
+    return proyecto.CORRECCIONES == false;
   });
  }
  else if(this.mySelectStatus == 2)
  {
   console.log('entro a 2');
   this.proyectos =  this.inicio.filter(proyecto =>{
-        return proyecto.CORRECCIONES===true;
+        return proyecto.CORRECCIONES==true;
       });
  }
  else if(this.mySelectStatus == 3)
  {
    console.log(`entro a 3`);
   this.proyectos = this.inicio.filter(proyecto =>{
-    return proyecto.CORREGIDO===true;
+    return proyecto.CORREGIDO==true;
   });
  }
 
