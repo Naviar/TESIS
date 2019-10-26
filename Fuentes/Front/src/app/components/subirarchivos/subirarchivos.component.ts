@@ -36,6 +36,7 @@ export class SubirarchivosComponent implements OnInit {
   proyectoSeleccionado: proyecto;
 
   public datosFormulario = new FormData();
+  inicioDocumentos: documento[];
 
   constructor(public subirarchivosService: SubirarchivosService, private fb: FormBuilder) {
     this.buildForm();
@@ -170,7 +171,8 @@ export class SubirarchivosComponent implements OnInit {
     cargando=true;
     this.subirarchivosService.getDocumentos()
       .subscribe(res => {
-        this.subirarchivosService.documentos = res as documento[];        
+        this.subirarchivosService.documentos = res as documento[];
+        this.inicioDocumentos = res as documento []        
         cargando=false;        
       })
   }
@@ -192,6 +194,12 @@ export class SubirarchivosComponent implements OnInit {
     this.buscarArchivo();
     this.buscarArchivoOficial();
   }
+
+  filtrarDocumentos(){
+      this.subirarchivosService.documentos = this.inicioDocumentos.filter((documento)=>{
+          return documento.ETAPA <= this.proyectoSeleccionado.ETAPA;
+      });
+  }
   cambioDocumento(documento:string, proyecto:string){    
     if(this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA == 1){
       this.nombreArchivoCorrecciones = documento + "_" + proyecto + "_correcciones.docx";
@@ -202,7 +210,8 @@ export class SubirarchivosComponent implements OnInit {
     this.subirarchivosService.getProyectosByNombre(proyecto)
       .subscribe(res=>{
         this.proyectoSeleccionado = res[0] as proyecto; 
-        console.log("correcciones", this.proyectoSeleccionado.CORRECCIONES);       
+        console.log("correcciones", this.proyectoSeleccionado.CORRECCIONES); 
+        this.filtrarDocumentos();      
       })
   }
   getValidRol() {
