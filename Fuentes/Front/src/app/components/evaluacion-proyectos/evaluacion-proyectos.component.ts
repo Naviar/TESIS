@@ -55,8 +55,7 @@ export class EvaluacionProyectosComponent implements OnInit {
   await this.getProyectos();
   }
 
-  cambioArchivo(event) {
-    console.log('entro aca');
+  cambioArchivo(event) {    
     var expresion = /[.](docx)|[.](doc)$/;
     var resultado;
     if (event.target.files.length == 1) {
@@ -94,15 +93,13 @@ export class EvaluacionProyectosComponent implements OnInit {
       return proyectofind.NOMBRE_PROYECTO === proyecto;
     });
     this.proyectoSelected = Proyecto;
-    this.ID_Proyecto = Proyecto.ID_PROYECTO;
-    console.log(this.ID_Proyecto);
+    this.ID_Proyecto = Proyecto.ID_PROYECTO;    
     if(documento !== '' && proyecto !== ''){
       
       this.progresbar.nativeElement.textContent = "";
       this.cambioPorcentaje(0);
       this.TipoArchivo = documento; 
-      this.nombreArchivo = documento + "_" + proyecto+".docx";
-      console.log(":D", this.nombreArchivo);
+      this.nombreArchivo = documento + "_" + proyecto+".docx";      
       this.nombreArchivoCorreciones = documento+"_"+proyecto+ "_correcciones.docx";
       this.buscarArchivo();
       this.buscarArchivoCorreciones();
@@ -114,8 +111,7 @@ export class EvaluacionProyectosComponent implements OnInit {
     cargando = true;
     let referencia = this.subirArchivosService.getUrlArchivo(this.nombreArchivoCorreciones);
     referencia.getDownloadURL().subscribe((URL) => {
-      this.URLCorrecciones = URL;
-      console.log("Esto nos trajobuscando correciones", this.URLCorrecciones);
+      this.URLCorrecciones = URL;      
       this.existeCorrecciones = true;
       cargando = false;
     },
@@ -129,8 +125,7 @@ export class EvaluacionProyectosComponent implements OnInit {
     cargando = true;
     const referencia = await this.subirArchivosService.getUrlArchivo(this.nombreArchivo);
     referencia.getDownloadURL().subscribe((URL) => {
-      this.URLPublica = URL;
-      console.log("Esto nos trajo", this.URLPublica);
+      this.URLPublica = URL;      
       this.existe = true;
       cargando = false;
     },
@@ -151,8 +146,7 @@ export class EvaluacionProyectosComponent implements OnInit {
     }
   }
   subirArchivo() {
-    cargando = true;
-    console.log("entramo O_Os");
+    cargando = true;    
     let archivo = this.datosFormulario.get('archivo');
     let tarea = this.subirArchivosService.SubirArchivo(this.nombreArchivoCorreciones, archivo);
     tarea.percentageChanges().subscribe((porcentaje) => {
@@ -163,7 +157,7 @@ export class EvaluacionProyectosComponent implements OnInit {
         M.toast({
           html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
               <h4 class="alert-heading">ARCHIVO SUBIDO</h4>
-              <p>El archivo  se ha subido correctamente</p>
+              <p>El archivo se ha subido correctamente</p>
               <hr>
           </div>`});
         cargando = false;
@@ -181,7 +175,7 @@ export class EvaluacionProyectosComponent implements OnInit {
         M.toast({
           html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
               <h4 class="alert-heading">ESTADO DE CORRECIONES ACTUALIZADO</h4>
-              <p>se ha actualizado el estado para las correciones del proyecto</p>
+              <p>Se ha actualizado el estado para las correciones del proyecto</p>
               <hr>
           </div>`});
           this.getProyectos();
@@ -211,8 +205,7 @@ export class EvaluacionProyectosComponent implements OnInit {
     .subscribe(
 
       res =>{
-        this.documentos = res as any [];
-        console.log(this.documentos);
+        this.documentos = res as any [];        
         this.getDocentes();
       }
     );
@@ -232,8 +225,7 @@ export class EvaluacionProyectosComponent implements OnInit {
     .subscribe(
       res => {
         this.proyectos = res as proyecto [];
-        this.inicio = res as proyecto []
-        console.log(`proyectos : ${JSON.stringify(this.proyectos)}`);
+        this.inicio = res as proyecto []        
         this.getFacultades();
         this.changeStatusProject();
       }
@@ -269,7 +261,7 @@ export class EvaluacionProyectosComponent implements OnInit {
       M.toast({
         html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
             <h4 class="alert-heading">ERROR AVALANDO EL PROYECTO</h4>
-            <p>ocurrio un error en el servidor intentando actualizar la etapa del proyecto</p>
+            <p>Ocurrio un error en el servidor intentando actualizar la etapa del proyecto</p>
             <hr>
         </div>`});
         cargando =false;
@@ -290,27 +282,21 @@ export class EvaluacionProyectosComponent implements OnInit {
   }
 }
 
-async changeStatusProject() {
-  console.log(`filtro ${JSON.stringify(this.mySelectStatus)}`);
-  
+async changeStatusProject() {  
  if(this.mySelectStatus == 1)
  {
-   console.log(`entro a 1`);
-  console.log('fuckkkkkkkk');
   this.proyectos = this.inicio.filter(proyecto =>{
     return proyecto.CORRECCIONES == false;
   });
  }
  else if(this.mySelectStatus == 2)
- {
-  console.log('entro a 2');
+ {  
   this.proyectos =  this.inicio.filter(proyecto =>{
         return proyecto.CORRECCIONES==true;
       });
  }
  else if(this.mySelectStatus == 3)
- {
-   console.log(`entro a 3`);
+ {   
   this.proyectos = this.inicio.filter(proyecto =>{
     return proyecto.CORREGIDO==true;
   });

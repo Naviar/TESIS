@@ -113,14 +113,13 @@
                         <div class="col">
                             <label><label id="lbl"></label>Estado:</label>
                             <select (change)='this.mySelectStatus = mySelectCorrecciones.value;this.changeStatusProject() ; this.changeStatusProject()' id="select" class="form-control" #mySelectCorrecciones>
-                            <option value=1>sin revisar</option>
-                            <option value=2>con correcciones pendientes</option>
-                            <option value=3>con correcciones atendidas</option>
+                            <option value=1>Sin revisar</option>
+                            <option value=2>Correcciones pendientes</option>
+                            <option value=3>Correcciones atendidas</option>
                           </select>
                         </div>
                     </div>
-
-
+                    <br>
                     <form [formGroup]="archivoForm">
                         <div class="form-label-group">
                             <label><label id="lbl"></label>Proyecto*</label>
@@ -134,8 +133,7 @@
                                 <div *ngIf="archivoForm.get('proyecto').errors['required']">
                                     Proyecto requerido
                                 </div>
-                            </div>
-                            <br>
+                            </div>                            
                         </div>
                         <div class="form-label-group">
                             <label><label id="lbl"></label>Documento*</label>
@@ -147,18 +145,18 @@
                     </select>
                             <div *ngIf="archivoForm.get('documento').errors" class="alert alert-danger">
                                 <div *ngIf="archivoForm.get('documento').errors['required']">
-                                    documento requerido
+                                    Documento requerido
                                 </div>
                             </div>
                             <br>
                         </div>
 
                         <div *ngIf="existe != false">
-                            <p class="download ">Para descargar el Archivo <b>{{documento.value}}</b> subido para el proyecto <b>{{proyecto.value}}</b> haga click <a href="{{URLPublica}} " target="_blank ">aqui.</a></p>
+                            <p class="download ">Para descargar el Archivo <b>{{documento.value}}</b> que se ha subido para el proyecto <b>{{proyecto.value}}</b> haga click <a href="{{URLPublica}} " target="_blank ">aqui.</a></p>
                         </div>
 
                         <div *ngIf="existeCorrecciones != false">
-                            <p class="download ">el Archivo <b>{{documento.value}}</b> para el proyecto <b>{{proyecto.value}} ya tiene una sugerencia de correcciones</b> haga click <a href="{{URLCorrecciones}} " target="_blank ">aqui</a>&nbsp; para descargar.</p>
+                            <p class="download ">El archivo <b>{{documento.value}}</b> para el proyecto <b>{{proyecto.value}} ya tiene una sugerencia de correcciones</b> haga click <a href="{{URLCorrecciones}} " target="_blank ">aqui</a>&nbsp; para descargar.</p>
                         </div>
 
                         <div *ngIf="URLPublica != ''" class="form-label-group ">

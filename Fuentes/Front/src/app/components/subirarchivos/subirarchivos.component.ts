@@ -31,7 +31,7 @@ export class SubirarchivosComponent implements OnInit {
   existe: boolean = false;
   existeOficial: boolean = false;
   existeCorrecciones: boolean = false;
-  usuario_id: number;  
+  usuario_id: number;
   rol: number;
   proyectoSeleccionado: proyecto;
 
@@ -64,7 +64,7 @@ export class SubirarchivosComponent implements OnInit {
       });
   }
 
-  buscarArchivoOficial(){
+  buscarArchivoOficial() {
     cargando = true;
     let referencia = this.subirarchivosService.getUrlArchivo(this.nombreArchivoOficial);
     referencia.getDownloadURL().subscribe((URL) => {
@@ -78,7 +78,7 @@ export class SubirarchivosComponent implements OnInit {
         cargando = false;
       });
   }
-  buscarArchivoCorreciones(){
+  buscarArchivoCorreciones() {
     cargando = true;
     let referencia = this.subirarchivosService.getUrlArchivo(this.nombreArchivoCorrecciones);
     referencia.getDownloadURL().subscribe((URL) => {
@@ -92,7 +92,7 @@ export class SubirarchivosComponent implements OnInit {
         cargando = false;
       });
   }
- 
+
   buildForm() {
     this.archivoForm = this.fb.group({
       archivo: ['', Validators.compose([Validators.required])],
@@ -140,89 +140,95 @@ export class SubirarchivosComponent implements OnInit {
               <hr>
           </div>`});
 
-          if(this.proyectoSeleccionado.ETAPA==1 && this.proyectoSeleccionado.CORRECCIONES==true){
-            this.subirarchivosService.updateProject(this.proyectoSeleccionado.ID_PROYECTO, true, false)
-            .subscribe(res=>{
-              cargando=false;
+        if (this.proyectoSeleccionado.ETAPA == 1 && this.proyectoSeleccionado.CORRECCIONES == true) {
+          this.subirarchivosService.updateProject(this.proyectoSeleccionado.ID_PROYECTO, true, true)
+            .subscribe(res => {
+              cargando = false;
             })
-          }
-          else{
-            cargando=false;
-          }        
+        }
+        else {
+          cargando = false;
+        }
       }
     });
   }
-  cambioPorcentaje(porcentaje: number){
+  cambioPorcentaje(porcentaje: number) {
     this.porcentaje = Math.round(porcentaje);
     this.porcentaje2 = this.porcentaje.toString() + "%";
     this.progresbar.nativeElement.style.width = this.porcentaje2;
   }
-  confirmarArchivo(){
-    if(this.existe==true){
-      if(confirm("¿Esta seguro que desea reemplazar el archivo?")){
+  confirmarArchivo() {
+    if (this.existe == true) {
+      if (confirm("¿Esta seguro que desea reemplazar el archivo?")) {
         this.subirArchivo();
       }
     }
-    else{
-      this.subirArchivo(); 
+    else {
+      this.subirArchivo();
     }
   }
   getDocumentos() {
-    cargando=true;
+    cargando = true;
     this.subirarchivosService.getDocumentos()
       .subscribe(res => {
         this.subirarchivosService.documentos = res as documento[];
-        this.inicioDocumentos = res as documento []        
-        cargando=false;        
+        this.inicioDocumentos = res as documento[]
+        cargando = false;
       })
   }
   getProyectos() {
-    cargando=true;
+    cargando = true;
     this.subirarchivosService.getProyectosById(this.usuario_id)
       .subscribe(res => {
         this.subirarchivosService.proyectos = res as proyecto[];
-        cargando=false;
+        cargando = false;
       })
   }
-  cambioNombre(documento:string, proyecto:string){
+  cambioNombre(documento: string, proyecto: string) {
     this.progresbar.nativeElement.textContent = "";
     this.cambioPorcentaje(0);
-    this.TipoArchivo = documento; 
+    this.TipoArchivo = documento;
     this.nombreArchivo = documento + "_" + proyecto + ".docx";
     console.log(":D", this.nombreArchivo);
     this.nombreArchivoOficial = documento + "_oficial.docx";
     this.buscarArchivo();
     this.buscarArchivoOficial();
+    if (documento != '') {
+      if (this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA == 1) {
+        this.nombreArchivoCorrecciones = documento + "_" + proyecto + "_correcciones.docx";
+        this.buscarArchivoCorreciones();
+      }
+    }
   }
 
-  filtrarDocumentos(){
-      this.subirarchivosService.documentos = this.inicioDocumentos.filter((documento)=>{
-          return documento.ETAPA <= this.proyectoSeleccionado.ETAPA;
-      });
+  filtrarDocumentos() {
+    this.subirarchivosService.documentos = this.inicioDocumentos.filter((documento) => {
+      return documento.ETAPA <= this.proyectoSeleccionado.ETAPA;
+    });
   }
-  cambioDocumento(documento:string, proyecto:string){    
-    if(this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA == 1){
+  cambioDocumento(documento: string, proyecto: string) {
+    if (this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA == 1) {
       this.nombreArchivoCorrecciones = documento + "_" + proyecto + "_correcciones.docx";
       this.buscarArchivoCorreciones();
     }
   }
-  cambioProyecto(proyecto:string){
+  cambioProyecto(proyecto: string) {
     this.subirarchivosService.getProyectosByNombre(proyecto)
-      .subscribe(res=>{
-        this.proyectoSeleccionado = res[0] as proyecto; 
-        console.log("correcciones", this.proyectoSeleccionado.CORRECCIONES); 
-        this.filtrarDocumentos();      
+      .subscribe(res => {
+        this.proyectoSeleccionado = res[0] as proyecto;
+        console.log("correcciones", this.proyectoSeleccionado.CORRECCIONES);
+        this.filtrarDocumentos();
       })
   }
   getValidRol() {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
-    this.usuario_id = parseInt(tokenPayload.id_usuario);    
+    this.usuario_id = parseInt(tokenPayload.id_usuario);
     this.rol = parseInt(tokenPayload.rol_usuario);
   }
 
   yaCargo() {
-    if (cargando == false) { 
+    if (cargando == false) {
       return false;
     } else {
       return true;
