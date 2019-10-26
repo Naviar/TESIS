@@ -109,12 +109,12 @@ SELECT * FROM Horario;
 --Para tabla Documento
 INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (1, 'Acta reunion', 1);
 INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (2, 'Formato proyecto', 1);
-INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (3, 'Formato caracterizacion', 4);
-INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (4, 'Formato linea base', 4);
-INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (5, 'Acta inicio', 4);
-INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (6, 'Informe inicial', 5);
-INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (7, 'Informe final', 5);
-INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (8, 'Acta final', 8);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (3, 'Formato caracterizacion', 2);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (4, 'Formato linea base', 2);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (5, 'Acta inicio', 2);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (6, 'Informe inicial', 3);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (7, 'Informe final', 4);
+INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (8, 'Acta final', 5);
 
 --Para tabla Proyecto
 INSERT INTO Proyecto (Nombre_proyecto, Etapa, Usuario_Id_usuario, Fecha) VALUES ('Proyecto desarrollo comunitario', 1, 1, CURRENT_DATE);

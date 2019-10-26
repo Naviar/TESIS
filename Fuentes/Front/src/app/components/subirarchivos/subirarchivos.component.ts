@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { documento } from 'src/app/models/documento';
 import { proyecto } from 'src/app/models/proyecto';
 import decode from 'jwt-decode'
+import { usuario } from 'src/app/models/usuario';
 
 let cargando = true;
 declare var M: any;
@@ -34,6 +35,10 @@ export class SubirarchivosComponent implements OnInit {
   usuario_id: number;
   rol: number;
   proyectoSeleccionado: proyecto;
+  documentosDistintos: documento[];
+  proyecto: string;
+  todos_existen:boolean = false;
+  usuario: usuario[];
 
   public datosFormulario = new FormData();
   inicioDocumentos: documento[];
@@ -60,6 +65,19 @@ export class SubirarchivosComponent implements OnInit {
     },
       (error) => {
         this.existe = false;
+        cargando = false;
+      });
+  }
+  buscarArchivosDistintos(nombre:string) {
+    cargando = true;
+    let referencia = this.subirarchivosService.getUrlArchivo(nombre);
+    referencia.getDownloadURL().subscribe((URL) => {
+      this.URLPublica = URL;
+      console.log("Esto nos trajo ditint", this.URLPublica);            
+      cargando = false;
+    },
+      (error) => {      
+        this.todos_existen=false;         
         cargando = false;
       });
   }
@@ -146,11 +164,44 @@ export class SubirarchivosComponent implements OnInit {
               cargando = false;
             })
         }
+        else if(this.proyectoSeleccionado.ETAPA == 2){
+          this.getDocumentosDistintos();
+        }
+        else if(this.proyectoSeleccionado.ETAPA == 3 && this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA ==3){
+          this.subirarchivosService.updateStageProject(this.proyectoSeleccionado.ID_PROYECTO, 4, this.usuario[0].CORREO, this.proyectoSeleccionado.NOMBRE_PROYECTO)
+          .subscribe(res=>{
+            cargando = false;
+          })
+        }
+        else if(this.proyectoSeleccionado.ETAPA == 4 && this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA ==4){
+          this.subirarchivosService.updateStageProject(this.proyectoSeleccionado.ID_PROYECTO, 5, this.usuario[0].CORREO, this.proyectoSeleccionado.NOMBRE_PROYECTO)
+          .subscribe(res=>{
+            cargando = false;
+          })
+        }
         else {
           cargando = false;
         }
       }
     });
+  }
+  getDocumentosDistintos() {
+    cargando = true;
+    this.subirarchivosService.getDistintDocument(this.TipoArchivo)
+      .subscribe(res => {
+        this.documentosDistintos = res as documento[];
+        let i: number;
+        this.todos_existen=true;        
+        for(i=0; i<this.documentosDistintos.length;i++){
+          this.buscarArchivosDistintos(this.documentosDistintos[i].NOMBRE_DOCUMENTO + "_" + this.proyecto + ".docx");
+          if(this.todos_existen==true && i==this.documentosDistintos.length-1){            
+            this.subirarchivosService.updateStageProject(this.proyectoSeleccionado.ID_PROYECTO, 3, this.usuario[0].CORREO, this.proyectoSeleccionado.NOMBRE_PROYECTO)
+            .subscribe(res=>{
+              cargando = false;
+            })
+          }
+        }
+      })
   }
   cambioPorcentaje(porcentaje: number) {
     this.porcentaje = Math.round(porcentaje);
@@ -187,6 +238,7 @@ export class SubirarchivosComponent implements OnInit {
   cambioNombre(documento: string, proyecto: string) {
     this.progresbar.nativeElement.textContent = "";
     this.cambioPorcentaje(0);
+    this.proyecto = proyecto;
     this.TipoArchivo = documento;
     this.nombreArchivo = documento + "_" + proyecto + ".docx";
     console.log(":D", this.nombreArchivo);
@@ -225,6 +277,10 @@ export class SubirarchivosComponent implements OnInit {
     const tokenPayload = decode(token);
     this.usuario_id = parseInt(tokenPayload.id_usuario);
     this.rol = parseInt(tokenPayload.rol_usuario);
+    this.subirarchivosService.getUsuarioId(this.usuario_id)
+    .subscribe(res => {
+      this.usuario = res as usuario[];          
+    })
   }
 
   yaCargo() {

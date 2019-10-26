@@ -60,8 +60,14 @@ export class SubirarchivosService {
   getProyectosById(id_usuario:number){
     return this.http.get(this.URL_API+"/getProyectosById/"+id_usuario);
   }
+  getUsuarioId(id_usuario:number){
+    return this.http.get(this.URL_API+"/getUsuarioById/"+id_usuario);
+  }
   getProyectosByNombre(nombre_proyecto:string){
     return this.http.get(this.URL_API+"/getProyectosByNombre/"+nombre_proyecto);
+  }
+  getDistintDocument(documento:string){
+    return this.http.get(this.URL_API+"/getDistintDocument/"+documento);
   }
   getProyectosFacultad(facultad:number){
     return this.http.get(this.URL_API+"/getProyectosFacultad/"+`${facultad}`);
@@ -69,10 +75,10 @@ export class SubirarchivosService {
   getProyectosDocente(docente:number){
     return this.http.get(this.URL_API+"/getProyectosDocente/"+`${docente}`);
   }
-  sendFixesToProject(id_proyecto : number , stateFixes : boolean, correo :string,nombreProyecto:string,documento:string){
+  sendFixesToProject(id_proyecto : number , stateFixes : boolean, correo :string, nombreProyecto:string, documento:string){
     return this.http.put(this.URL_API+`/updateFixes/${id_proyecto}`,{stateFixes,correo,nombreProyecto,documento});
   }
-  updateStageProject(ID_Proyecto : number , etapa : number , correo:string , nombreProyecto:string){
+  updateStageProject(ID_Proyecto : number , etapa : number , correo:string , nombreProyecto:string){    
     return this.http.put(this.URL_API+`/updateProjectStage/${ID_Proyecto}`,{etapa,correo,nombreProyecto});
   }
   updateProject(ID_Proyecto : number , correcciones : boolean , corregido: boolean){
