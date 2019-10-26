@@ -114,7 +114,7 @@ seguimientoCtrl.getCompromisosAsesoria = (req, res) => {
     const { id_asesoria } = req.params;
 
 
-    if (err) res.sendStatus(500).json({ message: "error enla bd" });
+
 
     db.query(`SELECT c.actividad ,c.fecha, c.observacion , u.nombre , u.apellido, c.id_compromiso , u.rol_id_rol FROM COMPROMISO AS c INNER JOIN usuario AS u ON c.id_usuario = u.id_usuario WHERE c.formato_asesoria_id_formato_asesoria = '${id_asesoria}'`, (err, data) => {
 
