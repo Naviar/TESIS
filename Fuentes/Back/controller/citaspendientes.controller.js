@@ -205,9 +205,7 @@ async function DevolverEtapa(correo) {
 
             console.log("Hubo un error en la actualizacion de la etapa desde citas" + err);
         } else {
-            db.close(() => {
-                console.log("Se ha cerrado la base de datos ")
-            });
+
             console.log('se actualizo la etapa correctamente');
         }
     });

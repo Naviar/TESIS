@@ -61,9 +61,7 @@ asesoriaCtrl.getAsesoriaActual = (req, res) => {
 
                 if (err) { res.json({ error: true, msg: err }) } else {
                     console.log('esta respondiendo con esto', data2);
-                    db.close(() => {
-                        console.log("Se ha cerrado la base de datos")
-                    })
+
                     res.json({ tipo_asesoria_actual: data2[0]['TIPO_ASESORIA_ID_TIPO_ASESORIA'] });
                 }
 

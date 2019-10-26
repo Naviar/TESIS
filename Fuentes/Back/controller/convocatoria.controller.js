@@ -43,7 +43,7 @@ ConvocatoriaCtrl.openAnnouncement = (req, res) => {
 
 ConvocatoriaCtrl.getAnnouncements = (req, res) => {
 
-    const query = `SELECT C.NOMBRE AS NOMBRE_CONVOCATORIA,C.ID_CONVOCATORIA, C.FECHA_INICIO, C.FECHA_FIN, C.FECHA_INFORME_INICIAL, C.FECHA_INFORME_FINAL, U.ID_USUARIO , U.NOMBRE , U.APELLIDO FROM CONVOCATORIA AS C INNER JOIN USUARIO AS U ON C.ID_USUARIO = U.ID_USUARIO ORDER BY C.FECHA_INICIO desc`;
+    const query = `SELECT C.NOMBRE AS NOMBRE_CONVOCATORIA,C.ID_CONVOCATORIA, C.FECHA_INICIO, C.FECHA_FIN, C.FECHA_INFORME_INICIAL, C.FECHA_INFORME_FINAL, U.ID_USUARIO , U.NOMBRE , U.APELLIDO FROM CONVOCATORIA AS C INNER JOIN USUARIO AS U ON C.USUARIO_ID_USUARIO = U.ID_USUARIO ORDER BY C.FECHA_INICIO desc`;
 
 
 
@@ -51,7 +51,7 @@ ConvocatoriaCtrl.getAnnouncements = (req, res) => {
 
     db.query(query, (err, data) => {
         if (err) {
-            res.sendStatus(500).json({ error: err, message: 'error obteniendo convocatoria' });
+            res.status(500).json({ error: err, message: 'error obteniendo convocatoria' });
             console.log("Hubo un error obteniendo las convocatoria" + err);
         } else {
 
