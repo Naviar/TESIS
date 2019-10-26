@@ -25,7 +25,8 @@ etapaCtrl.getEtapa = (req, res) => {
 
 etapaCtrl.putEtapa = (req, res) => {
 
-    let etapa = req.body.etapa;
+    console.log(`llego esto ${JSON.stringify(req.body)}`);
+    let etapa = parseInt(req.body.etapa);
     let id_estudiante = parseInt(req.params.id_estudiante);
     var query = `UPDATE estudiante SET etapa='${etapa}' WHERE id_estudiante='${id_estudiante}'`;
 

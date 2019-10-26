@@ -105,7 +105,7 @@ evaluacionCtrl.updateEvaluacionAsesoria = (req, res) => {
             db.query(query2, (err, data2) => {
                 if (err) {
                     res.status(500).send({ error: err });
-                    db.close(() => { console.log('cerro la bd'); });
+
                 } else {
                     console.log('data2', data2[0]['ASESORIA']);
                     asesoria_requerida = data2[0]['ASESORIA'];

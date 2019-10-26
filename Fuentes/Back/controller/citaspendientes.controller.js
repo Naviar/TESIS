@@ -40,7 +40,7 @@ CitasPendientesCtrl.getCitasEstudiante = (req, res) => {
     db.query(`SELECT * FROM disponibilidad  WHERE id_estudiante = '${id}' ORDER BY id_disponibilidad DESC LIMIT 0,1`, (err, data) => {
         if (err) {
             res.json({ error: err })
-            console.log("Hubo un error en la busqueda DE DISPONIBILIDADES" + err);
+            console.log("Hubo un error en la busqueda DE DISPONIBILIDADES debug" + JSON.stringify(err));
         } else {
 
             res.json(data)
@@ -133,7 +133,7 @@ CitasPendientesCtrl.deleteCita = (req, res) => {
     db.query(query, async(err, data) => {
         if (err) {
             res.status(500).json({ error: err })
-            console.log("Hubo un error en la busqueda DE correo" + err);
+            console.log("Hubo un error en la busqueda DE correo" + JSON.stringify(err));
         } else {
 
 
@@ -161,10 +161,7 @@ CitasPendientesCtrl.deleteCita = (req, res) => {
                 } else {
                     console.log(info);
                     res.json({ exito: true, message: `se cancelo la cita y se envio el mensaje con su asunto y motivo de cancelacion a ${correo}` });
-                    db.close(() => {
-                        console.log("Se ha cerrado la base de datos")
 
-                    });
                 }
 
             });
@@ -182,7 +179,7 @@ async function deleteCita(id_cita) {
     console.log('id_cita:', id_cita);
 
 
-    await db.query(`DELETE FROM DISPONIBILIDAD WHERE ID_DISPONIBILIDAD = '${id_cita}'`, (err, data) => {
+    await db.query(`DELETE FROM DISPONIBILIDAD WHERE ID_DISPONIBILIDAD = '${parseInt(id_cita)}'`, (err, data) => {
         if (err) {
 
             console.log("Hubo un error en eldelete DE DISPONIBILIDADES" + err);
@@ -206,7 +203,7 @@ async function DevolverEtapa(correo) {
 
         if (err) {
 
-            console.log("Hubo un error en la actualizacion de la etapa" + err);
+            console.log("Hubo un error en la actualizacion de la etapa desde citas" + err);
         } else {
             db.close(() => {
                 console.log("Se ha cerrado la base de datos ")

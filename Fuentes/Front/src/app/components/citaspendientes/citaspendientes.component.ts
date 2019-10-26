@@ -260,7 +260,12 @@ export class CitaspendientesComponent implements OnInit {
    .subscribe(
 
     res => {
-        alert('El estudiante quedo habilitado para agendar cita');
+      M.toast({
+        html: `<div class="alert alert-info" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+            <h4 class="alert-heading">HABILITADO PARA AGENDAR CITA</h4>
+            <p>puedes agendar una nueva cita diagnostico</p>
+            <hr>
+        </div>`});
     },
 
     err => {console.log(err);}
@@ -278,11 +283,12 @@ export class CitaspendientesComponent implements OnInit {
         id_horario: this.idHorarioSelect
       }
       this.etapaService.getEtapa(this.estudiante_id).subscribe(
-        (res) => {
-          this.etapa = res as number;
+        (res : any) => {
+          this.etapa = res.ETAPA as number;
+          console.log(`etapa que respondio ${JSON.stringify(this.etapa)} y res : ${JSON.stringify(res)}`);
           this.etapaService.putEtapa(this.estudiante_id,this.etapa-1)
           .subscribe(
-            res => alert(`el estudiante puede agendar nuevamente una cita`),
+            res => {},
             err =>console.log(err)
           )
         }        
