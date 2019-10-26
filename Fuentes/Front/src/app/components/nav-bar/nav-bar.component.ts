@@ -23,8 +23,10 @@ export class NavBarComponent implements OnInit {
   rol: any;
   convocatoria:boolean=false;
   fecha_now : number = new Date().getTime();
+  fecha_inicio: string;
+  fecha_fin: string;
 
-  constructor(private loginService : LoginService, public subirarchivosService: SubirarchivosService, private etapaService : EtapaService,private router:Router) { }
+  constructor(private loginService : LoginService, private etapaService : EtapaService,private router:Router, private subirArchivoService : SubirarchivosService) { }
 
   ngOnInit() {    
     this.getValidRol();
@@ -53,11 +55,14 @@ export class NavBarComponent implements OnInit {
       })
     }
     if(this.plataforma == 2){
-      this.subirarchivosService.getCurrentAnnouncement()
+      this.subirArchivoService.getCurrentAnnouncement()
       .subscribe(
         res => {
-          this.subirarchivosService.convocatoria = res as convocatoria;
-          if (this.fecha_now >= new Date(this.subirarchivosService.convocatoria.FECHA_INICIO).getTime() && this.fecha_now <= new Date(this.subirarchivosService.convocatoria.FECHA_FIN).getTime()){            
+          this.subirArchivoService.convocatoria = res as convocatoria;
+          this.fecha_inicio = this.subirArchivoService.convocatoria.FECHA_INICIO.toString();
+          this.fecha_fin = this.subirArchivoService.convocatoria.FECHA_FIN.toString();
+          localStorage.setItem('convocatoria',JSON.stringify(this.subirArchivoService.convocatoria));
+          if (this.fecha_now >= new Date(this.subirArchivoService.convocatoria.FECHA_INICIO).getTime() && this.fecha_now <= new Date(this.subirArchivoService.convocatoria.FECHA_FIN).getTime()){            
             this.convocatoria = true;            
           }      
         }

@@ -16,6 +16,9 @@ declare var M: any;
   styleUrls: ['./evaluacion-proyectos.component.css']
 })
 export class EvaluacionProyectosComponent implements OnInit {
+
+  modalOpen: boolean = false;
+
   mySelectStatus : number =1 ;
   selectFacultad : number;
   selectDocente : number;
@@ -255,6 +258,9 @@ export class EvaluacionProyectosComponent implements OnInit {
             <hr>
         </div>`});
         this.getProyectos();
+        this.archivoForm.reset();
+        this.ID_Proyecto =0;
+        this.openModal(false);
         cargando = false;
     },
     err => {
@@ -265,6 +271,9 @@ export class EvaluacionProyectosComponent implements OnInit {
             <hr>
         </div>`});
         cargando =false;
+        this.archivoForm.reset();
+        this.ID_Proyecto =0;
+        this.openModal(false);
     }
 
   );
@@ -352,6 +361,10 @@ async getProyectosDocente(id_usuario: number) {
       
       cargando = false;
     })
+}
+openModal(open: boolean) {
+  console.log("Cerrando", open)
+  this.modalOpen = open;
 }
 
  yaCargo() {

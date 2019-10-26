@@ -9,16 +9,16 @@
 
 <body>
     <!-- modal abrir convocatoria -->
-    <div class="modal fade" id="avalarproyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="avalarproyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  [ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content border-success">
                 <div class="modal-header">
                     <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
                         <Strong>Avalar Proyecto {{this.archivoForm.get('proyecto').value}}</Strong>
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="openModal(false)">
                       <span aria-hidden="true">&times;</span>
-                  </button>
+                  </button>                  
                 </div>
                 <div class="modal-body">
 
@@ -174,7 +174,7 @@
                         </div>
                         <br>
                         <button [disabled]="!archivoForm.valid || (porcentaje > 0 && porcentaje < 100) || errorNombre" (click)="confirmarArchivo()" class="btn btn-block" id="btnCorreciones">Subir archivo con correciones</button>
-                        <button [disabled]="!ID_Proyecto" data-toggle="modal" data-target="#avalarproyecto" class="btn btn-block" id="btnAvalar">Avalar Proyecto</button>
+                        <button [disabled]="!ID_Proyecto" (click)="openModal(true)" class="btn btn-block" id="btnAvalar">Avalar Proyecto</button>
                     </form>
                 </div>
             </div>
