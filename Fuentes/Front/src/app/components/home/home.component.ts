@@ -26,15 +26,7 @@ export class HomeComponent implements OnInit {
     this.condition = parseInt(tokenPayload.rol_usuario);
     this.plataforma = parseInt(tokenPayload.plataforma);
     if(this.plataforma == 2){
-      this.subirArchivoService.getCurrentAnnouncement()
-      .subscribe(
-        res => {
-          this.subirArchivoService.convocatoria = res as convocatoria;
-          console.log(`convocatoria actual ${JSON.stringify(this.subirArchivoService.convocatoria)}`);
-          cargando=false;
-          localStorage.setItem('convocatoria',JSON.stringify(this.subirArchivoService.convocatoria));
-        }
-      )
+      cargando = false;
     }
     else{
       cargando=false;
