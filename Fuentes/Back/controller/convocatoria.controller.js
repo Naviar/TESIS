@@ -26,7 +26,7 @@ ConvocatoriaCtrl.openAnnouncement = (req, res) => {
 
         if (err) res.sendStatus(500).json({ error: err, message: 'error abriendoconvocatoria' });
 
-        conn.query(`INSERT INTO CONVOCATORIAS (NOMBRE,FECHA_INICIO, FECHA_FIN, FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL, ID_USUARIO) VALUES ('${announcement.NAME}','${announcement.FECHA_INICIO}', '${announcement.FECHA_FIN}', '${announcement.FECHA_INFORME_INICIAL}', '${announcement.FECHA_INFORME_FINAL}', ${announcement.ID_USUARIO});`, (err, data) => {
+        conn.query(`INSERT INTO CONVOCATORIAS (NOMBRE,FECHA_INICIO, FECHA_FIN, FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL, ID_USUARIO) VALUES ('${announcement.NOMBRE}','${announcement.FECHA_INICIO}', '${announcement.FECHA_FIN}', '${announcement.FECHA_INFORME_INICIAL}', '${announcement.FECHA_INFORME_FINAL}', ${announcement.ID_USUARIO});`, (err, data) => {
             if (err) {
                 res.sendStatus(500).json({ error: err, message: 'error abriendo convocatoria' })
                 console.log("Hubo un error abriendo la convocatoria" + err);
@@ -70,7 +70,7 @@ ConvocatoriaCtrl.updateAnnouncement = (req, res) => {
     const update = req.body;
     console.log(`actualirzar${ID_CONVOCATORIA} id convocatoria con ${JSON.stringify(req.body)}`);
 
-    const query = `UPDATE CONVOCATORIAS SET NOMBRE = '${update.NAME}' , FECHA_INICIO = '${update.FECHA_INICIO}', FECHA_FIN = '${update.FECHA_FIN}', FECHA_INFORME_INICIAL = '${update.FECHA_INFORME_INICIAL}', FECHA_INFORME_FINAL = '${update.FECHA_INFORME_FINAL}', ID_USUARIO = '${update.ID_USUARIO}' WHERE ID_CONVOCATORIA = '${ID_CONVOCATORIA}'`;
+    const query = `UPDATE CONVOCATORIAS SET NOMBRE = '${update.NOMBRE}' , FECHA_INICIO = '${update.FECHA_INICIO}', FECHA_FIN = '${update.FECHA_FIN}', FECHA_INFORME_INICIAL = '${update.FECHA_INFORME_INICIAL}', FECHA_INFORME_FINAL = '${update.FECHA_INFORME_FINAL}', ID_USUARIO = '${update.ID_USUARIO}' WHERE ID_CONVOCATORIA = '${ID_CONVOCATORIA}'`;
     try {
 
 

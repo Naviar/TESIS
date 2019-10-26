@@ -16,6 +16,7 @@ declare var M: any;
   styleUrls: ['./evaluacion-proyectos.component.css']
 })
 export class EvaluacionProyectosComponent implements OnInit {
+  modalOpen: boolean = false;
   mySelectStatus : number =1 ;
   selectFacultad : number;
   selectDocente : number;
@@ -54,6 +55,8 @@ export class EvaluacionProyectosComponent implements OnInit {
   
   await this.getProyectos();
   }
+
+
 
   cambioArchivo(event) {    
     var expresion = /[.](docx)|[.](doc)$/;
@@ -235,9 +238,9 @@ export class EvaluacionProyectosComponent implements OnInit {
 
   mostrarEstado(correcciones : any,corregido : any){
     
-    if(correcciones == 1)
+    if(correcciones == 1 && corregido == 0)
     return ' (correcciones pendientes)';
-    else if (corregido == 1)
+    else if (correcciones == 1 && corregido == 1)
     return ' (correcciones atendidas)';
     else if(correcciones == 0)
     return  ' (sin revisar)'
@@ -255,7 +258,10 @@ export class EvaluacionProyectosComponent implements OnInit {
             <hr>
         </div>`});
         this.getProyectos();
-        cargando = false;
+        this.archivoForm.reset();
+        this.porcentaje = 0;
+          cargando = false;
+          this.openModal(false);
     },
     err => {
       M.toast({
@@ -270,6 +276,11 @@ export class EvaluacionProyectosComponent implements OnInit {
   );
 
  }
+ openModal(open: boolean) {
+   console.log(`entro con ${open}`);
+  this.modalOpen = open;
+  console.log(`modalOpen ${this.modalOpen}`);
+}
 
  async changeStatus(filtro: number) {
   if (filtro == 2 || filtro == 3) {
@@ -292,7 +303,7 @@ async changeStatusProject() {
  else if(this.mySelectStatus == 2)
  {  
   this.proyectos =  this.inicio.filter(proyecto =>{
-        return proyecto.CORRECCIONES==true;
+        return proyecto.CORRECCIONES==true && proyecto.CORREGIDO == false;
       });
  }
  else if(this.mySelectStatus == 3)

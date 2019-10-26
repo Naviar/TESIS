@@ -56,6 +56,7 @@ export class NavBarComponent implements OnInit {
       this.subirarchivosService.getCurrentAnnouncement()
       .subscribe(
         res => {
+          console.log(`respuesta ${JSON.stringify(res)}`);
           this.subirarchivosService.convocatoria = res as convocatoria;
           localStorage.setItem('convocatoria',JSON.stringify(this.subirarchivosService.convocatoria));
           console.log(`convocatoria actual ${JSON.stringify(this.subirarchivosService.convocatoria)}`);

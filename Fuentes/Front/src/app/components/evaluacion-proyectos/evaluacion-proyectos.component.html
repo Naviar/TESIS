@@ -9,14 +9,14 @@
 
 <body>
     <!-- modal abrir convocatoria -->
-    <div class="modal fade" id="avalarproyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="avalarproyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" [ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content border-success">
                 <div class="modal-header">
                     <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
                         <Strong>Avalar Proyecto {{this.archivoForm.get('proyecto').value}}</Strong>
                     </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="openModal(false)">
                       <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
@@ -70,6 +70,7 @@
                         </div>
                     </div>
                     <button class=" btn btn-success" (click)="updateStageProject()">Avalar proyecto</button>
+                    <button class=" btn btn-warning" (click)="openModal(false)">cerrar</button>
 
                 </div>
             </div>
@@ -133,7 +134,7 @@
                                 <div *ngIf="archivoForm.get('proyecto').errors['required']">
                                     Proyecto requerido
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                         <div class="form-label-group">
                             <label><label id="lbl"></label>Documento*</label>

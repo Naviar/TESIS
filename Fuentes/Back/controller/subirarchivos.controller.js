@@ -45,6 +45,7 @@ subirarchivosCtrl.getAnnouncementCurrent = (req, res) => {
                     conn.close(() => {
                         console.log("Se ha cerrado la base de datos")
                     })
+                    console.log(`encontro esta announcement ${JSON.stringify(data[0])}`);
                     res.json(data[0]);
                 }
             })
@@ -102,6 +103,8 @@ subirarchivosCtrl.updateFixes = (req, res) => {
         const correo = req.body.correo;
         const nombreProyecto = req.body.nombreProyecto;
         const documento = req.body.documento;
+
+
         ibmdb.open(connStr, (err, conn) => {
 
             conn.query(`UPDATE PROYECTO SET CORRECCIONES = '${state}', CORREGIDO = '${!state}'   WHERE ID_PROYECTO = '${ID_PROYECTO}' `, (err, data) => {
@@ -118,7 +121,7 @@ subirarchivosCtrl.updateFixes = (req, res) => {
                         <p>por favor entrar a la plataforma y subir el documento atendiendo las correciones , gracias.</p>` // cuerpo de texto sin formato 
                 };
 
-                transporter.sendMail(mailOptions, function (err, info) {
+                transporter.sendMail(mailOptions, function(err, info) {
 
 
                     console.log(info);
@@ -310,14 +313,14 @@ subirarchivosCtrl.proyectoDuplicado = (req, res) => {
 
     var query = `SELECT COUNT(*) AS duplicate from proyecto where nombre_proyecto='${nombre}'`;
 
-    ibmdb.open(connStr, function (err, conn) {
+    ibmdb.open(connStr, function(err, conn) {
         if (err) return console.log(err);
 
-        conn.query(query, function (err, data) {
+        conn.query(query, function(err, data) {
 
             if (err) res.json({ error: err })
             else res.json(data)
-            conn.close(function () {
+            conn.close(function() {
                 console.log('termino de buscar');
             });
         });
@@ -327,12 +330,13 @@ subirarchivosCtrl.proyectoDuplicado = (req, res) => {
 subirarchivosCtrl.updateProject = (req, res) => {
 
     const { ID_PROYECTO } = req.params;
-    const correciones = req.body.correciones;
+    const correcciones = req.body.correcciones;
     const corregido = req.body.corregido;
+    console.log(`llego esto correcciones:${correcciones} y corregido : ${corregido}`);
     try {
         ibmdb.open(connStr, (err, conn) => {
 
-            conn.query(`UPDATE proyecto SET correcciones = '${correciones}', SET corregido = '${corregido}' WHERE id_proyecto = '${ID_PROYECTO}'`, (err, data) => {
+            conn.query(`UPDATE proyecto SET correcciones = '${correcciones}', corregido = '${corregido}' WHERE id_proyecto = '${ID_PROYECTO}'`, (err, data) => {
                 if (err) {
                     res.json({ error: err })
                     console.log("Hubo un error en la busqueda" + err);
@@ -359,7 +363,7 @@ subirarchivosCtrl.updateStageProjects = (req, res) => {
         const nombreProyecto = req.body.nombreProyecto;
         ibmdb.open(connStr, (err, conn) => {
 
-            conn.query(`UPDATE PROYECTO SET ETAPA = '${etapa}'   WHERE ID_PROYECTO = '${ID_PROYECTO}' `, (err, data) => {
+            conn.query(`UPDATE PROYECTO SET ETAPA = '${etapa}',CORREGIDO = '${false}',CORRECCIONES = '${false}' WHERE ID_PROYECTO = '${ID_PROYECTO}' `, (err, data) => {
 
                 conn.close(() => {
                     console.log("Se ha cerrado la base de datos")
@@ -375,7 +379,7 @@ subirarchivosCtrl.updateStageProjects = (req, res) => {
                             <p>puedes entrar a la plataforma para seguir con el proceso del proyecto</p> ` // cuerpo de texto sin formato 
                 };
 
-                transporter.sendMail(mailOptions, function (err, info) {
+                transporter.sendMail(mailOptions, function(err, info) {
 
 
                     console.log(info);

@@ -229,12 +229,12 @@ export class SubirarchivosComponent implements OnInit {
 
   mostrarEstado(correcciones : any,corregido : any){
     console.log('entro mostrar estado');
-    if(correcciones == 1)
+    if(correcciones == 1 && corregido == 0)
     return ' (correcciones pendientes)';
-    else if (corregido == 1)
+    else if (correcciones == 1 && corregido == 1)
     return ' (correcciones atendidas)';
-    else if(correcciones == 0)
-    return  ' (sin revisar)'
+    else
+    return "";
   }
 
   yaCargo() {
