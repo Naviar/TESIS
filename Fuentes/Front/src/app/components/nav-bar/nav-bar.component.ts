@@ -57,8 +57,10 @@ export class NavBarComponent implements OnInit {
       .subscribe(
         res => {
           this.subirarchivosService.convocatoria = res as convocatoria;
+          localStorage.setItem('convocatoria',JSON.stringify(this.subirarchivosService.convocatoria));
+          console.log(`convocatoria actual ${JSON.stringify(this.subirarchivosService.convocatoria)}`);
           if (this.fecha_now >= new Date(this.subirarchivosService.convocatoria.FECHA_INICIO).getTime() && this.fecha_now <= new Date(this.subirarchivosService.convocatoria.FECHA_FIN).getTime()){            
-            this.convocatoria = true;            
+            this.convocatoria = true;
           }      
         }
       )
