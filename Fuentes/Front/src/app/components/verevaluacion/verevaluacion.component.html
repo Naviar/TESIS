@@ -24,7 +24,7 @@
             <hr>
             <h5 class="row justify-content-center">EVALUACIÓN GENERAL</h5>
             <br>
-            <form >
+            <form>
               <div class="form-label-group">
                 <div class="row">
                   <div class="col">
@@ -32,7 +32,7 @@
                       Empresarial?*</label>
                   </div>
                   <div class="col">
-                    <input type="text"  class="form-control" #name="ngModel" name="EVAL_GENERAL_Q1"
+                    <input type="text" class="form-control" #name="ngModel" name="EVAL_GENERAL_Q1"
                       [(ngModel)]="seguimientoService.selected_evaluacion[0].EVAL_GENERAL_Q1" required disabled>
                   </div>
                 </div>
@@ -246,16 +246,16 @@
               <br>
               <div class="form-label-group">
                 <label for="ejemplo">Observaciones</label>
-                <textarea type="text" class="text-area" name="observaciones"  #name="ngModel"
+                <textarea type="text" class="text-area" name="observaciones" #name="ngModel"
                   [(ngModel)]="seguimientoService.selected_evaluacion[0].OBSERVACIONES" required disabled
                   maxlength="199"></textarea>
               </div>
             </form>
             <br>
-            <div class="form-label-group">
-              <button (click)="generarPDF()" class="btn btn-block" id="btnRegister" type="button">Descargar</button>
-              <button (click)="goBack()" class="btn btn-block" id="btnBack" type="button">Volver</button>
-            </div>
+          </div>
+          <div class="form-label-group">
+            <button (click)="generarPDF()" class="btn btn-block" id="btnRegister" type="button">Descargar</button>
+            <button (click)="goBack()" class="btn btn-block" id="btnBack" type="button">Volver</button>
           </div>
         </div>
       </div>
