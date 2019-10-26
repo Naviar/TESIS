@@ -3,7 +3,7 @@ export interface proyecto {
     NOMBRE_PROYECTO: string;
     ETAPA: number;
     USUARIO_ID_USUARIO: number;
-    ID_CONVOCATORIA_ID : number;
+    CONVOCATORIA_ID_CONVOCATORIA : number;
     CORRECCIONES: Boolean;
     CORREGIDO: Boolean;
 }

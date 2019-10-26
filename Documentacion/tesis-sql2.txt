@@ -440,7 +440,7 @@ CREATE TABLE Proyecto (
     FOREIGN KEY (Usuario_Id_usuario)
     REFERENCES Usuario (Id_usuario)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION),
+    ON UPDATE NO ACTION,
   CONSTRAINT fk_Proyecto_Convocatoria1
     FOREIGN KEY (Convocatoria_Id_convocatoria)
     REFERENCES Convocatoria (Id_convocatoria)

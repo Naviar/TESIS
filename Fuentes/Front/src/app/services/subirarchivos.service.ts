@@ -25,7 +25,7 @@ export class SubirarchivosService {
     NOMBRE_PROYECTO : "",
     ETAPA : 0, 
     USUARIO_ID_USUARIO: 0,
-    ID_CONVOCATORIA_ID : 0,
+    CONVOCATORIA_ID_CONVOCATORIA : 0,
     CORRECCIONES: false,
     CORREGIDO: false
     };

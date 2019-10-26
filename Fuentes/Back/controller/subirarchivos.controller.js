@@ -34,7 +34,7 @@ subirarchivosCtrl.upload = (req, res) => {
 subirarchivosCtrl.getAnnouncementCurrent = (req, res) => {
 
     try {
-        query = `select * from convocatorias where id_convocatoria = (select max(id_convocatoria) from convocatorias)`;
+        query = `select * from conovcatoria where id_convocatoria = (select max(id_convocatoria) from conovcatoria)`;
 
 
         db.query(query, (err, data) => {
@@ -77,7 +77,7 @@ subirarchivosCtrl.getProyectosByEtapa = (req, res) => {
 
 
 
-    db.query(`SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO where p.ETAPA = '${etapa}' AND p.ID_CONVOCATORIA_ID = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIAS)`, (err, data) => {
+    db.query(`SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO where p.ETAPA = '${etapa}' AND p.CONVOCATORIA_ID_CONVOCATORIA = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIA)`, (err, data) => {
         if (err) {
             res.json({ error: err })
             console.log("Hubo un error en la busqueda" + JSON.stringify(err));
@@ -292,9 +292,9 @@ subirarchivosCtrl.crearProyecto = (req, res) => {
     let nombre = req.body.NOMBRE_PROYECTO;
     let etapa = parseInt(req.body.ETAPA);
     let id_usuario = req.body.USUARIO_ID_USUARIO;
-    let id_convocatoria = parseInt(req.body.ID_CONVOCATORIA_ID);
+    let id_convocatoria = parseInt(req.body.CONVOCATORIA_ID_CONVOCATORIA);
     console.log(`llego ${JSON.stringify(req.body)}`);
-    var query = `INSERT INTO proyecto (nombre_proyecto, etapa, usuario_id_usuario, fecha , ID_CONVOCATORIA_ID)
+    var query = `INSERT INTO proyecto (nombre_proyecto, etapa, usuario_id_usuario, fecha , CONVOCATORIA_ID_CONVOCATORIA)
     VALUES  ('${nombre}', '${etapa}', '${id_usuario}', CURRENT_DATE , '${id_convocatoria}')`;
 
 

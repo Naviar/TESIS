@@ -116,6 +116,3 @@ INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (6, 'Inform
 INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (7, 'Informe final', 4);
 INSERT INTO Documento (Id_documento, Nombre_documento, Etapa) VALUES (8, 'Acta final', 5);
 
---Para tabla Proyecto
-INSERT INTO Proyecto (Nombre_proyecto, Etapa, Usuario_Id_usuario, Fecha) VALUES ('Proyecto desarrollo comunitario', 1, 1, CURRENT_DATE);
-

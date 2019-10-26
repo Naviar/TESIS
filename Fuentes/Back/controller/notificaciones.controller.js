@@ -60,7 +60,7 @@ function getFechas() {
 
 
 
-        db.query(`SELECT FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL FROM CONVOCATORIAS WHERE ID_CONVOCATORIA = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIAS)`, (err, data) => {
+        db.query(`SELECT FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL FROM CONVOCATORIA WHERE ID_CONVOCATORIA = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIA)`, (err, data) => {
             if (err) {
 
                 console.log("Hubo un error en la busqueda DE HORARIOS" + err);
