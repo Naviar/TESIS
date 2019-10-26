@@ -77,7 +77,7 @@ subirarchivosCtrl.getProyectosByEtapa = (req, res) => {
 
 
 
-    conn.query(`SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO where p.ETAPA = '${etapa}' AND p.ID_CONVOCATORIA_ID = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIAS)`, (err, data) => {
+    db.query(`SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO where p.ETAPA = '${etapa}' AND p.ID_CONVOCATORIA_ID = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIAS)`, (err, data) => {
         if (err) {
             res.json({ error: err })
             console.log("Hubo un error en la busqueda" + JSON.stringify(err));
@@ -165,19 +165,17 @@ subirarchivosCtrl.getProyectosById = (req, res) => {
 subirarchivosCtrl.getUsuarioById = (req, res) => {
     let id_usuario = req.params.id_usuario;
 
-    ibmdb.open(connStr, (err, conn) => {
-        conn.query(`SELECT * FROM usuario WHERE id_usuario= '${id_usuario}'`, (err, data) => {
-            if (err) {
-                res.json({ error: err })
-                console.log("Hubo un error en la busqueda de proyectos" + JSON.stringify(err));
-            } else {
-                conn.close(() => {
-                    console.log("Se ha cerrado la base de datos");
-                })
-                res.json(data);
-            }
-        })
-    })
+
+    db.query(`SELECT * FROM usuario WHERE id_usuario= '${id_usuario}'`, (err, data) => {
+        if (err) {
+            res.json({ error: err })
+            console.log("Hubo un error en la busqueda de proyectos" + JSON.stringify(err));
+        } else {
+
+            res.json(data);
+        }
+    });
+
 }
 subirarchivosCtrl.getProyectosByNombre = (req, res) => {
     let nombre_proyecto = req.params.nombre_proyecto;
@@ -198,20 +196,18 @@ subirarchivosCtrl.getProyectosByNombre = (req, res) => {
 subirarchivosCtrl.getDistintDocument = (req, res) => {
     let documento = req.params.documento;
 
-    ibmdb.open(connStr, (err, conn) => {
 
-        conn.query(`SELECT * FROM documento WHERE etapa= '${2}' AND nombre_documento !='${documento}'`, (err, data) => {
-            if (err) {
-                res.json({ error: err })
-                console.log("Hubo un error en la busqueda de documentos" + JSON.stringify(err));
-            } else {
-                conn.close(() => {
-                    console.log("Se ha cerrado la base de datos");
-                })
-                res.json(data);
-            }
-        })
-    })
+
+    db.query(`SELECT * FROM documento WHERE etapa= '${2}' AND nombre_documento !='${documento}'`, (err, data) => {
+        if (err) {
+            res.json({ error: err })
+            console.log("Hubo un error en la busqueda de documentos" + JSON.stringify(err));
+        } else {
+
+            res.json(data);
+        }
+    });
+
 }
 
 subirarchivosCtrl.getProyectosFacultad = (req, res) => {
@@ -258,7 +254,7 @@ subirarchivosCtrl.getDocumentosEtapa = (req, res) => {
 
 
 
-    conn.query(`SELECT * FROM documento WHERE etapa <= '${etapa}'`, (err, data) => {
+    db.query(`SELECT * FROM documento WHERE etapa <= '${etapa}'`, (err, data) => {
         if (err) {
             res.json({ error: err })
             console.log("Hubo un error en la busqueda" + err);
@@ -323,7 +319,7 @@ subirarchivosCtrl.proyectoDuplicado = (req, res) => {
     var query = `SELECT COUNT(*) AS duplicate from proyecto where nombre_proyecto='${nombre}'`;
 
 
-    if (err) return console.log(err);
+
 
     db.query(query, function(err, data) {
 
@@ -372,11 +368,11 @@ subirarchivosCtrl.updateStageProjects = (req, res) => {
 
 
 
-                const mailOptions = {
-                    from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
-                    to: `${correo}`, // lista de los destinatarios del 
-                    subject: `el proyecto ${nombreProyecto} ha pasado a la siguiente etapa`, // Línea del asunto 
-                    html: `<h1>ETAPA ACTUALIZADA</h1>
+            const mailOptions = {
+                from: 'consultorio.usta.DRSU@gmail.com', // dirección del remitente 
+                to: `${correo}`, // lista de los destinatarios del 
+                subject: `el proyecto ${nombreProyecto} ha pasado a la siguiente etapa`, // Línea del asunto 
+                html: `<h1>ETAPA ACTUALIZADA</h1>
                             <p>tu proyecto <b>${nombreProyecto}</b> ha cumplido con los requisitos de la etapa actual y ha avanzado a la siguiente etapa</p>
                             <p>puedes entrar a la plataforma para seguir con el proceso del proyecto</p> ` // cuerpo de texto sin formato 
             };
