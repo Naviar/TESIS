@@ -53,7 +53,7 @@ const routes: Routes = [
     { path: 'schedule/advice', component: CitaasesoriaComponent, canActivate:[GuardScheduleAdvice] },
     { path: 'pending/dates', component: CitaspendientesComponent, canActivate:[GuardService] },
     { path: 'authenticate/users', component: AutenticarusuariosComponent, canActivate:[GuardAuthenticateUsers] },
-    { path: 'tracking', component: SeguimientoComponent, canActivate:[GuardDiagnostic] },
+    { path: 'tracking', component: SeguimientoComponent, canActivate:[GuardSchedules] },
     { path: 'see/diagnostic/:id', component: VerdiagnosticoComponent, canActivate:[GuardSee] },
     { path: 'see/advisory/:id', component: VerasesoriaComponent, canActivate:[GuardSee] },
     { path: 'see/evaluation/:id', component: VerevaluacionComponent, canActivate:[GuardDiagnostic] },
