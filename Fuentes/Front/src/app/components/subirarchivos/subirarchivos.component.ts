@@ -171,7 +171,7 @@ export class SubirarchivosComponent implements OnInit {
     cargando=true;
     this.subirarchivosService.getDocumentos()
       .subscribe(res => {
-        this.subirarchivosService.documentos = res as documento[];
+        // this.subirarchivosService.documentos = res as documento[];
         this.inicioDocumentos = res as documento []        
         cargando=false;        
       })
@@ -219,6 +219,16 @@ export class SubirarchivosComponent implements OnInit {
     const tokenPayload = decode(token);
     this.usuario_id = parseInt(tokenPayload.id_usuario);    
     this.rol = parseInt(tokenPayload.rol_usuario);
+  }
+
+  mostrarEstado(correcciones : any,corregido : any){
+    console.log('entro mostrar estado');
+    if(correcciones == 1)
+    return ' (correcciones pendientes)';
+    else if (corregido == 1)
+    return ' (correcciones atendidas)';
+    else if(correcciones == 0)
+    return  ' (sin revisar)'
   }
 
   yaCargo() {
