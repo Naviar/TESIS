@@ -3,7 +3,8 @@ const notificacionesCtrl = {}
 
 var ibmdb = require("ibm_db")
 
-let connStr = require("../database")
+let dbStr = require("../database")
+const db = require('../db_connection');
 const nodemailer = require('nodemailer');
 //autenticacion para enviar correo
 var transporter = nodemailer.createTransport({
@@ -57,24 +58,22 @@ function getFechas() {
 
     try {
 
-        ibmdb.open(connStr, (err, conn) => {
 
-            conn.query(`SELECT FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL FROM CONVOCATORIAS WHERE ID_CONVOCATORIA = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIAS)`, (err, data) => {
-                if (err) {
 
-                    console.log("Hubo un error en la busqueda DE HORARIOS" + err);
-                } else {
-                    conn.close(() => {
-                        console.log("Se ha cerrado la base de datos")
-                    })
+        db.query(`SELECT FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL FROM CONVOCATORIAS WHERE ID_CONVOCATORIA = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIAS)`, (err, data) => {
+            if (err) {
 
-                    fecha_inicial = data[0]['FECHA_INFORME_INICIAL'];
-                    fecha_final = data[0]['FECHA_INFORME_FINAL'];
+                console.log("Hubo un error en la busqueda DE HORARIOS" + err);
+            } else {
 
-                    notificar(data[0]['FECHA_INFORME_INICIAL'], data[0]['FECHA_INFORME_FINAL']);
-                }
-            })
+
+                fecha_inicial = data[0]['FECHA_INFORME_INICIAL'];
+                fecha_final = data[0]['FECHA_INFORME_FINAL'];
+
+                notificar(data[0]['FECHA_INFORME_INICIAL'], data[0]['FECHA_INFORME_FINAL']);
+            }
         });
+
 
     } catch (error) {
 
@@ -103,41 +102,37 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
     if ((resta_fii) > 0 && (resta_fii / 86400000 <= 15)) {
 
         dias = resta_fii / 86400000;
-        ibmdb.open(connStr, (err, conn) => {
 
-            conn.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 2;`, (err, data) => {
-                if (err) {
 
-                    console.log("Hubo un error en la busqueda DE CORREOS Y NOMBRES DE PROYECTOS" + err);
-                } else {
-                    conn.close(() => {
-                        console.log("Se ha cerrado la base de datos")
-                    })
-                    console.log(data);
-                    sendEmails(data, dias, 'inicial', fecha_inicial);
-                }
-            })
+        db.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 2;`, (err, data) => {
+            if (err) {
+
+                console.log("Hubo un error en la busqueda DE CORREOS Y NOMBRES DE PROYECTOS" + err);
+            } else {
+
+                console.log(data);
+                sendEmails(data, dias, 'inicial', fecha_inicial);
+            }
         });
+
 
     } else if ((resta_fif > 0) && (resta_fif / 86400000 <= 15)) {
 
         dias = resta_fif / 86400000
-        ibmdb.open(connStr, (err, conn) => {
 
-            conn.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 3;`, (err, data) => {
-                if (err) {
 
-                    console.log("Hubo un error en la busqueda DE CORREOS Y NOMBRES DE PROYECTOS" + err);
-                } else {
-                    conn.close(() => {
-                        console.log("Se ha cerrado la base de datos")
-                    })
-                    console.log(data);
+        db.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 3;`, (err, data) => {
+            if (err) {
 
-                    sendEmails(data, dias, 'final', fecha_final);
-                }
-            })
+                console.log("Hubo un error en la busqueda DE CORREOS Y NOMBRES DE PROYECTOS" + err);
+            } else {
+
+                console.log(data);
+
+                sendEmails(data, dias, 'final', fecha_final);
+            }
         });
+
 
     }
 }
