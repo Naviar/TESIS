@@ -51,11 +51,11 @@ ConvocatoriaCtrl.getAnnouncements = (req, res) => {
 
     db.query(query, (err, data) => {
         if (err) {
-            res.sendStatus(500).json({ error: err, message: 'error obteniendo conovcatoria' });
-            console.log("Hubo un error obteniendo las conovcatoria" + err);
+            res.sendStatus(500).json({ error: err, message: 'error obteniendo convocatoria' });
+            console.log("Hubo un error obteniendo las convocatoria" + err);
         } else {
 
-            res.json({ conovcatoria: data, message: 'se obtuvo las conovcatoria exitosamente.' });
+            res.json({ convocatoria: data, message: 'se obtuvo las convocatoria exitosamente.' });
         }
     });
 
@@ -77,7 +77,7 @@ ConvocatoriaCtrl.updateAnnouncement = (req, res) => {
         db.query(query, (err, data) => {
             if (err) {
                 res.sendStatus(401).json({ error: err, message: 'error en el servidor actualizando la convocatoria' })
-                console.log("Hubo un error actualizando las conovcatoria" + err);
+                console.log("Hubo un error actualizando las convocatoria" + err);
             } else {
 
                 res.json({ message: 'se actualizo la convocatoria exitosamente.' });

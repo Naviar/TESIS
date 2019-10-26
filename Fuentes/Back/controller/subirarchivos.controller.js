@@ -34,7 +34,7 @@ subirarchivosCtrl.upload = (req, res) => {
 subirarchivosCtrl.getAnnouncementCurrent = (req, res) => {
 
     try {
-        query = `select * from conovcatoria where id_convocatoria = (select max(id_convocatoria) from conovcatoria)`;
+        query = `select * from convocatoria where id_convocatoria = (select max(id_convocatoria) from convocatoria)`;
 
 
         db.query(query, (err, data) => {

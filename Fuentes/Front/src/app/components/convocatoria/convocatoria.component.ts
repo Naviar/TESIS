@@ -19,7 +19,7 @@ export class ConvocatoriaComponent implements OnInit {
   // formulario abrir convocatoria
   announcementForm: FormGroup;
   id_usuario: number ;
-  conovcatoria : object [] = [];
+  convocatoria : object [] = [];
   constructor(private fb: FormBuilder , public convocatoriaService: ConvocatoriaService) { }
 
   ngOnInit() {
@@ -139,9 +139,9 @@ export class ConvocatoriaComponent implements OnInit {
       cargando = true;
       this.convocatoriaService.getAnnouncements()
       .subscribe(
-        res => {console.log(`llegaron estas conovcatoria ${res}`);
-            this.conovcatoria = res['conovcatoria'] as [];
-            console.log(this.conovcatoria);
+        res => {console.log(`llegaron estas convocatoria ${res}`);
+            this.convocatoria = res['convocatoria'] as [];
+            console.log(this.convocatoria);
             cargando = false;
       },
 
@@ -149,7 +149,7 @@ export class ConvocatoriaComponent implements OnInit {
         M.toast({
           html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 100;" role="alert">
               <h4 class="alert-heading">ERROR OBTENIENDO CONVOCATORIA</h4>
-              <p>ocurrio un error en el servidor no es posible obtener conovcatoria.</p>
+              <p>ocurrio un error en el servidor no es posible obtener convocatoria.</p>
               <hr>
           </div>`});
           cargando =false;
@@ -159,7 +159,7 @@ export class ConvocatoriaComponent implements OnInit {
 
     modifyAnnouncement(id_convocatoria: number) {
       // tslint:disable-next-line: no-shadowed-variable
-      const convocatoria = this.conovcatoria.find((convocatoria) => convocatoria['ID_CONVOCATORIA'] === id_convocatoria);
+      const convocatoria = this.convocatoria.find((convocatoria) => convocatoria['ID_CONVOCATORIA'] === id_convocatoria);
 
       console.log(`encontro ${JSON.stringify(convocatoria)}`);
       this.announcementForm.get('Name').setValue(convocatoria['NOMBRE_CONVOCATORIA'])
