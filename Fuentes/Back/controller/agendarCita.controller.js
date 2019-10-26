@@ -134,7 +134,7 @@ agendarCitaCtrl.getAsesorias = async(req, res) => {
     query = `select count(formato_asesoria_id_formato_asesoria), case when count(formato_asesoria_id_formato_asesoria) !='0' then  ( select fa.tipo_asesoria_id_tipo_asesoria from formato_asesoria  as fa  where id_formato_asesoria =(select MAX(formato_asesoria_id_formato_asesoria) from estudiante_has_formato_asesoria where estudiante_id_estudiante = '${id_estudiante}') )  END from estudiante_has_formato_asesoria where estudiante_id_estudiante='${id_estudiante}'`
 
 
-    if (err) return console.log("Aja el error", err);
+    
     db.query(query, (err, data) => {
 
         if (err) {
