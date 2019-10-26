@@ -283,6 +283,16 @@ export class SubirarchivosComponent implements OnInit {
     })
   }
 
+  mostrarEstado(correcciones : any,corregido : any){
+    console.log('entro mostrar estado');
+    if(correcciones == 1 && corregido == 0)
+    return ' (correcciones pendientes)';
+    else if (correcciones == 1 && corregido == 1)
+    return ' (correcciones atendidas)';
+    else
+    return "";
+  }
+
   yaCargo() {
     if (cargando == false) {
       return false;

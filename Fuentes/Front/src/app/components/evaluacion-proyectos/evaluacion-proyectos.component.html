@@ -70,6 +70,7 @@
                         </div>
                     </div>
                     <button class=" btn btn-success" (click)="updateStageProject()">Avalar proyecto</button>
+                    <button class=" btn btn-warning" (click)="openModal(false)">cerrar</button>
 
                 </div>
             </div>
@@ -133,7 +134,7 @@
                                 <div *ngIf="archivoForm.get('proyecto').errors['required']">
                                     Proyecto requerido
                                 </div>
-                            </div>                            
+                            </div>
                         </div>
                         <div class="form-label-group">
                             <label><label id="lbl"></label>Documento*</label>

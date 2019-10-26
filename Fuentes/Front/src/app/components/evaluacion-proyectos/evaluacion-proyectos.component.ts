@@ -58,6 +58,8 @@ export class EvaluacionProyectosComponent implements OnInit {
   await this.getProyectos();
   }
 
+
+
   cambioArchivo(event) {    
     var expresion = /[.](docx)|[.](doc)$/;
     var resultado;
@@ -238,9 +240,9 @@ export class EvaluacionProyectosComponent implements OnInit {
 
   mostrarEstado(correcciones : any,corregido : any){
     
-    if(correcciones == 1)
+    if(correcciones == 1 && corregido == 0)
     return ' (correcciones pendientes)';
-    else if (corregido == 1)
+    else if (correcciones == 1 && corregido == 1)
     return ' (correcciones atendidas)';
     else if(correcciones == 0)
     return  ' (sin revisar)'
@@ -260,6 +262,7 @@ export class EvaluacionProyectosComponent implements OnInit {
         this.getProyectos();
         this.archivoForm.reset();
         this.ID_Proyecto =0;
+        this.porcentaje=0;
         this.openModal(false);
         cargando = false;
     },
@@ -273,6 +276,7 @@ export class EvaluacionProyectosComponent implements OnInit {
         cargando =false;
         this.archivoForm.reset();
         this.ID_Proyecto =0;
+        this.porcentaje=0;
         this.openModal(false);
     }
 
@@ -301,7 +305,7 @@ async changeStatusProject() {
  else if(this.mySelectStatus == 2)
  {  
   this.proyectos =  this.inicio.filter(proyecto =>{
-        return proyecto.CORRECCIONES==true;
+        return proyecto.CORRECCIONES==true && proyecto.CORREGIDO == false;
       });
  }
  else if(this.mySelectStatus == 3)
