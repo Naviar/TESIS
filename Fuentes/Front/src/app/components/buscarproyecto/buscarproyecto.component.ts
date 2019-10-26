@@ -6,6 +6,7 @@ import { SubirarchivosService } from 'src/app/services/subirarchivos.service';
 import { proyecto } from 'src/app/models/proyecto';
 import { documento } from 'src/app/models/documento';
 import { stringify } from '@angular/core/src/util';
+import decode from 'jwt-decode'
 
 let cargando = true;
 
@@ -31,11 +32,13 @@ export class BuscarproyectoComponent implements OnInit {
   URLS: string[] = [];
   existe: boolean[] = [];
   index: number = 0; 
+  usuario_id: number;
+  rol: number;
 
   constructor(private loginService: LoginService, private subirarchivosService: SubirarchivosService) { }
 
   ngOnInit() {
-     this.getProyectos();
+    this.getValidRol();    
   } 
   async getFacultades() {
     await this.loginService.getFacultades()
@@ -85,7 +88,15 @@ export class BuscarproyectoComponent implements OnInit {
     }
     else if (filtro == 1) {
       this.busqueda = 1;
-      this.getProyectos();
+      if(this.rol == 1){
+        this.getProyectos();
+      }
+      else if(this.rol == 2){
+        this.getProyectosDocente(this.usuario_id)
+      }
+      else if(this.rol == 3){
+        this.getMisProyectos(this.usuario_id)
+      }
     }
   }
   changeFacultad(id_facultad: number) {
@@ -148,6 +159,29 @@ export class BuscarproyectoComponent implements OnInit {
   resetModal(){
     this.URLS=[];
     this.existe=[];
+  }
+  getMisProyectos(usuario_id:number) {
+    cargando=true;
+    this.subirarchivosService.getProyectosById(usuario_id)
+      .subscribe(res => {
+        this.subirarchivosService.proyectos = res as proyecto[];
+        cargando=false;
+      })
+  }
+  getValidRol() {
+    const token = localStorage.getItem('usuario');
+    const tokenPayload = decode(token);
+    this.usuario_id = parseInt(tokenPayload.id_usuario);
+    this.rol = parseInt(tokenPayload.rol_usuario);
+    if(this.rol == 1){
+      this.getProyectos();
+    }
+    else if(this.rol == 2){
+      this.getProyectosDocente(this.usuario_id)
+    }
+    else if(this.rol == 3){
+      this.getMisProyectos(this.usuario_id)
+    }
   }
   yaCargo() {
     if (cargando == false) {

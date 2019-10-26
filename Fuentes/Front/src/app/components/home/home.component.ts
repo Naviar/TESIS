@@ -35,6 +35,9 @@ export class HomeComponent implements OnInit {
           localStorage.setItem('convocatoria',JSON.stringify(this.subirArchivoService.convocatoria));
         }
       )
+    }
+    else{
+      cargando=false;
     }     
   }
   yaCargo() {
