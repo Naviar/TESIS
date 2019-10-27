@@ -294,8 +294,8 @@ subirarchivosCtrl.crearProyecto = (req, res) => {
     let id_usuario = req.body.USUARIO_ID_USUARIO;
     let id_convocatoria = parseInt(req.body.CONVOCATORIA_ID_CONVOCATORIA);
     console.log(`llego ${JSON.stringify(req.body)}`);
-    var query = `INSERT INTO proyecto (nombre_proyecto, etapa, usuario_id_usuario, fecha , CONVOCATORIA_ID_CONVOCATORIA)
-    VALUES  ('${nombre}', '${etapa}', '${id_usuario}', CURRENT_DATE , '${id_convocatoria}')`;
+    var query = `INSERT INTO proyecto (nombre_proyecto, etapa, usuario_id_usuario, fecha , CONVOCATORIA_ID_CONVOCATORIA, CORRECCIONES, CORREGIDO)
+    VALUES  ('${nombre}', '${etapa}', '${id_usuario}', CURRENT_DATE , '${id_convocatoria}', false, false)`;
 
 
 

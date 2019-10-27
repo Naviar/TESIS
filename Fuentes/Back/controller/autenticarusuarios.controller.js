@@ -55,6 +55,22 @@ AutenticarUsuariosCtrl.getUsuarios = (req, res) => {
     });
 
 }
+AutenticarUsuariosCtrl.getLiderId = (req, res) => {
+    let id = req.params.id;
+
+
+
+    db.query(`SELECT * FROM usuario WHERE id_usuario = '${id}'`, (err, data) => {
+        if (err) {
+            res.json({ error: err });
+            console.log("Hubo un error en la busqueda DE LIDERES" + err);
+        } else {
+
+            res.json(data);
+        }
+    });
+
+}
 AutenticarUsuariosCtrl.getAsesorId = (req, res) => {
     let id = req.params.id;
 

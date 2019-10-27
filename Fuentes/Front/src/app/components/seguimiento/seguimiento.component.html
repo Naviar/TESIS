@@ -73,7 +73,7 @@
             <div class="form-label-group">
               <label><Strong><label id="lbl">*</label>Estudiante</Strong>
               </label>
-              <select id="select" class="form-control" name="estudiante" formControlName="estudiante"
+              <select id="select" class="form-control" name="estudiante" formControlName="estudiante" 
                 (change)="cambioEstudiante()" #selectEstudiante>
                 <option value="" disabled>Seleccione un estudiante</option>
                 <option *ngFor="let estudiante of seguimientoService.estudiantes" value={{estudiante.ID_ESTUDIANTE}}>

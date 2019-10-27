@@ -80,7 +80,7 @@ export class SeguimientoService {
     RESULTADO : '',
     TIPO_ASESORIA_ID_TIPO_ASESORIA: 0,
     TIPO_ASESORIA_ACTUAL: 0,
-    FECHA: ''
+    FECHA: '' 
   };
 
   readonly URL_API = 'http://localhost:3500/seguimiento';  
@@ -91,7 +91,6 @@ export class SeguimientoService {
   getEstudiantes(){
     return this.http.get(this.URL_API+"/getEstudiantes");
   } 
-
   getEstudianteAsesoria(id_asesoria:number){
     return this.http.get(this.URL_API+"/getEstudianteAsesoria/"+`${id_asesoria}`);
   }

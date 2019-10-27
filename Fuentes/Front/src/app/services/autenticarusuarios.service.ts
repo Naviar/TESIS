@@ -19,6 +19,9 @@ export class AutenticarUsuarios {
   geUsuarios(){
     return this.http.get(this.URL_API+"/getUsuarios");
   }
+  getLiderId(id:number){
+    return this.http.get(this.URL_API+`/getLiderId/${id}`);
+  }
   getAsesorId(id:number){
     return this.http.get(this.URL_API+`/getAsesorId/${id}`);
   }

@@ -57,7 +57,7 @@ const routes: Routes = [
     { path: 'see/diagnostic/:id', component: VerdiagnosticoComponent, canActivate:[GuardSee] },
     { path: 'see/advisory/:id', component: VerasesoriaComponent, canActivate:[GuardSee] },
     { path: 'see/evaluation/:id', component: VerevaluacionComponent, canActivate:[GuardDiagnostic] },
-    { path: 'report', component: ReporteComponent, canActivate:[GuardDiagnostic] },
+    { path: 'report', component: ReporteComponent, canActivate:[GuardAuthenticateUsers] },
 
     { path: 'upload/files', component: SubirarchivosComponent, canActivate:[GuardUploadFiles] },
     { path: 'manage/files', component: GestionarchivosComponent, canActivate:[GuardManageFiles] },

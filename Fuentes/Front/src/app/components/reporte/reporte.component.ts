@@ -19,6 +19,7 @@ import { Evaluacion } from 'src/app/models/evaluacion';
 import { DiagnosticoService } from 'src/app/services/diagnostico.service';
 import { etapa } from 'src/app/models/etapa';
 import { sector } from 'src/app/models/sector';
+import decode from 'jwt-decode';
 
 let cargando = false;
 let imprimir: any[] = [];
@@ -34,12 +35,16 @@ export class ReporteComponent implements OnInit {
   cont: number = 0;
   fin: number = 0;
   compromisos = [];
+  condition:number=0;
+  plataforma:number=0;    
+  rol: any;
 
   constructor(public diagnosticoService: DiagnosticoService, private reporteService: ReporteService, private fb: FormBuilder, public seguimientoService: SeguimientoService, public loginService: LoginService, public asesoriaService: AsesoriaService) {
     this.buildForm();
   }
 
   ngOnInit() {
+    this.getValidRol();
     this.getFacultades();
     this.getJornadas();
     this.getRoles();
@@ -291,7 +296,12 @@ export class ReporteComponent implements OnInit {
   resetForm() {
     this.reporteForm.reset();
   }
-
+  getValidRol() {
+    const token = localStorage.getItem('usuario');
+    const tokenPayload = decode(token);
+    this.rol = parseInt(tokenPayload.rol_usuario);
+    this.plataforma = parseInt(tokenPayload.plataforma);    
+  }
   yaCargo() {
     if (cargando == false) {
       return false;

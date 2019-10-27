@@ -23,10 +23,11 @@
                                 <option value="" disabled>Seleccione un tipo de reporte</option>
                                 <option value="1">Reporte de usuarios</option>
                                 <option value="2">Reporte de estudiantes</option>
-                                <option value="3">Reporte de diagnosticos</option>
-                                <option value="4">Reporte de asesorias</option>
-                                <option value="5">Reporte de evaluaciones</option>
-                                <option *ngIf="rol==1" value="3">Formato evaluación</option>
+                                <option *ngIf="plataforma==1" value="3">Reporte de diagnosticos</option>
+                                <option *ngIf="plataforma==1" value="4">Reporte de asesorias</option>
+                                <option *ngIf="plataforma==1" value="5">Reporte de evaluaciones</option>    
+                                <option *ngIf="plataforma==2" value="6">Reporte de convocatorias</option>
+                                <option *ngIf="plataforma==2" value="7">Reporte de proyectos</option>                                
                             </select>
                             <div *ngIf="reporteForm.get('tipoReporte').errors" class="alert alert-danger">
                                 <div *ngIf="reporteForm.get('tipoReporte').errors['required']">
