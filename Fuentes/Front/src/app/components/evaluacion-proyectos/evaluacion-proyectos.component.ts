@@ -256,6 +256,9 @@ export class EvaluacionProyectosComponent implements OnInit {
   }
 
  updateStageProject(){
+   this.existe =false;
+   this.existeCorrecciones =false;
+  
   cargando = true;
   this.subirArchivosService.updateStageProject(this.ID_Proyecto, 2, this.proyectoSelected.CORREO, this.archivoForm.get('proyecto').value)
   .subscribe(
