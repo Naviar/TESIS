@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SubirarchivosService } from 'src/app/services/subirarchivos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { documento } from 'src/app/models/documento';
 import { proyecto } from 'src/app/models/proyecto';
 import decode from 'jwt-decode'
 import { usuario } from 'src/app/models/usuario';
+
 
 let cargando = true;
 declare var M: any;
@@ -42,8 +43,8 @@ export class SubirarchivosComponent implements OnInit {
 
   public datosFormulario = new FormData();
   inicioDocumentos: documento[];
-
-  constructor(public subirarchivosService: SubirarchivosService, private fb: FormBuilder) {
+  
+  constructor( public subirarchivosService: SubirarchivosService, private fb: FormBuilder) {
     this.buildForm();
   }
 
@@ -68,18 +69,27 @@ export class SubirarchivosComponent implements OnInit {
         cargando = false;
       });
   }
-  buscarArchivosDistintos(nombre:string) {
-    cargando = true;
-    let referencia = this.subirarchivosService.getUrlArchivo(nombre);
-    referencia.getDownloadURL().subscribe((URL) => {
-      this.URLPublica = URL;
-      console.log("Esto nos trajo ditint", this.URLPublica);            
-      cargando = false;
-    },
-      (error) => {      
-        this.todos_existen=false;         
+   async buscarArchivosDistintos(nombre:string) {
+
+    return new Promise(async (resolve,reject)=>{
+       
+      cargando = true;
+      let referencia = await this.subirarchivosService.getUrlArchivo(nombre);
+      await referencia.getDownloadURL().subscribe((URL) => {
+        this.URLPublica = URL;
+        console.log("Esto nos trajo ditint", this.URLPublica);            
         cargando = false;
-      });
+        resolve();
+      },
+        (error) => {      
+          this.todos_existen=false;         
+          cargando = false;
+          resolve();
+        });
+    });
+      
+    
+    
   }
 
   buscarArchivoOficial() {
@@ -119,6 +129,7 @@ export class SubirarchivosComponent implements OnInit {
     });
   }
   cambioArchivo(event) {
+    
     var expresion = /[.](docx)|[.](doc)$/;
     var resultado;
     if (event.target.files.length == 1) {
@@ -157,6 +168,7 @@ export class SubirarchivosComponent implements OnInit {
               <p>El archivo se ha subido correctamente</p>
               <hr>
           </div>`});
+          this.buscarArchivo();
 
         if (this.proyectoSeleccionado.ETAPA == 1 && this.proyectoSeleccionado.CORRECCIONES == true) {
           this.subirarchivosService.updateProject(this.proyectoSeleccionado.ID_PROYECTO, true, true)
@@ -165,6 +177,7 @@ export class SubirarchivosComponent implements OnInit {
             })
         }
         else if(this.proyectoSeleccionado.ETAPA == 2){
+          console.log(`entro a e etapa 2`);
           this.getDocumentosDistintos();
         }
         else if(this.proyectoSeleccionado.ETAPA == 3 && this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA ==3){
@@ -188,18 +201,21 @@ export class SubirarchivosComponent implements OnInit {
   getDocumentosDistintos() {
     cargando = true;
     this.subirarchivosService.getDistintDocument(this.TipoArchivo)
-      .subscribe(res => {
+      .subscribe(async res => {
         this.documentosDistintos = res as documento[];
+        console.log(`documentos distintos trajo ${JSON.stringify(this.documentosDistintos)}`);
         let i: number;
         this.todos_existen=true;        
         for(i=0; i<this.documentosDistintos.length;i++){
-          this.buscarArchivosDistintos(this.documentosDistintos[i].NOMBRE_DOCUMENTO + "_" + this.proyecto + ".docx");
-          if(this.todos_existen==true && i==this.documentosDistintos.length-1){            
+          await this.buscarArchivosDistintos(this.documentosDistintos[i].NOMBRE_DOCUMENTO + "_" + this.proyecto + ".docx");
+          console.log(`for :${i}`);
+          }
+          console.log(`termino el for`);
+          if(this.todos_existen==true){            
             this.subirarchivosService.updateStageProject(this.proyectoSeleccionado.ID_PROYECTO, 3, this.usuario[0].CORREO, this.proyectoSeleccionado.NOMBRE_PROYECTO)
             .subscribe(res=>{
               cargando = false;
-            })
-          }
+            });
         }
       })
   }
@@ -236,10 +252,11 @@ export class SubirarchivosComponent implements OnInit {
       })
   }
   cambioNombre(documento: string, proyecto: string) {
+    console.log(`documento ${documento}`);
     this.progresbar.nativeElement.textContent = "";
     this.cambioPorcentaje(0);
     this.proyecto = proyecto;
-    this.TipoArchivo = documento;
+    this.TipoArchivo = this.archivoForm.get('documento').value;
     this.nombreArchivo = documento + "_" + proyecto + ".docx";
     console.log(":D", this.nombreArchivo);
     this.nombreArchivoOficial = documento + "_oficial.docx";
@@ -258,19 +275,30 @@ export class SubirarchivosComponent implements OnInit {
       return documento.ETAPA <= this.proyectoSeleccionado.ETAPA;
     });
   }
+  @ViewChild('customFileLang')
+  myInputVariable: ElementRef;
   cambioDocumento(documento: string, proyecto: string) {
+    this.mensajeArchivo = `cargar el documento ${documento}.`
+    this.archivoForm.controls['archivo'].setValue('');
+    this.myInputVariable.nativeElement.value = "";
     if (this.subirarchivosService.documentos.find(documento => documento.NOMBRE_DOCUMENTO == this.TipoArchivo).ETAPA == 1) {
       this.nombreArchivoCorrecciones = documento + "_" + proyecto + "_correcciones.docx";
       this.buscarArchivoCorreciones();
     }
   }
   cambioProyecto(proyecto: string) {
+    this.existeOficial = false;
+    this.TipoArchivo = this.archivoForm.get('documento').value;
+    this.archivoForm.controls['documento'].setValue('');
+    this.archivoForm.controls['archivo'].setValue('');
     this.subirarchivosService.getProyectosByNombre(proyecto)
       .subscribe(res => {
         this.proyectoSeleccionado = res[0] as proyecto;
         console.log("correcciones", this.proyectoSeleccionado.CORRECCIONES);
+       
+        this.cambioNombre(this.archivoForm.get('documento').value, this.archivoForm.get('proyecto').value);
         this.filtrarDocumentos();
-      })
+      });
   }
   getValidRol() {
     const token = localStorage.getItem('usuario');
@@ -284,7 +312,7 @@ export class SubirarchivosComponent implements OnInit {
   }
 
   mostrarEstado(correcciones : any,corregido : any){
-    console.log('entro mostrar estado');
+   
     if(correcciones == 1 && corregido == 0)
     return ' (correcciones pendientes)';
     else if (correcciones == 1 && corregido == 1)

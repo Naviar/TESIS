@@ -100,4 +100,7 @@ export class SubirarchivosService {
   proyectoDuplicado(proyecto:proyecto){
     return this.http.post(this.URL_API + '/proyectoDuplicado', proyecto);
   }
+  getUsuariosConProyectos(id_rol : number){
+    return this.http.get(`${this.URL_API}/getUsersWithProjects/${id_rol}`);
+  }
 }

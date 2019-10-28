@@ -217,11 +217,15 @@ export class EvaluacionProyectosComponent implements OnInit {
     cargando =false;
   }
   async getDocentes() {    
-    await this.loginService.getDocentes()
+    await this.subirArchivosService.getUsuariosConProyectos(2)
       .subscribe(res => {
         this.docentes = res as usuario[];
         cargando = false;
       })
+  }
+
+  getEstudiantes(){
+    
   }
 
   async getProyectos(){
@@ -264,6 +268,7 @@ export class EvaluacionProyectosComponent implements OnInit {
         this.ID_Proyecto =0;
         this.porcentaje=0;
         this.openModal(false);
+        this.nombreArchivo ="";
         cargando = false;
     },
     err => {

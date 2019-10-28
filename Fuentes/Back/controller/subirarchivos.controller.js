@@ -31,6 +31,19 @@ subirarchivosCtrl.upload = (req, res) => {
 
 }
 
+subirarchivosCtrl.getUsersWithProjects = (req, res) => {
+    try {
+        const { id_rol } = req.params;
+        query = `select * FROM USUARIO AS U WHERE ROL_ID_ROL = '${id_rol}' AND EXISTS(SELECT * FROM PROYECTO AS P WHERE P.USUARIO_ID_USUARIO=U.ID_USUARIO)`
+        db.query(query, (err, data) => {
+            res.json(data);
+        });
+
+    } catch (error) {
+        res.state(500).json(error);
+    }
+}
+
 subirarchivosCtrl.getAnnouncementCurrent = (req, res) => {
 
     try {
@@ -180,11 +193,12 @@ subirarchivosCtrl.getUsuarioById = (req, res) => {
 subirarchivosCtrl.getProyectosByNombre = (req, res) => {
     let nombre_proyecto = req.params.nombre_proyecto;
 
+    console.log(`llego este nombre de proyecto ${nombre_proyecto}`);
 
 
     db.query(`SELECT * FROM proyecto WHERE nombre_proyecto= '${nombre_proyecto}'`, (err, data) => {
         if (err) {
-            res.json({ error: err })
+            res.state(500).json({ error: err })
             console.log("Hubo un error en la busqueda de proyectos" + JSON.stringify(err));
         } else {
 
