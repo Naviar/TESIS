@@ -51,6 +51,9 @@ export class LoginService {
   getDocentes(){
     return this.http.get(this.URL_API+"/docentes");
   }
+  getDocentesWithProjects(){
+    return this.http.get(this.URL_API+'/docentesWithProjects')
+  }
   getJornadas(){
     return this.http.get(this.URL_API+"/jornadas");
   }

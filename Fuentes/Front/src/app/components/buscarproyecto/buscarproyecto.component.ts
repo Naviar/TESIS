@@ -48,7 +48,7 @@ export class BuscarproyectoComponent implements OnInit {
       })
   }
   async getDocentes() {    
-    await this.loginService.getDocentes()
+    await this.subirarchivosService.getUsuariosConProyectos(2)
       .subscribe(res => {
         this.docentes = res as usuario[];
         cargando = false;

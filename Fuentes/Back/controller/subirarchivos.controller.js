@@ -31,6 +31,19 @@ subirarchivosCtrl.upload = (req, res) => {
 
 }
 
+subirarchivosCtrl.getUsersWithProjects = (req, res) => {
+    try {
+        const { id_rol } = req.params;
+        query = `select * FROM USUARIO AS U WHERE ROL_ID_ROL = '${id_rol}' AND EXISTS(SELECT * FROM PROYECTO AS P WHERE P.USUARIO_ID_USUARIO=U.ID_USUARIO)`
+        db.query(query, (err, data) => {
+            res.json(data);
+        });
+
+    } catch (error) {
+        res.state(500).json(error);
+    }
+}
+
 subirarchivosCtrl.getAnnouncementCurrent = (req, res) => {
 
     try {
