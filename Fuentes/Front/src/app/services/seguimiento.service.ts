@@ -6,6 +6,9 @@ import { Evaluacion } from '../models/evaluacion';
 import { asesoriaFormato } from '../models/asesoriaFormato';
 import { asesoria } from '../models/asesoria';
 import { compromiso2 } from '../models/compromiso2';
+import { convocatoria } from '../models/convocatoria';
+import { proyecto } from '../models/proyecto';
+import { asesor } from '../models/asesor';
 
 @Injectable({
   providedIn: 'root'
@@ -27,9 +30,13 @@ export class SeguimientoService {
     ETAPA:undefined,
   };
   diagnosticos: Diagnostico[];
-  compromisos: compromiso2[];
-  asesorias: asesoriaFormato[];
+  compromisos: compromiso2[]=[];
+  asesorias: asesoriaFormato[]=[];
   evaluaciones: Evaluacion[];
+  convocatorias: convocatoria[];
+  proyectos: proyecto[];
+  estudiante: estudiante;
+  docente: asesor;
   selected_diagnostico: Diagnostico = {
     ID_FORMATO_DIAGNOSTICO:"",     
     ETAPA_ID_ETAPA: 0, 
@@ -106,11 +113,23 @@ export class SeguimientoService {
   getAsesoria(id_asesoria:number){
     return this.http.get(this.URL_API+"/getAsesoria" + `/${id_asesoria}`);
   } 
+  getDocente(id_usuario:number){
+    return this.http.get(this.URL_API+"/getDocente" + `/${id_usuario}`);
+  } 
+  getEstudiante(id_usuario:number){
+    return this.http.get(this.URL_API+"/getEstudiante" + `/${id_usuario}`);
+  } 
   getEvaluaciones(id_estudiante:number){
     return this.http.get(this.URL_API+"/getEvaluaciones" + `/${id_estudiante}`);
   } 
   getEvaluacion(id_evaluacion:number){
     return this.http.get(this.URL_API+"/getEvaluacion" + `/${id_evaluacion}`);
+  } 
+  getConvocatorias(id_usuario:number){
+    return this.http.get(this.URL_API+"/getConvocatoria" + `/${id_usuario}`);
+  } 
+  getProyectos(id_usuario:number){
+    return this.http.get(this.URL_API+"/getProyecto" + `/${id_usuario}`);
   } 
 
   getNameAsesoria(id_asesoria :number){

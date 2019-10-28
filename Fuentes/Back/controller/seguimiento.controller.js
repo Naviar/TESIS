@@ -92,7 +92,74 @@ seguimientoCtrl.getAsesorias = (req, res) => {
     });
 
 }
+seguimientoCtrl.getConvocatoria = (req, res) => {
 
+    let id_usuario = parseInt(req.params.id_usuario);
+
+
+    db.query(`SELECT * FROM  convocatoria WHERE usuario_id_usuario = '${id_usuario}'`, (err, data) => {
+
+        if (err) {
+            res.json({ error: err });
+            console.log("Hubo un error en la busqueda" + err);
+        } else {
+
+            res.json(data);
+        }
+    });
+
+}
+seguimientoCtrl.getProyecto = (req, res) => {
+
+    let id_usuario = parseInt(req.params.id_usuario);
+
+
+    db.query(`SELECT * FROM  proyecto WHERE usuario_id_usuario = '${id_usuario}'`, (err, data) => {
+
+        if (err) {
+            res.json({ error: err });
+            console.log("Hubo un error en la busqueda" + err);
+        } else {
+
+            res.json(data);
+        }
+    });
+
+}
+seguimientoCtrl.getDocente = (req, res) => {
+
+    let id_usuario = parseInt(req.params.id_usuario);
+
+
+    db.query(`SELECT * FROM  asesor WHERE usuario_id_usuario = '${id_usuario}'`, (err, data) => {
+
+        if (err) {  
+            res.json({ error: err });
+            console.log("Hubo un error en la busqueda" + err);
+        } else {
+
+            res.json(data);
+        }
+    });
+
+}
+seguimientoCtrl.getEstudiante = (req, res) => {
+
+    let id_usuario = parseInt(req.params.id_usuario);
+
+
+    db.query(`SELECT * FROM  estudiante WHERE usuario_id_usuario = '${id_usuario}'`, (err, data) => {
+
+        if (err) {
+            res.json({ error: err });
+            console.log("Hubo un error en la busqueda" + err);
+        } else {
+
+            res.json(data);
+        }
+    });
+
+}
 seguimientoCtrl.getNameAsesoria = (req, res) => {
     const { id_asesoria } = req.params;
 

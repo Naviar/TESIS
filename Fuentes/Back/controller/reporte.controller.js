@@ -13,8 +13,7 @@ reporteCtrl.getReporteGeneral = (req, res) => {
             console.log("Hubo un error buscando tipos de asesorias en la BD" + err);
         } else {
 
-            res.json(data);
-
+            res.json(data);            
         }
     });
 

@@ -6,4 +6,5 @@ export interface proyecto {
     CONVOCATORIA_ID_CONVOCATORIA : number;
     CORRECCIONES: Boolean;
     CORREGIDO: Boolean;
+    FECHA: Date; 
 }
