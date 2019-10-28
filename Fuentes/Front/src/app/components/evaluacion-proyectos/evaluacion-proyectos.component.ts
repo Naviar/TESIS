@@ -233,6 +233,7 @@ export class EvaluacionProyectosComponent implements OnInit {
     await this.subirArchivosService.getProyectosByEtapa(1)
     .subscribe(
       res => {
+        console.log('respondiendo ${}');
         this.proyectos = res as proyecto [];
         this.inicio = res as proyecto []        
         this.getFacultades();
@@ -343,7 +344,7 @@ async getFacultades() {
 }
 async getProyectosFacultad(id_facultad: number) {
   cargando = true;
-  await this.subirArchivosService.getProyectosFacultad(id_facultad)
+  await this.subirArchivosService.getProyectosFacultadEtapaUno(id_facultad)
     .subscribe(res => {
       this.proyectos = res as proyecto[];
       

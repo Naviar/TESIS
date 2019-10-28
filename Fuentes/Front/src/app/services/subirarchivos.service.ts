@@ -73,6 +73,9 @@ export class SubirarchivosService {
   getProyectosFacultad(facultad:number){
     return this.http.get(this.URL_API+"/getProyectosFacultad/"+`${facultad}`);
   }
+  getProyectosFacultadEtapaUno(facultad:number){
+    return this.http.get(`${this.URL_API}/getProyectosFacultadEtapaUno/${facultad}`);
+  }
   getProyectosDocente(docente:number){
     return this.http.get(this.URL_API+"/getProyectosDocente/"+`${docente}`);
   }

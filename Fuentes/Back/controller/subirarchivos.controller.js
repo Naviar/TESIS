@@ -243,6 +243,26 @@ subirarchivosCtrl.getProyectosFacultad = (req, res) => {
 
 }
 
+subirarchivosCtrl.getProyectosFacultadEtapaUno = (req, res) => {
+
+    try {
+        let id_facultad = req.params.id_facultad;
+        db.query(`SELECT * FROM proyecto AS p INNER JOIN asesor AS a ON p.usuario_id_usuario = a.usuario_id_usuario WHERE a.facultad_id_facultad = '${id_facultad}' AND p.ETAPA = 1`, (err, data) => {
+            if (err) {
+
+                console.log("Hubo un error en la busqueda" + err);
+            } else {
+
+                res.json(data);
+            }
+        })
+
+    } catch (error) {
+        res.json({ error: err });
+    }
+
+}
+
 subirarchivosCtrl.getProyectosDocente = (req, res) => {
 
     console.log("###", req.params.docente);

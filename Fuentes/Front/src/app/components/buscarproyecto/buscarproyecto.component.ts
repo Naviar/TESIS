@@ -52,7 +52,7 @@ export class BuscarproyectoComponent implements OnInit {
       .subscribe(res => {
         this.docentes = res as usuario[];
         cargando = false;
-      })
+      });
   }
   async getProyectos() {
     cargando = true;
