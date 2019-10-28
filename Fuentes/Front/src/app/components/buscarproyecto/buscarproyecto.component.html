@@ -23,10 +23,10 @@
               <label><label id="lbl"></label>Filtrar:</label>
               <select (change)='this.changeStatus(mySelect.value)' id="select" class="form-control" #mySelect>
                 <option value="" disabled>Seleccione un filtro</option>
-                <option *ngIf="rol==2 || rol==3" value=1>Mis proyectos</option>
+                <option *ngIf="rol==2" value=1>Mis proyectos</option>
                 <option *ngIf="rol==1" value=1>Todos</option>
                 <option *ngIf="rol==1" value=2>Facultad</option>
-                <option *ngIf="rol==1" value=3>Docente</option>
+                <option *ngIf="rol==1" value=3>Docente</option>                
               </select>
             </div>
             <div *ngIf="mySelect.value==2" class="col">

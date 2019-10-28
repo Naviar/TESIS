@@ -1,4 +1,4 @@
 export class asesor{    
-    ID_USUARIO:number;
-    ID_FACULTAD:number;
+    USUARIO_ID_USUARIO:number;
+    FACULTAD_ID_FACULTAD:number;
 } 

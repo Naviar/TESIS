@@ -25,6 +25,7 @@ import { runInThisContext } from 'vm';
 import { proyecto } from 'src/app/models/proyecto';
 import { asesor } from 'src/app/models/asesor';
 
+
 let cargando = false;
 let imprimir: any[] = [];
 
@@ -325,61 +326,107 @@ export class ReporteComponent implements OnInit {
         }
       })
   }
-  getProyectos() {
-    cargando = true;
-    this.reporteService.getReporte()
-      .subscribe(res => {
+  traerTodosLosUsuarios() : Promise<usuario[]>{
+    return new Promise (async (resolve,reject)=>{
+      
+   await  this.reporteService.getReporte()
+    .subscribe(
+      res =>{
         this.reporteService.usuarios = res as usuario[];
-        imprimir.push(['ID', 'NOMBRE', 'APELLIDO', 'FACULTAD', 'ID_PROYECTO',
-          'NOMBRE', 'ETAPA', 'FECHA', 'CORRECCIONES',
-          'CORREGIDO', 'ID_CONVOCATORIA']);          
-        for (let usuario of this.reporteService.usuarios) {
-          this.seguimientoService.getProyectos(usuario.ID_USUARIO)
-            .subscribe(res => {
-              this.seguimientoService.proyectos = res as proyecto[];   
-              console.log("aaaaaaa", this.seguimientoService.proyectos);           
-              this.fin = 0;
-              console.log("roles",usuario.ROL_ID_ROL);
-              if(usuario.ROL_ID_ROL == 2){
-                this.seguimientoService.getDocente(usuario.ID_USUARIO)
-                  .subscribe(res=>{
-                    this.seguimientoService.docente = res[0] as asesor;
-                    console.log("Docente", this.seguimientoService.proyectos);
-                    for (let proyecto of this.seguimientoService.proyectos) {
-                      imprimir.push([usuario.ID_USUARIO, usuario.NOMBRE, usuario.APELLIDO, this.seguimientoService.docente.ID_FACULTAD, proyecto.ID_PROYECTO,
-                      proyecto.NOMBRE_PROYECTO, proyecto.ETAPA, proyecto.FECHA, proyecto.CORRECCIONES,
-                      proyecto.CORREGIDO, proyecto.CONVOCATORIA_ID_CONVOCATORIA]);
-                      if (proyecto == this.seguimientoService.proyectos[this.seguimientoService.proyectos.length - 1]) {
-                        this.fin = 1;
-                      }
-                    }
-                    if (usuario == this.reporteService.usuarios[this.reporteService.usuarios.length - 1] && (this.fin == 1 || this.seguimientoService.proyectos.length == 0)) {
-                      this.finalfinal('Reporte_Proyectos');                      
-                    }
-                  })
-              }
-              else if(usuario.ROL_ID_ROL == 3){
-                this.seguimientoService.getEstudiante(usuario.ID_USUARIO)
-                  .subscribe(res=>{
-                    this.seguimientoService.estudiante = res[0] as estudiante;
-                    console.log("Estudiante", this.seguimientoService.proyectos);
-                    for (let proyecto of this.seguimientoService.proyectos) {
-                      imprimir.push([usuario.ID_USUARIO, usuario.NOMBRE, usuario.APELLIDO, this.seguimientoService.estudiante.FACULTAD_ID_FACULTAD, proyecto.ID_PROYECTO,
-                      proyecto.NOMBRE_PROYECTO, proyecto.ETAPA, proyecto.FECHA, proyecto.CORRECCIONES,
-                      proyecto.CORREGIDO, proyecto.CONVOCATORIA_ID_CONVOCATORIA]);
-                      if (proyecto == this.seguimientoService.proyectos[this.seguimientoService.proyectos.length - 1]) {
-                        this.fin = 1;
-                      }
-                    }
-                    if (usuario == this.reporteService.usuarios[this.reporteService.usuarios.length - 1] && (this.fin == 1 || this.seguimientoService.proyectos.length == 0)) {
-                      this.finalfinal('Reporte_Proyectos'); 
-                      cargando = false;
-                    }
-                  })
-              }
-            })
+        resolve();
+      },
+      err => {
+        reject(err);
+      }
+    )
+    });
+  }
+  traerProyectosPorUsuario(id_usuario : number){
+
+    return new Promise(async(resolve,reject)=>{
+      await this.seguimientoService.getProyectos(id_usuario)
+      .subscribe(
+        res =>{
+          this.seguimientoService.proyectos = res as proyecto[];
+          resolve();
+        },
+        err => {
+          reject(err);
         }
-      })
+      )
+    });
+
+  }
+
+  getFacultadDocente(id_usuario: number){
+    return new Promise(async(resolve,reject)=>{
+      await this.seguimientoService.getDocente(id_usuario)
+      .subscribe(
+        res => {
+          this.seguimientoService.docente = res[0] as asesor;          
+          resolve();
+        },
+        err => {
+          reject(err);
+        }
+      )
+    });
+  }
+  getFacultadEstudiante(id_usuario: number){
+    return new Promise(async(resolve, reject)=>{
+      await this.seguimientoService.getEstudiante(id_usuario)
+      .subscribe(
+        res => {
+          this.seguimientoService.estudiante = res[0] as estudiante;
+          resolve();
+        },
+        err =>  {
+          reject(err);
+        }
+      )
+    })
+  }
+
+  async getProyectos2(){
+    try {
+
+      cargando = true;
+
+      imprimir.push(['ID', 'NOMBRE', 'APELLIDO', 'FACULTAD', 'ID_PROYECTO',
+      'NOMBRE', 'ETAPA', 'FECHA', 'CORRECCIONES',
+      'CORREGIDO', 'ID_CONVOCATORIA']); 
+
+      await this.traerTodosLosUsuarios();
+      const usuarios = this.reporteService.usuarios;
+      for(let usuario of usuarios)
+      {
+          await this.traerProyectosPorUsuario(usuario.ID_USUARIO);
+          const proyectos_usuario = this.seguimientoService.proyectos;
+          if(usuario.ROL_ID_ROL == 2){
+            await this.getFacultadDocente(usuario.ID_USUARIO);
+            const docente = this.seguimientoService.docente;
+            for(let proyecto of proyectos_usuario){
+                imprimir.push([usuario.ID_USUARIO, usuario.NOMBRE, usuario.APELLIDO, this.loginService.facultades.filter(facultad => facultad.ID_FACULTAD == docente.FACULTAD_ID_FACULTAD)[0].NOMBRE_FACULTAD, proyecto.ID_PROYECTO,
+                proyecto.NOMBRE_PROYECTO, proyecto.ETAPA, proyecto.FECHA, proyecto.CORRECCIONES,
+                proyecto.CORREGIDO, proyecto.CONVOCATORIA_ID_CONVOCATORIA]);
+            }
+          }
+          if(usuario.ROL_ID_ROL == 3){
+            await this.getFacultadEstudiante(usuario.ID_USUARIO);
+            const estudiante = this.seguimientoService.estudiante;
+            for(let proyecto of proyectos_usuario){
+                imprimir.push([usuario.ID_USUARIO, usuario.NOMBRE, usuario.APELLIDO, this.loginService.facultades.filter(facultad => facultad.ID_FACULTAD == estudiante.FACULTAD_ID_FACULTAD)[0].NOMBRE_FACULTAD, proyecto.ID_PROYECTO,
+                proyecto.NOMBRE_PROYECTO, proyecto.ETAPA, proyecto.FECHA, proyecto.CORRECCIONES,
+                proyecto.CORREGIDO, proyecto.CONVOCATORIA_ID_CONVOCATORIA]);
+            }
+          }
+      }
+      cargando = false;
+      this.descargarExcel('Reporte_Proyectos');
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
@@ -408,7 +455,7 @@ export class ReporteComponent implements OnInit {
       this.getConvocatorias();
     }
     else if (form.value.tipoReporte == 7) {
-      this.getProyectos();
+      this.getProyectos2();
     }
   }
   descargarExcel(nombre: string) {
