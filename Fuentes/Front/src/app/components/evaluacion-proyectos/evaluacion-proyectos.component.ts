@@ -26,8 +26,8 @@ export class EvaluacionProyectosComponent implements OnInit {
   selectionProject : string  = '';
   ID_Proyecto : number;
   documentos: any [];
-  proyectos : proyecto [];
-  proyectosView : proyecto[];
+  proyectos : any [];
+  proyectosView : any[];
   docentes: usuario[] = [];
   proyectoSelected : any= {};
 
@@ -39,7 +39,7 @@ export class EvaluacionProyectosComponent implements OnInit {
   existe: boolean = false;
   URLCorrecciones : string;
   existeCorrecciones : boolean = false;
-  inicio: proyecto[] = [];
+  inicio: [] = [];
 
   TipoArchivo: string = "";
   errorNombre: boolean = false;
@@ -94,11 +94,12 @@ export class EvaluacionProyectosComponent implements OnInit {
 
   cambioNombre(documento:string, proyecto:string){
 
-    const Proyecto = this.proyectos.find((proyectofind)=>{
+    const Proyectoselect = this.proyectos.find((proyectofind)=>{
       return proyectofind.NOMBRE_PROYECTO === proyecto;
     });
-    this.proyectoSelected = Proyecto;
-    this.ID_Proyecto = Proyecto.ID_PROYECTO;    
+    console.log(`proyecto seleccionado ${JSON.stringify(Proyectoselect)}`);
+    this.proyectoSelected = Proyectoselect;
+    this.ID_Proyecto = Proyectoselect.ID_PROYECTO;    
     if(documento !== '' && proyecto !== ''){
       
       this.progresbar.nativeElement.textContent = "";
@@ -233,9 +234,10 @@ export class EvaluacionProyectosComponent implements OnInit {
     await this.subirArchivosService.getProyectosByEtapa(1)
     .subscribe(
       res => {
-        console.log('respondiendo ${}');
-        this.proyectos = res as proyecto [];
-        this.inicio = res as proyecto []        
+        
+        this.proyectos = res as [];
+        this.inicio = res as [] ; 
+        console.log(`respuesta de get proyectosby etapa ${JSON.stringify(res)}`);      
         this.getFacultades();
         this.changeStatusProject();
       }
@@ -305,19 +307,19 @@ async changeStatusProject() {
  if(this.mySelectStatus == 1)
  {
   this.proyectos = this.inicio.filter(proyecto =>{
-    return proyecto.CORRECCIONES == false;
+    return proyecto['CORRECCIONES'] == false;
   });
  }
  else if(this.mySelectStatus == 2)
  {  
   this.proyectos =  this.inicio.filter(proyecto =>{
-        return proyecto.CORRECCIONES==true && proyecto.CORREGIDO == false;
+        return proyecto['CORRECCIONES']==true && proyecto['CORREGIDO'] == false;
       });
  }
  else if(this.mySelectStatus == 3)
  {   
   this.proyectos = this.inicio.filter(proyecto =>{
-    return proyecto.CORREGIDO==true;
+    return proyecto['CORREGIDO']==true;
   });
  }
 
@@ -346,27 +348,31 @@ async getProyectosFacultad(id_facultad: number) {
   cargando = true;
   await this.subirArchivosService.getProyectosFacultadEtapaUno(id_facultad)
     .subscribe(res => {
-      this.proyectos = res as proyecto[];
+      this.proyectos = res as [];
       
-      this.inicio = res as proyecto[];
-      this.proyectos = this.proyectos.filter(proyecto =>{
-        return proyecto.ETAPA == 1;
-      });
+      this.inicio = res as [];
+      console.log(`respuesta de get proyectosby etapa y facultad ${JSON.stringify(res)}`); 
+      // this.proyectos = this.proyectos.filter(proyecto =>{
+      //   return proyecto.ETAPA == 1;
+      // });
       this.changeStatusProject();
       cargando = false;
     })
 }
 async getProyectosDocente(id_usuario: number) {
   cargando = true;
-  await this.subirArchivosService.getProyectosDocente(id_usuario)
+  await this.subirArchivosService.getProyectosUsuarioEtapaUno(id_usuario)
     .subscribe(res => {
-      this.proyectos = res as proyecto[];
+
+      console.log(`respuesta de get proyectosby etapa y docente ${JSON.stringify(res)}`); 
+      this.proyectos = res as [];
       
-      this.inicio = res as proyecto[];
+      this.inicio = res as [];
       this.proyectos = this.proyectos.filter(proyecto =>{
         return proyecto.ETAPA == 1;
         
       });
+      
       this.changeStatusProject();
       
       cargando = false;

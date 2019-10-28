@@ -247,7 +247,29 @@ subirarchivosCtrl.getProyectosFacultadEtapaUno = (req, res) => {
 
     try {
         let id_facultad = req.params.id_facultad;
-        db.query(`SELECT * FROM proyecto AS p INNER JOIN asesor AS a ON p.usuario_id_usuario = a.usuario_id_usuario WHERE a.facultad_id_facultad = '${id_facultad}' AND p.ETAPA = 1`, (err, data) => {
+        query = `SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO INNER JOIN ASESOR AS A ON A.USUARIO_ID_USUARIO = P.USUARIO_ID_USUARIO where A.FACULTAD_ID_FACULTAD = ${id_facultad} AND p.ETAPA = 1 AND p.CONVOCATORIA_ID_CONVOCATORIA = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIA);`;
+        db.query(query, (err, data) => {
+            if (err) {
+
+                console.log("Hubo un error en la busqueda" + err);
+            } else {
+
+                res.json(data);
+            }
+        })
+
+    } catch (error) {
+        res.json({ error: err });
+    }
+
+}
+
+subirarchivosCtrl.getProyectosDocenteEtapaUno = (req, res) => {
+
+    try {
+        let id_usuario = req.params.id_usuario;
+        query = `SELECT p.* , u.NOMBRE, u.APELLIDO, u.CORREO , U.celular FROM proyecto as p INNER JOIN usuario as u ON p.USUARIO_ID_USUARIO = u.ID_USUARIO WHERE U.ID_USUARIO = ${id_usuario}  AND p.ETAPA = 1 AND p.CONVOCATORIA_ID_CONVOCATORIA = (SELECT MAX(ID_CONVOCATORIA) FROM CONVOCATORIA)`;
+        db.query(query, (err, data) => {
             if (err) {
 
                 console.log("Hubo un error en la busqueda" + err);
