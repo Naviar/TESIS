@@ -180,11 +180,12 @@ subirarchivosCtrl.getUsuarioById = (req, res) => {
 subirarchivosCtrl.getProyectosByNombre = (req, res) => {
     let nombre_proyecto = req.params.nombre_proyecto;
 
+    console.log(`llego este nombre de proyecto ${nombre_proyecto}`);
 
 
     db.query(`SELECT * FROM proyecto WHERE nombre_proyecto= '${nombre_proyecto}'`, (err, data) => {
         if (err) {
-            res.json({ error: err })
+            res.state(500).json({ error: err })
             console.log("Hubo un error en la busqueda de proyectos" + JSON.stringify(err));
         } else {
 

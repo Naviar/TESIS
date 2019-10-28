@@ -264,6 +264,7 @@ export class EvaluacionProyectosComponent implements OnInit {
         this.ID_Proyecto =0;
         this.porcentaje=0;
         this.openModal(false);
+        this.nombreArchivo ="";
         cargando = false;
     },
     err => {

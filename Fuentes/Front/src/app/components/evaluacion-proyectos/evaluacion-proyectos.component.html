@@ -9,7 +9,7 @@
 
 <body>
     <!-- modal abrir convocatoria -->
-    <div class="modal fade" id="avalarproyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  [ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
+    <div class="modal fade" id="avalarproyecto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" [ngStyle]="{'display': modalOpen ? 'block' : 'none', 'opacity': 1}">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content border-success">
                 <div class="modal-header">
@@ -18,7 +18,7 @@
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="openModal(false)">
                       <span aria-hidden="true">&times;</span>
-                  </button>                  
+                  </button>
                 </div>
                 <div class="modal-body">
 
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class=" btn btn-success" (click)="updateStageProject()">Avalar proyecto</button>                    
+                    <button class=" btn btn-success" (click)="updateStageProject()">Avalar proyecto</button>
 
                 </div>
             </div>
@@ -123,7 +123,7 @@
                     <form [formGroup]="archivoForm">
                         <div class="form-label-group">
                             <label><label id="lbl"></label>Proyecto*</label>
-                            <select id="selectproject" class="form-control" name="proyecto" formControlName="proyecto" (change)="cambioNombre(documento.value, proyecto.value)" #proyecto>
+                            <select id="selectproject" class="form-control" name="proyecto" formControlName="proyecto" (change)='cambioNombre(documento.value, proyecto.value)' #proyecto>
                       <option value='' disabled>Seleccione un proyecto</option>
                       <option *ngFor="let proyecto of proyectos" value={{proyecto.NOMBRE_PROYECTO}}>
                         {{proyecto.NOMBRE_PROYECTO}}{{mostrarEstado(proyecto['CORRECCIONES'],proyecto['CORREGIDO'])}}
