@@ -16,6 +16,10 @@ DROP TABLE Formato_asesoria;
 DROP TABLE Compromiso;
 DROP TABLE Estudiante_has_formato_asesoria;
 DROP TABLE Disponibilidad;
+DROP TABLE Decano;
+DROP TABLE Convocatoria;
+DROP TABLE Proyecto;
+DROP TABLE Documento;
 
 
 -- -----------------------------------------------------
@@ -379,3 +383,85 @@ CREATE TABLE Disponibilidad (
 ;
 
 
+-- -----------------------------------------------------
+-- Table Decano
+-- -----------------------------------------------------
+CREATE TABLE Decano (
+  Id_decano INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Usuario_id_usuario INT NOT NULL UNIQUE,
+  Facultad_id_facultad INT NOT NULL,
+  PRIMARY KEY (Id_decano),
+  CONSTRAINT fk_asesor_usuario1
+    FOREIGN KEY (Usuario_id_usuario)
+    REFERENCES Usuario (Id_usuario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_asesor_facultad1
+    FOREIGN KEY (Facultad_id_facultad)
+    REFERENCES Facultad (Id_facultad)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Convocatoria
+-- -----------------------------------------------------
+CREATE TABLE Convocatoria (
+  Id_convocatoria INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Fecha_inicio DATE NOT NULL,
+  Fecha_fin DATE NOT NULL,
+  Fecha_informe_inicial DATE NOT NULL,
+  Fecha_informe_final DATE NOT NULL,
+  Usuario_Id_usuario INT NOT NULL,
+  Nombre VARCHAR(100) NOT NULL UNIQUE,
+  PRIMARY KEY (Id_convocatoria),  
+  CONSTRAINT fk_Convocatoria_Usuario1
+    FOREIGN KEY (Usuario_Id_usuario)
+    REFERENCES Usuario (Id_usuario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;
+
+
+-- -----------------------------------------------------
+-- Table Proyecto
+-- -----------------------------------------------------
+CREATE TABLE Proyecto (
+  Id_proyecto INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1 INCREMENT BY 1),
+  Nombre_proyecto VARCHAR(100) NOT NULL UNIQUE,
+  Etapa INT NOT NULL,
+  Usuario_Id_usuario INT NOT NULL,
+  Convocatoria_Id_convocatoria INT NOT NULL,
+  Fecha DATE NOT NULL,
+  Correcciones BOOLEAN NULL,
+  Corregido BOOLEAN NULL,
+  PRIMARY KEY (Id_proyecto),  
+  CONSTRAINT fk_Proyecto_Usuario1
+    FOREIGN KEY (Usuario_Id_usuario)
+    REFERENCES Usuario (Id_usuario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT fk_Proyecto_Convocatoria1
+    FOREIGN KEY (Convocatoria_Id_convocatoria)
+    REFERENCES Convocatoria (Id_convocatoria)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+
+;
+
+-- -----------------------------------------------------
+-- Table Documento
+-- -----------------------------------------------------
+CREATE TABLE Documento (
+  Id_documento INT NOT NULL,
+  Nombre_documento VARCHAR(45) NOT NULL,
+  Proyecto_Id_proyecto INT NULL,
+  Etapa INT NOT NULL,
+  PRIMARY KEY (Id_documento),
+  CONSTRAINT fk_Documento_Proyecto1
+    FOREIGN KEY (Proyecto_Id_proyecto)
+    REFERENCES Proyecto (Id_proyecto)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+;

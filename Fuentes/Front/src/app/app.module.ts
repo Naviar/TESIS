@@ -31,6 +31,17 @@ import { VerdiagnosticoComponent } from './components/verdiagnostico/verdiagnost
 import { VerasesoriaComponent } from './components/verasesoria/verasesoria.component';
 import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { SubirarchivosComponent } from './components/subirarchivos/subirarchivos.component';
+import { GestionarchivosComponent } from './components/gestionarchivos/gestionarchivos.component';
+import { CrearproyectoComponent } from './components/crearproyecto/crearproyecto.component';
+
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { environment } from '../environments/environment';
+
+import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
+import { BuscarproyectoComponent } from './components/buscarproyecto/buscarproyecto.component';
+import { EvaluacionProyectosComponent } from './components/evaluacion-proyectos/evaluacion-proyectos.component';
  
 
 
@@ -50,7 +61,18 @@ import { ReporteComponent } from './components/reporte/reporte.component';
     CitadiagnosticoComponent, 
     CitaasesoriaComponent, 
     CitaspendientesComponent, 
-    AutenticarusuariosComponent, SeguimientoComponent, VerdiagnosticoComponent, VerasesoriaComponent, VerevaluacionComponent, ReporteComponent   
+    AutenticarusuariosComponent, 
+    SeguimientoComponent, 
+    VerdiagnosticoComponent, 
+    VerasesoriaComponent, 
+    VerevaluacionComponent, 
+    ReporteComponent, 
+    SubirarchivosComponent, 
+    GestionarchivosComponent, 
+    CrearproyectoComponent,   
+    ConvocatoriaComponent, 
+    BuscarproyectoComponent,   
+    EvaluacionProyectosComponent   
   ],
   imports: [
     BrowserModule,
@@ -62,8 +84,9 @@ import { ReporteComponent } from './components/reporte/reporte.component';
     ToastrModule.forRoot(),
     AmazingTimePickerModule,
     FullCalendarModule ,
-    NgxPaginationModule
-
+    NgxPaginationModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

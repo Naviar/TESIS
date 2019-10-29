@@ -1,5 +1,10 @@
 <app-nav-bar>
 </app-nav-bar>
+<div class="text-center">
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -64,7 +69,7 @@
                     <ul>
                         <li>Generar una cultura de emprendimiento en la USTA que fortalezca el potencial y las competencias emprendedoras en la comunidad académica.</li>
                         <li>Identificar y fomentar ideas, planes y opciones de negocio de la comunidad universitaria.</li>
-                        <li>Fomentar la presentación de proyectos a convocatorias a nivel local, nacional e internacional de capital semilla.</li>
+                        <li>Fomentar la presentación de proyectos a convocatoria a nivel local, nacional e internacional de capital semilla.</li>
                         <li>Acompañamiento en la estructuración de proyectos de emprendimiento e innovación social.</li>
                     </ul>
                 </div>

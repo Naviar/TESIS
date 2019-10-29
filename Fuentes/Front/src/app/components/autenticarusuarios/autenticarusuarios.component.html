@@ -105,14 +105,14 @@
             </div>
           </form>
           <br>
-          <form #asesorForm="ngForm" *ngIf="condicion == 1">
+          <form #asesorForm="ngForm" *ngIf="condicion == 2">
             <div class="form-label-group">
               <label><Strong>Facultad</Strong></label>
               <input class="form-control" id="input" type="text" name="facultad" #name="ngModel" [(ngModel)]="facultad"
                 disabled>
             </div>
           </form>
-          <form #estudianteForm="ngForm" *ngIf="condicion == 2">
+          <form #estudianteForm="ngForm" *ngIf="condicion == 3">
             <div class="row">
               <div class="col">
                 <div class="form-label-group">

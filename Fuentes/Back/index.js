@@ -6,6 +6,15 @@ const path = require('path');
 //Inicializaciones
 const app = express();
 
+//notificaciones
+const notificaciones = require('../Back/controller/notificaciones.controller');
+
+
+
+
+
+
+
 //Configuraciones
 app.set('port', process.env.PORT || 3500)
 
@@ -36,6 +45,9 @@ app.use('/autenticarUsuarios', require('./routes/autenticarusuarios.routes'));
 app.use('/etapa', require('./routes/etapa.routes'));
 app.use('/seguimiento', require('./routes/seguimiento.routes'));
 app.use('/reporte', require('./routes/reporte.routes'));
+app.use('/subirarchivos', require('./routes/subirarchivos.routes'));
+app.use('/convocatoria', require('./routes/convocatoria.routes'));
+
 
 
 //Archivos publicos

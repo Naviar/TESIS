@@ -6,6 +6,7 @@ const AutenticarUsuariosCtrl = require('../controller/autenticarusuarios.control
 router.get('/getAsesores', AutenticarUsuariosCtrl.getAsesores);
 router.get('/getEstudiantes', AutenticarUsuariosCtrl.getEstudiantes);
 router.get('/getUsuarios', AutenticarUsuariosCtrl.getUsuarios);
+router.get('/getLiderId/:id', AutenticarUsuariosCtrl.getLiderId);
 router.get('/getAsesorId/:id', AutenticarUsuariosCtrl.getAsesorId);
 router.get('/getEstudianteId/:id', AutenticarUsuariosCtrl.getEstudianteId);
 router.put('/changeStatus/:id', AutenticarUsuariosCtrl.changeStatus);

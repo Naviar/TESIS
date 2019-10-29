@@ -69,8 +69,10 @@ export class AsesoriaComponent implements OnInit {
   }
 
   getEstudiantes() {
+    cargando= true;
     this.asesoriaService.getEstudiantes()
       .subscribe(res => {
+        cargando = false;
         console.log('trajo los estudiantes', res);
         this.asesoriaService.estudiantes = res as estudiante[];
       })
@@ -92,7 +94,7 @@ export class AsesoriaComponent implements OnInit {
   getAsesorias() {
     this.asesoriaService.getAsesorias()
       .subscribe(res => {
-        console.log('asesorias', res)
+        console.log('asesorias', JSON.stringify(res));
         this.asesoriaService.asesorias = res as asesoria[];
       })
   }
@@ -157,6 +159,7 @@ export class AsesoriaComponent implements OnInit {
                         .subscribe(res => {
                           console.log(res);
                           cargando=false;
+                          this.getEstudiantes();
                           this.resetForm();
                         });
 

@@ -9,6 +9,7 @@ import { jornada } from '../models/jornada';
 import {asesor} from '../models/asesor';
 import {estudiante} from '../models/estudiante'
 import { Usuario } from '../classes/usuario';
+import { usuario } from '../models/usuario';
 
 
 @Injectable({
@@ -19,6 +20,7 @@ export class LoginService {
   roles: rol[];
   
   facultades: facultad[];
+  docentes: usuario[];
   jornadas: jornada[];
   readonly URL_API = 'http://localhost:3500/usuario';  
   helper = new JwtHelperService();
@@ -46,6 +48,12 @@ export class LoginService {
   getFacultades(){
     return this.http.get(this.URL_API+"/facultades");
   }
+  getDocentes(){
+    return this.http.get(this.URL_API+"/docentes");
+  }
+  getDocentesWithProjects(){
+    return this.http.get(this.URL_API+'/docentesWithProjects')
+  }
   getJornadas(){
     return this.http.get(this.URL_API+"/jornadas");
   }
@@ -54,6 +62,9 @@ export class LoginService {
   }
   registerAsesor(asesor: asesor){        
     return this.http.post(this.URL_API + '/registerAsesor', asesor);
+  }
+  registerDecano(decano: asesor){        
+    return this.http.post(this.URL_API + '/registerDecano', decano);
   }
   registerEstudiante(estudiante: estudiante){        
     return this.http.post(this.URL_API + '/registerEstudiante', estudiante);

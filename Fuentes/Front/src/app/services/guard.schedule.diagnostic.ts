@@ -18,12 +18,13 @@ export class GuardScheduleDiagnostic {
    estudiante_id: number;
    rol: number;
    etapa: etapa ={
-    ID_ETAPA: "",
+    ID_ETAPA: undefined,
     NOMBRE_ETAPA: "",
     ETAPA: 9
    };
    rta: boolean;
    temp: boolean;
+   plataforma:number;
 
   canActivate():boolean { 
     
@@ -43,6 +44,7 @@ export class GuardScheduleDiagnostic {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
     this.usuario_id = parseInt(tokenPayload.id_usuario);
+    this.plataforma = parseInt(tokenPayload.plataforma);
     this.rol = parseInt(tokenPayload.rol_usuario);
     if (this.rol==3)
     {
@@ -53,7 +55,7 @@ export class GuardScheduleDiagnostic {
             console.log('la respuesta de getetapa', res);
             this.etapa = res as etapa;            
             console.log('la respuesta de getetap WTFa', this.etapa.ETAPA);
-            if (this.etapa.ETAPA==0){
+            if (this.plataforma == 1 && this.etapa.ETAPA==0){
                 this.temp = true;
             }
             else

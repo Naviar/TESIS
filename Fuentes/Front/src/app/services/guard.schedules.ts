@@ -17,13 +17,14 @@ export class GuardSchedules {
    estudiante_id: number;
    rol: number;
    etapa: number;
+   plataforma:number;
 
   canActivate(): boolean {
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['login']);      
       return false; 
     }
-    else if (this.rol==1 || this.rol==2) 
+    else if (this.plataforma == 1 && (this.rol==1 || this.rol==2)) 
     {        
       return true; 
     }
@@ -39,6 +40,7 @@ export class GuardSchedules {
     const token = localStorage.getItem('usuario');
     const tokenPayload = decode(token);
     this.usuario_id = parseInt(tokenPayload.id_usuario);
+    this.plataforma = parseInt(tokenPayload.plataforma);
     this.rol = parseInt(tokenPayload.rol_usuario);
 
   }

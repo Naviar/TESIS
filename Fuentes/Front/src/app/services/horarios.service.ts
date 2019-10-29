@@ -31,11 +31,6 @@ export class HorariosService {
     return this.http.delete(`${this.URL_API}/deleteHorario/${id}`);
   }
 
-  
-  // updateHorario(horario: Horario){
-  //   return this.http.put(`${this.URL_API}/updateHorario`,horario);
-  // }
-
   getDisponibilidadeslibreshorario(id:number){
     return this.http.get(`${this.URL_API}/getDisponibilidades/${id}`);
   }

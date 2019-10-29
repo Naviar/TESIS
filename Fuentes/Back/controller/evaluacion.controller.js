@@ -1,6 +1,7 @@
 const evaluacionCtrl = {};
 var ibmdb = require("ibm_db");
-let connStr = require('../database');
+let dbStr = require('../database');
+const db = require('../db_connection');
 
 //--------------------------------------------------------------------------------------------------
 // Crear diagnostico
@@ -43,54 +44,47 @@ evaluacionCtrl.crearEvaluacion = (req, res) => {
     '${insta_equipos_q1}', '${insta_equipos_q2}','${insta_equipos_q3}',
     '${yesno_q1}', '${yesno_q2}', '${yesno_q3}', '${yesno_q4}', '${yesno_q5}', '${observaciones}', CURRENT_TIMESTAMP - 5 HOUR)`;
 
-
-    ibmdb.open(connStr, function(err, conn) {
-        if (err) return console.log(err);
-
-        conn.query(query, function(err, data) {
-            if (err) {
-                console.log('error:', err);
-                res.json({ error: err })
-            } else {
-                conn.query(`select id_formato_evaluacion from formato_evaluacion order by id_formato_evaluacion desc limit 0,1;`, (err, data) => {
-                    res.json(data);
-                })
-            }
-
-            conn.close(function() {
-                console.log('Se ha cerrado la base de datos correctamente');
+    db.query(query, function(err, data) {
+        if (err) {
+            console.log('error:', err);
+            res.json({ error: err })
+        } else {
+            db.query(`select id_formato_evaluacion from formato_evaluacion order by id_formato_evaluacion desc limit 0,1;`, (err, data) => {
+                if (err) res.json(error);
+                res.json(data);
             });
-        });
+        }
+
+
     });
+
 }
 
-evaluacionCtrl.updateEvaluacionDiagnostico = async(req, res) => {
+evaluacionCtrl.updateEvaluacionDiagnostico = (req, res) => {
 
     id_evaluacion = req.body.id_formato_evaluacion;
     id_estudiante = req.body.id_estudiante;
     console.log('llego este id_evaluacion', id_evaluacion);
     console.log('llego este id_estudiante', id_estudiante);
     query = `update formato_diagnostico  set formato_evaluacion_id_formato_evaluacion='${id_evaluacion}' where id_formato_diagnostico=(select formato_diagnostico_id_diagnostico from estudiante where id_estudiante = '${id_estudiante}');`
-    await ibmdb.open(connStr, (err, conn) => {
 
-        conn.query(query, (err, data) => {
-            if (err) {
-                res.json({ error: err });
-                console.log("Hubo un error asignando la evlaucion al diagnostico" + err);
-            } else {
-                conn.close(() => {
-                    console.log("Se ha cerrado la base de datos")
-                })
-                console.log('dataadaádadada:', data);
-                res.json({ exito: true });
 
-            }
-        })
-    })
+    db.query(query, (err, data) => {
+        if (err) {
+            res.json({ error: err });
+            console.log("Hubo un error asignando la evlaucion al diagnostico" + err);
+        } else {
+
+            console.log('dataadaádadada:', data);
+            res.json({ exito: true });
+
+        }
+    });
+
 
 }
 
-evaluacionCtrl.updateEvaluacionAsesoria = async(req, res) => {
+evaluacionCtrl.updateEvaluacionAsesoria = (req, res) => {
 
     id_evaluacion = req.body.id_formato_evaluacion;
     id_estudiante = req.body.id_estudiante;
@@ -99,51 +93,51 @@ evaluacionCtrl.updateEvaluacionAsesoria = async(req, res) => {
     // query = `update formato_diagnostico  set formato_evaluacion_id_formato_evaluacion='${id_evaluacion}' where id_formato_diagnostico=(select formato_diagnostico_id_diagnostico from estudiante where id_estudiante = '${id_estudiante}');`
     query = `UPDATE formato_asesoria SET formato_evaluacion_id_formato_evaluacion='${id_evaluacion}' WHERE id_formato_asesoria=(SELECT MAX(formato_asesoria_id_formato_asesoria) FROM estudiante_has_formato_asesoria WHERE estudiante_id_estudiante='${id_estudiante}')`;
     query2 = `SELECT tipo_asesoria_id_tipo_asesoria AS asesoria  FROM formato_asesoria WHERE id_formato_Asesoria = (SELECT MAX(formato_asesoria_id_formato_asesoria) FROM estudiante_has_formato_asesoria WHERE estudiante_id_estudiante=${id_estudiante})`;
-    await ibmdb.open(connStr, (err, conn) => {
-
-        conn.query(query, (err, data) => {
-            if (err) {
-                res.json({ error: err });
-                console.log("Hubo un error asignando la evlaucion a la asesoria" + err);
-            } else {
 
 
-                conn.query(query2, (err, data2) => {
-                    if (err) {
-                        res.status(500).send({ error: err });
-                        conn.close(() => { console.log('cerro la bd'); });
+    db.query(query, (err, data) => {
+        if (err) {
+            res.json({ error: err });
+            console.log("Hubo un error asignando la evlaucion a la asesoria" + err);
+        } else {
+
+
+            db.query(query2, (err, data2) => {
+                if (err) {
+                    res.status(500).send({ error: err });
+
+                } else {
+                    console.log('data2', data2[0]['ASESORIA']);
+                    asesoria_requerida = data2[0]['ASESORIA'];
+                    var query_update_etapa = '';
+                    if (asesoria_requerida != null) {
+                        // poner al estudiante en etapa 3
+                        query_update_etapa = `UPDATE ESTUDIANTE SET  ETAPA = 3 WHERE ID_ESTUDIANTE = '${id_estudiante}'`;
                     } else {
-                        console.log('data2', data2[0]['ASESORIA']);
-                        asesoria_requerida = data2[0]['ASESORIA'];
-                        var query_update_etapa = '';
-                        if (asesoria_requerida != null) {
-                            // poner al estudiante en etapa 3
-                            query_update_etapa = `UPDATE ESTUDIANTE SET  ETAPA = 3 WHERE ID_ESTUDIANTE = '${id_estudiante}'`;
-                        } else {
-                            // poner al estudiante en etapa 0 para que inicie otro proceso nuevo.
-                            query_update_etapa = `UPDATE ESTUDIANTE SET  ETAPA = 0 WHERE ID_ESTUDIANTE = '${id_estudiante}'`;
-                        }
-
-                        conn.query(query_update_etapa, (err, data3) => {
-                            if (err) {
-                                res.status(500).send({ error: err });
-                                conn.close(() => { console.log('cerro la bd'); });
-                            } else {
-
-                                conn.close(() => { console.log("Se ha cerrado la base de datos") });
-                                console.log('dta3:', data);
-                                res.json({ exito: true });
-
-                            }
-                        });
-
+                        // poner al estudiante en etapa 0 para que inicie otro proceso nuevo.
+                        query_update_etapa = `UPDATE ESTUDIANTE SET  ETAPA = 0 WHERE ID_ESTUDIANTE = '${id_estudiante}'`;
                     }
-                })
+
+                    db.query(query_update_etapa, (err, data3) => {
+                        if (err) {
+                            res.status(500).send({ error: err });
+
+                        } else {
 
 
-            }
-        })
-    })
+                            console.log('dta3:', data);
+                            res.json({ exito: true });
+
+                        }
+                    });
+
+                }
+            });
+
+
+        }
+    });
+
 
 }
 

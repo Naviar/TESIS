@@ -51,22 +51,6 @@ export class AutenticarusuariosComponent implements OnInit {
 
   getUsuarios() {
     cargando = true;
-    // if (this.rol == 1) {            //LIDER      
-    //   this.autenticarUsuarioService.getAsesores()
-    //     .subscribe(res => {
-    //       this.usuarios = res as usuario[]; 
-    //       this.inicio = res as usuario[];   
-    //       cargando=false;      
-    //     })
-    // }
-    // else if (this.rol == 2) {       //ASESOR    
-    //   this.autenticarUsuarioService.getEstudiantes()
-    //     .subscribe(res => {
-    //       this.usuarios = res as usuario[];    
-    //       this.inicio = res as usuario[];
-    //       cargando=false;      
-    //     })
-    // }
     this.autenticarUsuarioService.geUsuarios()
       .subscribe(res => {
         this.usuarios = res as usuario[];
@@ -103,9 +87,17 @@ export class AutenticarusuariosComponent implements OnInit {
   }
 
   detalles(id_usuario: number, rol_usuario: number) {
-    cargando = true;
-    if (rol_usuario == 2) {            //LIDER       
+    cargando = true;    
+    if (rol_usuario == 1) {            //LIDER       
       this.condicion=1;
+      this.autenticarUsuarioService.getLiderId(id_usuario)
+        .subscribe(res => {          
+          this.usuarioSelect = res[0] as estudiante;          
+          cargando = false;
+        })
+    }
+    if (rol_usuario == 2) {            //ASESOR       
+      this.condicion=2;
       this.autenticarUsuarioService.getAsesorId(id_usuario)
         .subscribe(res => {
           this.usuarioSelect = res[0] as estudiante;
@@ -113,8 +105,8 @@ export class AutenticarusuariosComponent implements OnInit {
           cargando = false;
         })
     }
-    else if (rol_usuario == 3) {       //ASESOR    
-      this.condicion=2;      
+    else if (rol_usuario == 3) {       //ESTUDIANTE    
+      this.condicion=3;      
       this.autenticarUsuarioService.getEstudianteId(id_usuario)
         .subscribe(res => {
           this.usuarioSelect = res[0] as estudiante;

@@ -16,14 +16,16 @@
           <span class="sr-only"></span>
         </a>
       </li>
-      <li *ngIf="condition == 1 || condition == 2" class="nav-item active">
+      <li *ngIf="plataforma == 1 && (condition == 1 || condition == 2)" class="nav-item active">
         <a class="nav-link" id="nav-link" routerLink="/schedules">
           <i class="fa fa-book"></i>
           Definir Horarios
           <span class="sr-only"></span>
         </a>
       </li>
-      <div *ngIf="condition == 3 && etapa == 2 || etapa == 5 || condition == 1 || condition == 2" class="dropdown">
+      <div
+        *ngIf="plataforma == 1 && ((condition == 3 && etapa == 2) || (condition == 3 && etapa == 5) || condition == 1 || condition == 2)"
+        class="dropdown">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -38,27 +40,69 @@
           </div>
         </li>
       </div>
-      <li *ngIf="condition == 3 && etapa == 0" class="nav-item active">
+      <li *ngIf="plataforma == 1 && condition == 3 && etapa == 0" class="nav-item active">
         <a class="nav-link" id="nav-link" routerLink="/schedule/diagnostic">
           <i class="fa fa-calendar"></i> Citas Diagnostico
           <span class="sr-only"></span>
         </a>
       </li>
-      <li *ngIf="condition == 3 && etapa == 3" class="nav-item active">
+      <li *ngIf="plataforma == 1 && condition == 3 && etapa == 3" class="nav-item active">
         <a class="nav-link" id="nav-link" routerLink="/schedule/advice">
           <i class="fa fa-calendar"></i> Citas Asesoria
           <span class="sr-only"></span>
         </a>
       </li>
-      <li *ngIf="condition == 1" class="nav-item active">
+      <li *ngIf="plataforma == 1 && condition == 1" class="nav-item active">
         <a class="nav-link" id="nav-link" routerLink="/manage/advice">
           <i class="fa fa-handshake-o"></i> Gestion asesorias
           <span class="sr-only"></span>
         </a>
       </li>
-      <li class="nav-item active">
+      <li *ngIf="plataforma == 1" class="nav-item active">
         <a class="nav-link" id="nav-link" routerLink="/pending/dates">
           <i class="fa fa-calendar-check-o"></i> Citas pendientes
+          <span class="sr-only"></span>
+        </a>
+      </li>
+      <li *ngIf="plataforma == 1 && (condition == 1 || condition == 2)" class="nav-item active">
+        <a class="nav-link" id="nav-link" routerLink="/tracking">
+          <i class="fa fa-file-pdf-o"></i> Seguimiento
+          <span class="sr-only"></span>
+        </a>
+      </li>
+      <li *ngIf="plataforma == 2 && condition == 2 && convocatoria == true" class="nav-item active">
+        <a class="nav-link" id="nav-link" routerLink="/create/project">
+          <i class="fa fa-edit"></i> Crear proyecto
+          <span class="sr-only"></span>
+        </a>
+      </li>
+      <li *ngIf="plataforma == 2 && condition == 1" class="nav-item active">
+        <a class="nav-link" id="nav-link" routerLink="/manage/files">
+          <i class="fa fa-archive"></i> Gestion archivos
+          <span class="sr-only"></span>
+        </a>
+      </li>
+      <li *ngIf="plataforma == 2 && condition == 2" class="nav-item active">
+        <a class="nav-link" id="nav-link" routerLink="/upload/files">
+          <i class="fa fa-upload"></i> Subir archivos
+          <span class="sr-only"></span>
+        </a>
+      </li>
+      <li *ngIf="plataforma == 2 && condition == 1" class="nav-item active">
+        <a class="nav-link" id="nav-link" routerLink="/announcement">
+          <i class="fa fa-bullhorn"></i> Convocatoria
+          <span class="sr-only"></span>
+        </a>
+      </li>
+      <li *ngIf="plataforma == 2 && (condition == 1 || condition==2)" class="nav-item active">
+        <a class="nav-link" id="nav-link" routerLink="/find/files">
+          <i class="fa fa-search"></i> Buscar archivos
+          <span class="sr-only"></span>
+        </a>
+      </li>
+      <li *ngIf="plataforma == 2 && condition == 1" class="nav-item active">
+        <a class="nav-link" id="nav-link" routerLink="/evaluation/projects">
+          <i class="fa fa-check-square-o"></i> Evaluar archivos
           <span class="sr-only"></span>
         </a>
       </li>
@@ -68,23 +112,26 @@
           <span class="sr-only"></span>
         </a>
       </li>
-      <li *ngIf="condition == 1 || condition == 2" class="nav-item active">
-        <a class="nav-link" id="nav-link" routerLink="/tracking">
-          <i class="fa fa-file-pdf-o"></i> Seguimiento
-          <span class="sr-only"></span>
-        </a>
-      </li>
       <li *ngIf="condition == 1" class="nav-item active">
         <a class="nav-link" id="nav-link" routerLink="/report">
           <i class="fa fa-file-excel-o"></i> Reporte
           <span class="sr-only"></span>
         </a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" id="nav-link" routerLink="/home">
-          <i class="fa fa-phone-square"></i> Contacto
-          <span class="sr-only"></span>
+    </ul>
+    <ul class="navbar-nav" *ngIf="plataforma == 2">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-bullhorn"></i>
+          <span>Convocatoria</span>
         </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <p class="dropdown-item"><i class="fa fa-calendar"></i> Fecha inicio:</p>
+          <p class="dropdown-item"> {{fecha_inicio}}</p>
+          <p class="dropdown-item"><i class="fa fa-calendar"></i> Fecha fin:</p>
+          <p class="dropdown-item"> {{fecha_fin}}</p>
+        </div>
       </li>
     </ul>
     <ul class="navbar-nav">
@@ -96,8 +143,9 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <p class="dropdown-item" *ngIf='condition == 1'><i class="fa fa-user-o"></i> Rol: Líder</p>
-          <p class="dropdown-item" *ngIf='condition == 2'><i class="fa fa-user-o"></i> Rol: Asesor</p>
+          <p class="dropdown-item" *ngIf='condition == 2'><i class="fa fa-user-o"></i> Rol: Docente</p>
           <p class="dropdown-item" *ngIf='condition == 3'><i class="fa fa-user-o"></i> Rol: Estudiante</p>
+          <p class="dropdown-item" *ngIf='condition == 4'><i class="fa fa-user-o"></i> Rol: Decano</p>
           <a (click)='logout()' href="#" class="dropdown-item"><i class="fa fa-lock"></i> Cerrar Sesión</a>
         </div>
       </li>

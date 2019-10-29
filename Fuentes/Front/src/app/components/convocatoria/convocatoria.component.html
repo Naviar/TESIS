@@ -1,0 +1,153 @@
+<app-nav-bar></app-nav-bar>
+<br>
+<div class="text-center">
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 id="titulo">Convocatoria</h1>
+            <hr id="hr">
+        </div>
+    </div>
+</div>
+
+<div class="centered">
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#openannouncement" (click)="actualizando = false;titulo_modal='Abrir convocatoria'">Abrir convocatoria</button>&nbsp;
+</div>
+
+<!-- modal abrir convocatoria -->
+<div class="modal fade" id="openannouncement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content border-success">
+            <div class="modal-header">
+                <h5 id="titulomodal" class="modal-title" id="exampleModalLabel">
+                    <Strong>{{titulo_modal}}</Strong>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="this.announcementForm.reset()">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+
+                <form [formGroup]="announcementForm" novalidate>
+
+                    <div class="form-label-group">
+                        <label><Strong><label id="lbl">*</label>Nombre de convocatoria:</Strong>
+                        </label>
+                        <input maxlength="100" type="text" class="form-control" name="name" placeholder="ej: Sol de Aquino" formControlName="Name" value="announcementForm.Name" id='input'>
+                        <div *ngIf="announcementForm.get('Name').errors" class="alert alert-danger">
+                            <div *ngIf="announcementForm.get('Name').errors['required']">
+                                Nombre de convocatoria requerido.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Fecha de inicio:</Strong>
+                                </label>
+                                <input type="date" class="form-control" name="fecha" required formControlName="start_date" value="announcementForm.start_date">
+                                <div *ngIf="announcementForm.get('start_date').errors" class="alert alert-danger">
+                                    <div *ngIf="announcementForm.get('start_date').errors['required']">
+                                        Fecha de inicio requerida.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Fecha de fin:</Strong>
+                                </label>
+                                <input type="date" class="form-control" name="fecha" required formControlName="ending_date">
+                                <div *ngIf="announcementForm.get('ending_date').errors" class="alert alert-danger">
+                                    <div *ngIf="announcementForm.get('ending_date').errors['required']">
+                                        Fecha de fin requerida.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Fecha limite de informe inicial:</Strong>
+                                </label>
+                                <input type="date" class="form-control" name="fecha" required formControlName="initial_report_date">
+                                <div *ngIf="announcementForm.get('initial_report_date').errors" class="alert alert-danger">
+                                    <div *ngIf="announcementForm.get('initial_report_date').errors['required']">
+                                        Fecha limite de informe inicial requerida.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-label-group">
+                                <label><Strong><label id="lbl">*</label>Fecha limite de informe final:</Strong>
+                                </label>
+                                <input type="date" class="form-control" name="fecha" required formControlName="final_report_date">
+                                <div *ngIf="announcementForm.get('final_report_date').errors" class="alert alert-danger">
+                                    <div *ngIf="announcementForm.get('final_report_date').errors['required']">
+                                        Fecha limite de informe final requerida.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+                <button *ngIf="!actualizando" class=" btn btn-outline-primary" [disabled]="!announcementForm.valid" (click)="openAnnouncement(announcementForm)">Abrir convocatoria</button>
+                <button *ngIf="actualizando" class=" btn btn-outline-info" [disabled]="!announcementForm.valid" (click)="openAnnouncement(announcementForm, id_convocatoria_update )">Modificar convocatoria</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="this.convocatoria.length > 0" class="col-12">
+    <div class="card-group">
+        <div class="container">
+            <div class="row">
+                <div *ngFor="let convocatoria of convocatoria; let idx = index" class="col-sm-12 col-md-6 col-lg-4">
+                    <div [ngClass]="{'current': idx == 0}" class="card border-dark">
+                        <div class="card-header border-dark">
+                            <h4 id="tituloCard">
+                                CONVOCATORIA </h4>
+                            <br>
+                            <h5 id="tituloCard">{{convocatoria.NOMBRE_CONVOCATORIA}}</h5>
+                        </div>
+
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Fecha inicio:</strong> {{ convocatoria.FECHA_INICIO }}</h5>
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Fecha fin:</strong> {{ convocatoria.FECHA_FIN }}</h5>
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Fecha informe inicial:</strong> {{ convocatoria.FECHA_INFORME_INICIAL }}</h5>
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Fecha informe final:</strong> {{ convocatoria.FECHA_INFORME_FINAL }}</h5>
+                        </div>
+                        <div class="card-body text-dark">
+                            <h5 class="card-title"><strong>Abrió (modificó):</strong> {{ convocatoria.NOMBRE }}&nbsp;{{convocatoria.APELLIDO}} </h5>
+                        </div>
+
+                        <button *ngIf="idx == 0" type="button" class="btn btn-primary" (click)="modifyAnnouncement(convocatoria['ID_CONVOCATORIA'])" data-toggle="modal" data-target="#openannouncement">
+                            <i class="material-icons">update</i>Modificar Fechas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

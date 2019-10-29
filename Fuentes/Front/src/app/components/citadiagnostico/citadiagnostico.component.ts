@@ -98,7 +98,7 @@ export class CitadiagnosticoComponent implements OnInit {
       this.vez = 1;
     }
     for (let disponibilidad of this.disponibilidades) {
-      await this.delay(500); 
+      // await this.delay(500); 
       this.agendarCitaService.disponibilidadesLibres(disponibilidad)
         .subscribe(res => {
           console.log("Que es esta respuestaaaaaaaa",res); 

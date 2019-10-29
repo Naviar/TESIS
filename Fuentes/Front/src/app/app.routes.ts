@@ -26,6 +26,19 @@ import { VerdiagnosticoComponent } from './components/verdiagnostico/verdiagnost
 import { VerasesoriaComponent } from './components/verasesoria/verasesoria.component';
 import { VerevaluacionComponent } from './components/verevaluacion/verevaluacion.component';
 import { ReporteComponent } from './components/reporte/reporte.component';
+import { SubirarchivosComponent } from './components/subirarchivos/subirarchivos.component';
+import { GestionarchivosComponent } from './components/gestionarchivos/gestionarchivos.component';
+import { CrearproyectoComponent } from './components/crearproyecto/crearproyecto.component';
+import { ConvocatoriaComponent } from './components/convocatoria/convocatoria.component';
+import { BuscarproyectoComponent } from './components/buscarproyecto/buscarproyecto.component';
+import {EvaluacionProyectosComponent} from './components/evaluacion-proyectos/evaluacion-proyectos.component';
+import { GuardCreateProject } from './services/guard.create.project';
+import { GuardAnnouncement } from './services/guard.announcement';
+import { GuardUploadFiles } from './services/guard.upload.files';
+import { GuardManageFiles } from './services/guard.manage.files';
+import { GuardFindFiles } from './services/guard.find.files';
+import { GuardEvaluationProjects } from './services/guard.evaluation.projects';
+import { GuardSee } from './services/guard.see';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -40,12 +53,18 @@ const routes: Routes = [
     { path: 'schedule/advice', component: CitaasesoriaComponent, canActivate:[GuardScheduleAdvice] },
     { path: 'pending/dates', component: CitaspendientesComponent, canActivate:[GuardService] },
     { path: 'authenticate/users', component: AutenticarusuariosComponent, canActivate:[GuardAuthenticateUsers] },
-    { path: 'tracking', component: SeguimientoComponent, canActivate:[GuardDiagnostic] },
-    { path: 'see/diagnostic/:id', component: VerdiagnosticoComponent, canActivate:[GuardAuthenticateUsers] },
-    { path: 'see/advisory/:id', component: VerasesoriaComponent, canActivate:[GuardAuthenticateUsers] },
+    { path: 'tracking', component: SeguimientoComponent, canActivate:[GuardSchedules] },
+    { path: 'see/diagnostic/:id', component: VerdiagnosticoComponent, canActivate:[GuardSee] },
+    { path: 'see/advisory/:id', component: VerasesoriaComponent, canActivate:[GuardSee] },
     { path: 'see/evaluation/:id', component: VerevaluacionComponent, canActivate:[GuardDiagnostic] },
-    { path: 'report', component: ReporteComponent, canActivate:[GuardDiagnostic] },
- 
+    { path: 'report', component: ReporteComponent, canActivate:[GuardAuthenticateUsers] },
+
+    { path: 'upload/files', component: SubirarchivosComponent, canActivate:[GuardUploadFiles] },
+    { path: 'manage/files', component: GestionarchivosComponent, canActivate:[GuardManageFiles] },
+    { path: 'create/project', component: CrearproyectoComponent, canActivate:[GuardCreateProject] },
+    { path: 'announcement', component: ConvocatoriaComponent, canActivate:[GuardAnnouncement] }, 
+    { path: 'find/files', component: BuscarproyectoComponent, canActivate:[GuardFindFiles] },
+    { path: 'evaluation/projects', component: EvaluacionProyectosComponent, canActivate:[GuardEvaluationProjects] },
 
     { path: '**', pathMatch: 'full', redirectTo: 'login'}
 

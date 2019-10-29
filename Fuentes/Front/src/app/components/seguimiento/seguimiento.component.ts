@@ -14,6 +14,7 @@ import { Diagnostico } from 'src/app/models/diagnostico';
 import { asesoriaFormato } from 'src/app/models/asesoriaFormato';
 import { Evaluacion } from 'src/app/models/evaluacion';
 
+
 declare var M: any;
 let cargando = false;
 
@@ -74,6 +75,9 @@ export class SeguimientoComponent implements OnInit {
   @ViewChild('selectEstudiante') selectEstudiante;
   @ViewChild('selectFormato') selectFormato;
   cambioEstudiante() {
+    if(this.selectFormato != undefined){
+      this.cambioFormato(this.selectFormato.nativeElement.value, this.selectEstudiante.nativeElement.value)
+    }
     this.getFacultades();
     this.getJornadas();
     this.diagnosticoService.selectedEstudiante = this.seguimientoService.estudiantes.filter(estudiante => estudiante.ID_ESTUDIANTE == this.selectEstudiante.nativeElement.value);
