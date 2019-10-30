@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  login(form?: NgForm) {    
+  login(form) {    
     if(form.value.plataforma!="")
     { 
     Cargando = false; 
@@ -115,7 +115,7 @@ export class LoginComponent implements OnInit {
         err => { console.log('error en el post recoveryPassword', err); }
       )
   }
-  recoveryPassword(form: NgForm) {
+  recoveryPassword(form) {
     Cargando2=true;
     const recovery: Object = {
       correo: form.value.correo,

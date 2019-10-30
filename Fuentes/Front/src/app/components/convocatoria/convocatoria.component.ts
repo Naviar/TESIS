@@ -41,7 +41,7 @@ export class ConvocatoriaComponent implements OnInit {
 
   }
 
-  openAnnouncement(form : NgForm ,id_convocatoria? : number) {
+  openAnnouncement(form  ,id_convocatoria? : number) {
 
     const announcement : convocatoria = {
       ID_CONVOCATORIA : undefined,

@@ -112,7 +112,7 @@ export class AsesoriaComponent implements OnInit {
   }
 
 
-  enviarFormato(form: NgForm) {
+  enviarFormato(form) {
     console.log('formulario ', form);
     this.formato.REQUERIMIENTO = form.value.requerimiento_asesoria;
     this.formato.DESCRIPCION = form.value.descripcion_asesoria;
@@ -186,7 +186,7 @@ export class AsesoriaComponent implements OnInit {
     this.asesoriaForm.reset();
     this.compromisoForm.reset();
   }
-  addCompromiso(form: NgForm) {
+  addCompromiso(form) {
 
 
     console.log('compromiso que va a guardar', form);

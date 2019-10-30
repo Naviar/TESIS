@@ -27,7 +27,7 @@ export class GestionasesoriasComponent implements OnInit {
   })
   }
 
-  sendNuevaAsesoria(form: NgForm){
+  sendNuevaAsesoria(form){
     cargando = true;    
     this.gestionService.postAsesoria(form.value.nombre_asesoria)
     .subscribe(

@@ -119,7 +119,7 @@ export class DiagnosticoComponent implements OnInit {
     this.negocio = this.check.nativeElement.checked;
   }
 
-  guardarDiagnostico(form?: NgForm, form2?: NgForm) {
+  guardarDiagnostico(form?, form2?) {
     cargando=true;
     console.log("este es el form", form.value);
     form.value.actividades_clave = form2.value.actividades_clave;

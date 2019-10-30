@@ -233,7 +233,7 @@ export class CitadiagnosticoComponent implements OnInit {
         err => { console.log("hubo un error obteniendo tipos asesorias", err); }
       )
   }
-  agendarCita(form?: NgForm) {
+  agendarCita(form?) {
     cargando = true;
     let cal = this.calendarComponent.getApi();
     form.value.fecha = this.datePipe.transform(this.fecha, 'yyyy-MM-dd');

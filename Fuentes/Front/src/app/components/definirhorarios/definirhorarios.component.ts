@@ -144,7 +144,7 @@ export class DefinirhorariosComponent implements OnInit {
       return false;}
   }
 
-  sendHorario(form?: NgForm, form2?: NgForm) {
+  sendHorario(form?, form2?) {
     // this.resetForm();
     //validar las horas
     cargando = true;
