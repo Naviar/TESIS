@@ -432,7 +432,7 @@ export class ReporteComponent implements OnInit {
 
 
 
-  generarExcel(form?: NgForm) {
+  generarExcel(form?) {
     imprimir = [];
     if (form.value.tipoReporte == 1) {
       this.getUsuarios();

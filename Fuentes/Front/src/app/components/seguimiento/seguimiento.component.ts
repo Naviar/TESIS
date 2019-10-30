@@ -94,7 +94,7 @@ export class SeguimientoComponent implements OnInit {
   nombreJornada(id_jornada: number) {
     return this.loginService.jornadas.find(jornada => jornada.ID_JORNADA == id_jornada).NOMBRE_JORNADA;
   }
-  buscarFormato(form?: NgForm){
+  buscarFormato(form?){
     console.log("FORMATO", form.value);
     if(form.value.formato==1){         
       this.ruta = "see/diagnostic/" + form.value.selectedFormato;      

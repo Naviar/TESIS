@@ -29,7 +29,7 @@ export class CitaasesoriaComponent implements OnInit {
   @ViewChild("CALENDARIO") calendarComponent: FullCalendarComponent;
 
 
-  private modalOpen: boolean = false;
+  public modalOpen: boolean = false;
   tiposReunion: TipoReunion[] = [];
   tiposAsesoria: TipoAsesoria[] = [];
   rango: number = 4;
@@ -234,7 +234,7 @@ export class CitaasesoriaComponent implements OnInit {
         err => { console.log("hubo un error obteniendo tipos asesorias", err); }
       )
   }
-  agendarCita(form?: NgForm) {
+  agendarCita(form?) {
     cargando = true;
     let cal = this.calendarComponent.getApi();
     form.value.fecha = this.datePipe.transform(this.fecha, 'yyyy-MM-dd');

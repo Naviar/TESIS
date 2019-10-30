@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   asesorForm: FormGroup;
   tokenPayload;
   conditionRol: number = 0;
-  constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder) {
+  constructor(public loginService: LoginService, private router: Router, private fb: FormBuilder) {
     this.buildForm();
   }
   buildForm() {
@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
     this.getJornadas();
   }
 
-  register(form?: NgForm) {
+  register(form?) {
     cargando=true;
     this.loginService.usuarioDuplicado(form.value)
       .subscribe((data) => {
@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit {
         }
       });
   }
-  registerAsesor(form?: NgForm, form2?: NgForm) {
+  registerAsesor(form?, form2?) {
     cargando=true;
     this.loginService.usuarioDuplicado(form.value)
       .subscribe((data) => {
@@ -121,7 +121,7 @@ export class RegisterComponent implements OnInit {
         }
       });
   }
-  registerDecano(form?: NgForm, form2?: NgForm) {
+  registerDecano(form?, form2?) {
     cargando=true;
     this.loginService.usuarioDuplicado(form.value)
       .subscribe((data) => {
@@ -159,7 +159,7 @@ export class RegisterComponent implements OnInit {
         }
       });
   }
-  registerEstudiante(form?: NgForm, form2?: NgForm) {
+  registerEstudiante(form?, form2?) {
     cargando=true;
     this.loginService.usuarioDuplicado(form.value)
       .subscribe((data) => {

@@ -110,7 +110,7 @@ export class CrearproyectoComponent implements OnInit {
   @ViewChild('proyecto') proyecto;
   @ViewChild('archivo') file;
 
-  crearProyecto(form?: NgForm) {
+  crearProyecto(form?) {
     this.cambioNombre(this.documento.nativeElement.value, this.proyecto.nativeElement.value);
     cargando = true;
     this.subirarchivosService.proyectoNuevo.NOMBRE_PROYECTO = form.value.proyecto;

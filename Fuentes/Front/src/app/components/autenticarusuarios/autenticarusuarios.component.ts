@@ -24,6 +24,7 @@ export class AutenticarusuariosComponent implements OnInit {
   rol: number;
   usuarios: usuario[] = [];
   facultad: string;
+  p: number;
   usuarioSelect: estudiante = {
     NOMBRE: "",
     APELLIDO: "",

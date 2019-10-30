@@ -57,7 +57,7 @@ export class EvaluacionComponent implements OnInit {
 
   }
 
-  guardarEvaluacion(form?: NgForm) {
+  guardarEvaluacion(form?) {
     cargando = true;
     console.log("formulariooo", form.value);
     this.evaluacionService.postEvaluacion(form.value)
