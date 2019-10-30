@@ -30,7 +30,7 @@ export class DiagnosticoService {
 
   selectedEstudiante: estudiante[];
   selectedDiagnostico: Diagnostico;
-  readonly URL_API = 'http://localhost:3500/api/diagnostico';  
+  readonly URL_API = 'http://198.199.64.187/api/diagnostico';  
 
   constructor(public http: HttpClient) { 
     // this.selectedDiagnostico= new Diagnostico();

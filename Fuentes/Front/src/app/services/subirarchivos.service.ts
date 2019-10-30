@@ -32,7 +32,7 @@ export class SubirarchivosService {
     };
   documentos: documento[];
   
-  readonly URL_API = 'http://localhost:3500/api/subirarchivos';  
+  readonly URL_API = 'http://198.199.64.187/api/subirarchivos';  
   
 
   constructor(private http: HttpClient, private storage: AngularFireStorage) {
