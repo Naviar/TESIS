@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AutenticarUsuarios {
 
-  readonly URL_API = `http://localhost:3500/api/autenticarUsuarios`;
+  readonly URL_API = 'http://198.199.64.187/api/autenticarUsuarios';
   constructor(private http : HttpClient) { } 
 
   getAsesores(){
