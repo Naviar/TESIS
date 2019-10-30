@@ -19,7 +19,7 @@ export class ConvocatoriaComponent implements OnInit {
   // formulario abrir convocatoria
   announcementForm: FormGroup;
   id_usuario: number ;
-  convocatoria : object [] = [];
+  convocatorias : object [] = [];
   constructor(private fb: FormBuilder , public convocatoriaService: ConvocatoriaService) { }
 
   ngOnInit() {
@@ -140,8 +140,8 @@ export class ConvocatoriaComponent implements OnInit {
       this.convocatoriaService.getAnnouncements()
       .subscribe(
         res => {console.log(`llegaron estas convocatoria ${res}`);
-            this.convocatoria = res['convocatoria'] as [];
-            console.log(this.convocatoria);
+            this.convocatorias = res['convocatoria'] as [];
+            console.log(this.convocatorias);
             cargando = false;
       },
 
@@ -159,7 +159,7 @@ export class ConvocatoriaComponent implements OnInit {
 
     modifyAnnouncement(id_convocatoria: number) {
       // tslint:disable-next-line: no-shadowed-variable
-      const convocatoria = this.convocatoria.find((convocatoria) => convocatoria['ID_CONVOCATORIA'] === id_convocatoria);
+      const convocatoria = this.convocatorias.find((convocatoria) => convocatoria['ID_CONVOCATORIA'] === id_convocatoria);
 
       console.log(`encontro ${JSON.stringify(convocatoria)}`);
       this.announcementForm.get('Name').setValue(convocatoria['NOMBRE_CONVOCATORIA'])
