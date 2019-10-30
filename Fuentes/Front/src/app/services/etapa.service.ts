@@ -7,7 +7,7 @@ import { estudiante } from '../models/estudiante';
 })
 export class EtapaService {
 
-  readonly URL_API = 'http://198.199.64.187/api/etapa';  
+  readonly URL_API = 'http://localhost:3500/api/etapa';  
 
   constructor(public http: HttpClient) { 
     

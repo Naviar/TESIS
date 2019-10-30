@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class GestionService {
   
-  readonly URL_API = 'http://198.199.64.187/api/gestion';  
+  readonly URL_API = 'http://localhost:3500/api/gestion';  
 
   constructor(private http :HttpClient) { }
 

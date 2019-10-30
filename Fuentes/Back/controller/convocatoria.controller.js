@@ -27,7 +27,7 @@ ConvocatoriaCtrl.openAnnouncement = (req, res) => {
 
 
 
-    db.query(`INSERT INTO CONVOCATORIA (NOMBRE,FECHA_INICIO, FECHA_FIN, FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL, ID_USUARIO) VALUES ('${announcement.NOMBRE}','${announcement.FECHA_INICIO}', '${announcement.FECHA_FIN}', '${announcement.FECHA_INFORME_INICIAL}', '${announcement.FECHA_INFORME_FINAL}', ${announcement.ID_USUARIO});`, (err, data) => {
+    db.query(`INSERT INTO CONVOCATORIA (NOMBRE,FECHA_INICIO, FECHA_FIN, FECHA_INFORME_INICIAL, FECHA_INFORME_FINAL, USUARIO_ID_USUARIO) VALUES ('${announcement.NOMBRE}','${announcement.FECHA_INICIO}', '${announcement.FECHA_FIN}', '${announcement.FECHA_INFORME_INICIAL}', '${announcement.FECHA_INFORME_FINAL}', ${announcement.ID_USUARIO});`, (err, data) => {
         if (err) {
             res.sendStatus(500).json({ error: err, message: 'error abriendo convocatoria' })
             console.log("Hubo un error abriendo la convocatoria" + err);

@@ -7,7 +7,7 @@ import { Disponibilidad } from '../models/disponibilidad';
 })
 export class HorariosService {
 
-  readonly URL_API = 'http://198.199.64.187/api/Horarios';
+  readonly URL_API = `http://localhost:3500/api/Horarios`;
   constructor(private http:HttpClient) { }
 
   postHorario(horario: Horario){
