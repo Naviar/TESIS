@@ -67,7 +67,7 @@ ConvocatoriaCtrl.updateAnnouncement = (req, res) => {
     const update = req.body;
     console.log(`actualirzar${ID_CONVOCATORIA} id convocatoria con ${JSON.stringify(req.body)}`);
 
-    const query = `UPDATE CONVOCATORIA SET NOMBRE = '${update.NOMBRE}' , FECHA_INICIO = '${update.FECHA_INICIO}', FECHA_FIN = '${update.FECHA_FIN}', FECHA_INFORME_INICIAL = '${update.FECHA_INFORME_INICIAL}', FECHA_INFORME_FINAL = '${update.FECHA_INFORME_FINAL}', ID_USUARIO = '${update.ID_USUARIO}' WHERE ID_CONVOCATORIA = '${ID_CONVOCATORIA}'`;
+    const query = `UPDATE CONVOCATORIA SET NOMBRE = '${update.NOMBRE}' , FECHA_INICIO = '${update.FECHA_INICIO}', FECHA_FIN = '${update.FECHA_FIN}', FECHA_INFORME_INICIAL = '${update.FECHA_INFORME_INICIAL}', FECHA_INFORME_FINAL = '${update.FECHA_INFORME_FINAL}', USUARIO_ID_USUARIO = '${update.ID_USUARIO}' WHERE ID_CONVOCATORIA = '${ID_CONVOCATORIA}'`;
     try {
 
 
