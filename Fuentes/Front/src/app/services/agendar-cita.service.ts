@@ -22,7 +22,7 @@ export class AgendarCitaService {
   }
   disponibilidadSelect: Disponibilidad2;
 
-  readonly URL_API = `http://localhost:3500/agendarCita`;
+  readonly URL_API = `http://localhost:3500/api/agendarCita`;
   constructor(private http : HttpClient) { }
 
   getHorarios(){

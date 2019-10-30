@@ -9,7 +9,7 @@ import { asesoriaFormato } from '../models/asesoriaFormato';
 })
 export class AsesoriaService {
   
-  readonly URL_API = 'http://localhost:3500/asesoria'; 
+  readonly URL_API = 'http://localhost:3500/api/asesoria'; 
   responsables = [{actor:'asesor',nombre:'',id:0},{actor:'estudiante',nombre:'',id: undefined}];
   asesorias : asesoria []; 
   selectedEstudiante: estudiante[];

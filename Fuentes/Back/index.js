@@ -33,20 +33,20 @@ app.get('/front/*', (req, res) => {
 })
 
 //Rutas
-app.use('/usuario', require('./routes/login.routes'));
-app.use('/diagnostico', require('./routes/diagnostico.routes'));
-app.use('/Horarios', require('./routes/horarios.routes'));
-app.use('/agendarCita', require('./routes/agendarCita.routes'));
-app.use('/evaluacion', require('./routes/evaluacion.routes'));
-app.use('/gestion', require('./routes/gestionasesorias.routes'));
-app.use('/asesoria', require('./routes/asesoria.routes'));
-app.use('/citasPendientes', require('./routes/citaspendientes.routes'));
-app.use('/autenticarUsuarios', require('./routes/autenticarusuarios.routes'));
-app.use('/etapa', require('./routes/etapa.routes'));
-app.use('/seguimiento', require('./routes/seguimiento.routes'));
-app.use('/reporte', require('./routes/reporte.routes'));
-app.use('/subirarchivos', require('./routes/subirarchivos.routes'));
-app.use('/convocatoria', require('./routes/convocatoria.routes'));
+app.use('/api/usuario', require('./routes/login.routes'));
+app.use('/api/diagnostico', require('./routes/diagnostico.routes'));
+app.use('/api/Horarios', require('./routes/horarios.routes'));
+app.use('/api/agendarCita', require('./routes/agendarCita.routes'));
+app.use('/api/evaluacion', require('./routes/evaluacion.routes'));
+app.use('/api/gestion', require('./routes/gestionasesorias.routes'));
+app.use('/api/asesoria', require('./routes/asesoria.routes'));
+app.use('/api/citasPendientes', require('./routes/citaspendientes.routes'));
+app.use('/api/autenticarUsuarios', require('./routes/autenticarusuarios.routes'));
+app.use('/api/etapa', require('./routes/etapa.routes'));
+app.use('/api/seguimiento', require('./routes/seguimiento.routes'));
+app.use('/api/reporte', require('./routes/reporte.routes'));
+app.use('/api/subirarchivos', require('./routes/subirarchivos.routes'));
+app.use('/api/convocatoria', require('./routes/convocatoria.routes'));
 
 
 
