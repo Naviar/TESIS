@@ -90,7 +90,7 @@ export class SeguimientoService {
     FECHA: '' 
   };
 
-  readonly URL_API = 'http://198.199.64.187/api/seguimiento';  
+  readonly URL_API = 'http://localhost:3500/api/seguimiento';  
 
   constructor(public http: HttpClient) { 
     // this.selectedDiagnostico= new Diagnostico();

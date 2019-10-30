@@ -22,7 +22,7 @@ export class LoginService {
   facultades: facultad[];
   docentes: usuario[];
   jornadas: jornada[];
-  readonly URL_API = 'http://198.199.64.187/api/usuario';  
+  readonly URL_API = 'http://localhost:3500/api/usuario';  
   helper = new JwtHelperService();
 
   constructor(private http: HttpClient) { }

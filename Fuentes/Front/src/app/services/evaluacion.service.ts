@@ -8,7 +8,7 @@ import { Evaluacion} from '../models/evaluacion'
 })
 export class EvaluacionService {
 
-  readonly URL_API = 'http://198.199.64.187/api/evaluacion';  
+  readonly URL_API = 'http://localhost:3500/api/evaluacion';  
 
   constructor(public http: HttpClient) { 
     
