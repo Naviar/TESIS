@@ -10,7 +10,7 @@ export class ReporteService {
   
     usuarios: usuario[];
 
-  readonly URL_API = 'http://localhost:3500/reporte';   
+  readonly URL_API = 'http://localhost:3500/api/reporte';   
 
   constructor(private http :HttpClient) { }
 

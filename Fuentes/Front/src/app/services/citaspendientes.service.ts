@@ -23,7 +23,7 @@ export class CitasPendientes {
     FORMATO_DIAGNOSTICO_ID_DIAGNOSTICO:undefined,
     ETAPA:undefined
   };
-  readonly URL_API = `http://localhost:3500/citasPendientes`;
+  readonly URL_API = `http://localhost:3500/api/citasPendientes`;
   constructor(private http : HttpClient) { }
 
   getCitas(){

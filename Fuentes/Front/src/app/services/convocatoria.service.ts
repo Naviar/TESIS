@@ -7,7 +7,7 @@ import { convocatoria } from '../models/convocatoria';
 })
 export class ConvocatoriaService {
 
-  readonly URL_API = 'http://localhost:3500/convocatoria'
+  readonly URL_API = 'http://localhost:3500/api/convocatoria'
   constructor(private http : HttpClient) {
 
    }
