@@ -136,14 +136,14 @@
               </div>
             </div>
             <div class="form-group">
-              <input type="password" class="form-control" name="password" placeholder="Password"
+              <input type="password" class="form-control" name="password" placeholder="Contraseña"
                 (keyup.enter)="login(loginForm)" formControlName="password">
               <div *ngIf="loginForm.get('password').errors" class="alert alert-danger">
                 <div *ngIf="loginForm.get('password').errors['required']">
-                  Password requerido
+                  Contraseña requerida
                 </div>
                 <div *ngIf="loginForm.get('password').errors['minlength']">
-                  Password inseguro
+                  Contraseña insegura
                 </div>
               </div>
             </div>
