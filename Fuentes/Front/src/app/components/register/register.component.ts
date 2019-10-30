@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
   asesorForm: FormGroup;
   tokenPayload;
   conditionRol: number = 0;
-  constructor(private loginService: LoginService, private router: Router, private fb: FormBuilder) {
+  constructor(public loginService: LoginService, private router: Router, private fb: FormBuilder) {
     this.buildForm();
   }
   buildForm() {

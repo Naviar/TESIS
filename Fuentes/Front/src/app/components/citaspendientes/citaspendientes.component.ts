@@ -31,8 +31,8 @@ export class CitaspendientesComponent implements OnInit {
   @ViewChild("CALENDARIO") calendarComponent: FullCalendarComponent;
 
 
-  private modalOpen: boolean = false;
-  private modalOpen2 : boolean = false;
+  public modalOpen: boolean = false;
+  public modalOpen2 : boolean = false;
    
   etapa : number ;
   tiposReunion: TipoReunion[] = [];
