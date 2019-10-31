@@ -11,16 +11,15 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var config = require('../models/config');
+var smtpTransport = require('nodemailer-smtp-transport');
 //autenticacion para enviar correo
-var transporter = nodemailer.createTransport({
+var transporter = nodemailer.createTransport(smtpTransport({
     service: 'gmail',
     auth: {
         user: 'consultorio.usta.DRSU@gmail.com',
         pass: 'consultoriousta123'
     },
-    secure: false,
-    port: 587
-});
+}));
 
 // Metodo encargado de listar todos los usuarios
 loginCtrl.obtenerUsuarios = (req, res) => {
