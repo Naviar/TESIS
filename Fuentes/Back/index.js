@@ -11,7 +11,7 @@ const notificaciones = require('../Back/controller/notificaciones.controller');
 
 
 
-
+console.log(`fecha actual ${new Date()}`);
 
 
 
