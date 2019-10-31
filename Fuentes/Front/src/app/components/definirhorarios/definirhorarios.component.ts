@@ -219,7 +219,7 @@ export class DefinirhorariosComponent implements OnInit {
     this._horarioService.deleteHorario(id)
       .subscribe(
         res => { console.log('respuesta delete:',res);
-                  if(res[0]['pendiente'] == true){
+                  if(res['pendiente'] == true){
                     cargando = false;
                     M.toast({
                       html: `<div class="alert alert-warning" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
