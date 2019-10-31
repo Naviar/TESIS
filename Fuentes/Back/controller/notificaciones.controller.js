@@ -23,7 +23,7 @@ var fecha_final;
 var dias;
 //notificaciones
 var actual = new Date();
-var horaNotificaciones = new Date(actual.getFullYear(), actual.getMonth(), actual.getDate(), 16, 46, 0, 0);
+var horaNotificaciones = new Date(actual.getFullYear(), actual.getMonth(), actual.getDate(), 17, 30, 0, 0);
 var msHastaLaHora = horaNotificaciones - actual;
 
 
@@ -106,7 +106,7 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
         dias = resta_fii / 86400000;
 
 
-        db.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 2;`, (err, data) => {
+        db.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 3;`, (err, data) => {
             if (err) {
 
                 console.log("Hubo un error en la busqueda DE CORREOS Y NOMBRES DE PROYECTOS" + err);
@@ -123,7 +123,7 @@ function notificar(fecha_informe_inicial, fecha_informe_final) {
         dias = resta_fif / 86400000
 
 
-        db.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 3;`, (err, data) => {
+        db.query(`SELECT U.NOMBRE, U.CORREO, P.NOMBRE_PROYECTO FROM USUARIO AS U INNER JOIN PROYECTO AS P ON P.USUARIO_ID_USUARIO = U.ID_USUARIO WHERE P.ETAPA = 4;`, (err, data) => {
             if (err) {
 
                 console.log("Hubo un error en la busqueda DE CORREOS Y NOMBRES DE PROYECTOS" + err);
