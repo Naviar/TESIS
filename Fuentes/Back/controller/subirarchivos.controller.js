@@ -4,15 +4,15 @@ let connStr = require('../database');
 let db = require('../db_connection');
 const nodemailer = require('nodemailer');
 //autenticacion para enviar correo
-var transporter = nodemailer.createTransport({
+var smtpTransport = require('nodemailer-smtp-transport');
+//autenticacion para enviar correo
+var transporter = nodemailer.createTransport(smtpTransport({
     service: 'gmail',
     auth: {
         user: 'consultorio.usta.DRSU@gmail.com',
         pass: 'consultoriousta123'
     },
-    secure: false,
-    port: 587
-});
+}));
 
 
 subirarchivosCtrl.upload = (req, res) => {
