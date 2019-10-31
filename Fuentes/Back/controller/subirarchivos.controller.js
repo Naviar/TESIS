@@ -9,7 +9,9 @@ var transporter = nodemailer.createTransport({
     auth: {
         user: 'consultorio.usta.DRSU@gmail.com',
         pass: 'consultoriousta123'
-    }
+    },
+    secure: false,
+    port: 587
 });
 
 
