@@ -23,7 +23,7 @@ var fecha_final;
 var dias;
 //notificaciones
 var actual = new Date();
-var horaNotificaciones = new Date(actual.getFullYear(), actual.getMonth(), actual.getDate(), 17, 30, 0, 0);
+var horaNotificaciones = new Date(actual.getFullYear(), actual.getMonth(), actual.getDate(), 17, 45, 0, 0);
 var msHastaLaHora = horaNotificaciones - actual;
 
 
