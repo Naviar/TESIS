@@ -219,29 +219,37 @@ export class DefinirhorariosComponent implements OnInit {
     this._horarioService.deleteHorario(id)
       .subscribe(
         res => { console.log('respuesta delete:',res);
-                  if(res.hasOwnProperty('fallo')){
+                  if(res[0]['pendiente'] == true){
                     cargando = false;
                     M.toast({
-                      html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-                          <h4 class="alert-heading">ERROR BORRANDO EL HORARIO</h4>
-                          <p>Es posible que ya tenga una cita agendada en este horario</p>
+                      html: `<div class="alert alert-warning" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                          <h4 class="alert-heading">NO SE PUEDE BORRAR EL HORARIO</h4>
+                          <p>Tiene citas agendadas en este horario , por favor primero cancelar las citas.</p>
                           <hr>
                       </div>`});
-                  } 
+                  }
+                  else{
+                    M.toast({
+                      html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+                          <h4 class="alert-heading">HORARIO BORRADO</h4>
+                          <p>Horario borrado con exito.</p>
+                          <hr>
+                      </div>`}); 
+                    this.getHorarios(this.horarioSelect.USUARIO_ID_USUARIO) 
+                  }
                 
                 },
         err => { console.log('error en delete horario', err);
-                  
+        M.toast({
+          html: `<div class="alert alert-danger" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
+              <h4 class="alert-heading">ERROR BORRANDO EL HORARIO</h4>
+              <p>ocurrio un error en el servidor.</p>
+              <hr>
+          </div>`});
                     
                    },
         () => {
-          M.toast({
-            html: `<div class="alert alert-success" style="position: fixed; top: 100px; right: 50px; z-index: 7000;" role="alert">
-                <h4 class="alert-heading">HORARIO BORRADO</h4>
-                <p>Horario borrado con exito.</p>
-                <hr>
-            </div>`}); 
-          this.getHorarios(this.horarioSelect.USUARIO_ID_USUARIO) }
+         }
       )
 
   }

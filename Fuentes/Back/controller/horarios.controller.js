@@ -91,7 +91,7 @@ horariosCtrl.deleteHorario = async(req, res) => {
     const { id } = req.params;
 
 
-    db.query(`DELETE FROM disponibilidad WHERE horario_id_horario=${id} AND id_estudiante IS NULL `, (err, data) => {
+    db.query(`SELECT * FROM DISPONIBILIDAD WHERE HORARIO_ID_HORARIO = ${id} AND FECHA >= CURRENT DATE;`, (err, data) => {
         if (err) {
             res.json({
                 fallo: true,
@@ -99,18 +99,23 @@ horariosCtrl.deleteHorario = async(req, res) => {
             });
             console.log("Hubo un error haciendo el delete disponibilidad" + err);
         } else {
-            db.query(`DELETE FROM horario WHERE id_horario =${id}`, (err, data) => {
-                if (err) {
-                    res.json({
-                        fallo: true,
-                        error: err
-                    });
-                    console.log("Hubo un error haciendo el delete horario" + err);
-                } else {
+            if (data.length > 0) {
+                res.json({ pendiente: true });
 
-                    res.json({ data: 'se borro el horario y las disponibilidaes' });
-                }
-            });
+            } else {
+                db.query(`DELETE FROM horario WHERE id_horario =${id}`, (err, data) => {
+                    if (err) {
+                        res.status(500).json({
+                            fallo: true,
+                            error: err
+                        });
+                        console.log("Hubo un error haciendo el delete horario" + err);
+                    } else {
+
+                        res.json({ pendiente: false });
+                    }
+                });
+            }
         }
     });
 }
