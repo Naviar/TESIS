@@ -14,7 +14,11 @@ let cargando = true;
 export class HomeComponent implements OnInit {
   condition:number;
   plataforma: number;
-  constructor() { }
+  nombreArchivo: string = "MIA.pdf";
+  URLMIA : string;
+  existe: boolean = false;
+
+  constructor(public subirarchivosService: SubirarchivosService) { }
 
   ngOnInit() {
     this.getValidRol();
@@ -25,8 +29,21 @@ export class HomeComponent implements OnInit {
     const tokenPayload = decode(token); 
     this.condition = parseInt(tokenPayload.rol_usuario);
     this.plataforma = parseInt(tokenPayload.plataforma);    
-    cargando=false;
+    this.buscarArchivo();
          
+  }
+  buscarArchivo() {
+    cargando = true;
+    let referencia = this.subirarchivosService.getUrlArchivo(this.nombreArchivo);
+    referencia.getDownloadURL().subscribe((URL) => {
+      this.URLMIA = URL;      
+      this.existe = true;
+      cargando = false;
+    },
+      (error) => {
+        this.existe = false;
+        cargando = false;
+      });
   }
   yaCargo() {
     if (cargando == false) { 
@@ -36,3 +53,4 @@ export class HomeComponent implements OnInit {
     }
   }
 }
+
