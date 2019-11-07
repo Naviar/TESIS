@@ -1,11 +1,12 @@
 <app-nav-bar>
 </app-nav-bar>
 <div class="text-center">
-    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
+    <div *ngIf="yaCargo()" class="spinner-border text-primary" role="status"
+        style="width: 3rem; height: 3rem; position: fixed; top: 50%; right: 50%; z-index: 7000;">
         <span class="sr-only">Loading...</span>
     </div>
 </div>
-<div class="container">
+<div class="container" *ngIf="plataforma==1">
     <div class="row">
         <div class="col-12">
             <section class="py-5">
@@ -22,11 +23,13 @@
                 </ol>
 
                 <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active" style="background-image: url('https://proyeccionsocial.usta.edu.co/images/bt-shortcode/upload/CONSULTORIO_SOCIAL_EMPRESARIAL.png')">
+                    <div class="carousel-item active"
+                        style="background-image: url('https://proyeccionsocial.usta.edu.co/images/bt-shortcode/upload/CONSULTORIO_SOCIAL_EMPRESARIAL.png')">
 
                     </div>
 
-                    <div class="carousel-item" style="background-image: url('https://proyeccionsocial.usta.edu.co/images/bt-shortcode/upload/MAILING_CONSULTORIO_SOCIAL_EMPRESARIAL.png')">
+                    <div class="carousel-item"
+                        style="background-image: url('https://proyeccionsocial.usta.edu.co/images/bt-shortcode/upload/MAILING_CONSULTORIO_SOCIAL_EMPRESARIAL.png')">
 
                     </div>
 
@@ -47,32 +50,86 @@
             <section class="py-5">
                 <div class="container">
                     <h3>MISIÓN</h3>
-                    <p class="lead"> El Consultorio Social Empresarial CSE de la Universidad Santo Tomás, trabaja por el bienestar social y la generación de iniciativas empresariales, a través de programas y/o actividades de emprendimiento y desarrollo socio empresarial,
-                        asesoría, acompañamiento en creación de empresas y estructuración de proyectos sociales, mediante un ecosistema adecuado para el aprendizaje y fomento de competencias de gestión organizacional, que fomente la productividad, competitividad
+                    <p class="lead"> El Consultorio Social Empresarial CSE de la Universidad Santo Tomás, trabaja por el
+                        bienestar social y la generación de iniciativas empresariales, a través de programas y/o
+                        actividades de emprendimiento y desarrollo socio empresarial,
+                        asesoría, acompañamiento en creación de empresas y estructuración de proyectos sociales,
+                        mediante un ecosistema adecuado para el aprendizaje y fomento de competencias de gestión
+                        organizacional, que fomente la productividad, competitividad
                         y calidad de vida.</p>
                 </div>
                 <br>
                 <div class="container">
                     <h3>VISIÓN</h3>
-                    <p class="lead"> Para el año 2027, el Consultorio Social Empresarial CSE de la Universidad Santo Tomás, se consolidará a nivel local, regional y nacional, como un centro estratégico que promueve el bienestar social y la competitividad empresarial mediante
-                        programas y/o asesorías a la medida que fomenten el emprendimiento y brinden acompañamiento en la generación de ideas innovadoras y la puesta e marcha de proyectos sociales y empresariales.</p>
+                    <p class="lead"> Para el año 2027, el Consultorio Social Empresarial CSE de la Universidad Santo
+                        Tomás, se consolidará a nivel local, regional y nacional, como un centro estratégico que
+                        promueve el bienestar social y la competitividad empresarial mediante
+                        programas y/o asesorías a la medida que fomenten el emprendimiento y brinden acompañamiento en
+                        la generación de ideas innovadoras y la puesta e marcha de proyectos sociales y empresariales.
+                    </p>
                 </div>
                 <br>
                 <div class="container">
                     <h3>OBJETIVO GENERAL</h3>
-                    <p class="lead">Contribuir e impulsar la transformación de ideas empresariales y sociales en proyectos de impacto local y nacional a través de la generación de unidades productivas y/o proyectos de emprendimiento social, fomentando la sostenibilidad
-                        y perdurabilidad de las organizaciones, a través de un portafolio integral de servicios a la comunidad universitaria. </p>
+                    <p class="lead">Contribuir e impulsar la transformación de ideas empresariales y sociales en
+                        proyectos de impacto local y nacional a través de la generación de unidades productivas y/o
+                        proyectos de emprendimiento social, fomentando la sostenibilidad
+                        y perdurabilidad de las organizaciones, a través de un portafolio integral de servicios a la
+                        comunidad universitaria. </p>
                 </div>
                 <br>
                 <div class="container">
                     <h3>OBJETIVOS ESPECIFICOS</h3>
                     <ul>
-                        <li>Generar una cultura de emprendimiento en la USTA que fortalezca el potencial y las competencias emprendedoras en la comunidad académica.</li>
-                        <li>Identificar y fomentar ideas, planes y opciones de negocio de la comunidad universitaria.</li>
-                        <li>Fomentar la presentación de proyectos a convocatoria a nivel local, nacional e internacional de capital semilla.</li>
+                        <li>Generar una cultura de emprendimiento en la USTA que fortalezca el potencial y las
+                            competencias emprendedoras en la comunidad académica.</li>
+                        <li>Identificar y fomentar ideas, planes y opciones de negocio de la comunidad universitaria.
+                        </li>
+                        <li>Fomentar la presentación de proyectos a convocatoria a nivel local, nacional e internacional
+                            de capital semilla.</li>
                         <li>Acompañamiento en la estructuración de proyectos de emprendimiento e innovación social.</li>
                     </ul>
                 </div>
+
+            </section>
+
+        </div>
+    </div>
+</div>
+
+<div class="container" *ngIf="plataforma==2">
+    <div class="row">
+        <div class="col-12">
+            <section class="py-5">
+                <div class="container">
+                    <h1 class="font-weight-light">¡Bienvenidos a la plataforma de desarrollo comunitario de la USTA!
+                    </h1>
+                    <div *ngIf="existe">
+                        <h2 class="download">Para descargar toda la información de la plataforma haga click <a href="{{URLMIA}}" target="_blank">aqui.</a></h2>
+                    </div>
+                </div>
+            </section>
+
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
+                <img src="https://proyeccionsocial.usta.edu.co/images/bnn_des_com_proy_soc.jpg" alt="">
+
+            </div>
+
+            <section class="py-5">
+                <div class="container">
+                    <h3>DESARROLLO COMUNITARIO</h3>
+                    <p class="lead"> El desarrollo comunitario en la USTA se concibe como el proceso mediante el cual
+                        las facultades, tanto de pregrado como de post-grado en las modalidades presencial y a
+                        distancia, interaccionan y se integran con la comunidad para proponer y generar proyectos en un
+                        marco real para la aplicación del conocimiento y cuyo resultado sea el planteamiento de
+                        soluciones alternativas a los problemas. El desarrollo comunitario trabaja con un modelo
+                        participativo en el que la comunidad se involucra en los proyectos desde la etapa de diagnóstico
+                        hasta la planeación y ejecución de un plan de trabajo; así se garantiza el nivel de compromiso y
+                        se entiende que las actividades están en correspondencia directa a las necesidades e intereses.
+                    </p>
+                </div>
+                <br>
 
             </section>
 
